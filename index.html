@@ -31,6 +31,8 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border-color: #059669 !important;
         }
+        .chord-block.active span, .chord-block.active div { color: #FFFFFF !important; opacity: 1 !important; }
+        
         .loading-spinner {
             border: 3px solid rgba(148, 163, 184, 0.2);
             border-radius: 50%;
@@ -106,17 +108,20 @@
             <div class="flex-1 min-w-0 flex flex-col gap-3 w-full">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px]">
                     <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-3 border-b pb-3">
-                        <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-music mr-2 text-violet-600"></i>Sequência</h2>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-music mr-2 text-violet-600"></i>Sequência</h2>
+                            <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
+                        </div>
                         <div class="flex items-center gap-2 shrink-0 flex-wrap">
                             <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
                                 <label for="zoom-input" class="text-xs text-violet-600 cursor-pointer"><i class="fas fa-search-plus"></i></label>
                                 <input type="number" id="zoom-input" min="0.3" max="3.0" step="0.1" value="1.0" class="w-12 bg-transparent text-slate-900 dark:text-white font-bold text-center outline-none text-sm">
                             </div>
-                            <label for="mxl-upload" class="cursor-pointer bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow-sm">
+                            <label for="mxl-upload" class="cursor-pointer bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow-sm transition-colors">
                                 <i class="fas fa-file-import"></i> MXL
                             </label>
                             <input type="file" id="mxl-upload" accept=".xml,.musicxml,.mxl" class="hidden">
-                            <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200">
+                            <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200 transition-colors">
                                 <i class="fas fa-trash"></i> Limpar
                             </button>
                         </div>
@@ -130,7 +135,7 @@
 
         <div class="bg-white/95 dark:bg-slate-800/95 p-4 rounded-2xl flex flex-col lg:flex-row items-center justify-between gap-4 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-                <div id="status-text" class="text-sm font-semibold text-violet-600 min-w-[150px]">Pronto para montar.</div>
+                <div id="status-text" class="text-sm font-semibold text-violet-600 min-w-[150px] text-center sm:text-left">Pronto para montar.</div>
                 <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
                     <label for="reverb-slider" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-water text-violet-600 mr-1"></i> Reverb</label>
                     <input type="range" id="reverb-slider" min="0" max="100" value="50" class="w-16">
@@ -142,13 +147,13 @@
                     <label for="bpm-input" class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
                     <input type="number" id="bpm-input" value="130" min="60" max="240" class="w-12 bg-transparent text-center focus:outline-none font-bold text-slate-900 dark:text-white text-base">
                 </div>
-                <button id="btn-play" disabled class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm">
+                <button id="btn-play" disabled class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm transition-colors">
                     <i class="fas fa-play"></i> <span>Tocar</span>
                 </button>
-                <button id="btn-stop" disabled class="bg-slate-400 hover:bg-slate-500 text-white px-5 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center shadow-sm">
+                <button id="btn-stop" disabled class="bg-slate-400 hover:bg-slate-500 text-white px-5 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center shadow-sm transition-colors">
                     <i class="fas fa-stop"></i>
                 </button>
-                <button id="btn-open-export" class="bg-violet-600 hover:bg-violet-700 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center shadow-sm gap-2">
+                <button id="btn-open-export" class="bg-violet-600 hover:bg-violet-700 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center shadow-sm gap-2 transition-colors">
                     <i class="fas fa-download"></i> Central de Arquivos
                 </button>
                 <audio id="main-player" class="hidden"></audio>
@@ -168,7 +173,7 @@
                 <h3 class="font-bold mb-2 text-base text-slate-900 dark:text-white"><i class="fas fa-guitar mr-1 text-violet-500"></i> Band in a Box (BIAB)</h3>
                 <p class="text-xs text-slate-500 mb-3">Cole seu texto BIAB abaixo para carregar ou copie o gerado pelo app.</p>
                 <div class="flex flex-col gap-3">
-                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-md border border-slate-300 dark:bg-slate-900 outline-none focus:border-violet-500" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7| Fm7 Bb7| ...)"></textarea>
+                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-md border border-slate-300 dark:bg-slate-900 outline-none focus:border-violet-500" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
                     <div class="flex gap-3">
                         <button onclick="generateBIAB()" class="flex-1 bg-white dark:bg-slate-800 border text-sm font-semibold py-2 rounded hover:border-violet-500">Gerar do App</button>
                         <button onclick="importBIAB()" class="flex-1 bg-violet-600 text-white text-sm font-semibold py-2 rounded hover:bg-violet-700">Carregar para o App</button>
@@ -237,6 +242,8 @@
 
         // ======= ESTADO ======= 
         let audioContext = null;         
+        // Agora sequence armazena arrays de acordes por compasso (permitindo split)
+        // Padrão: sequence[i] = [null] (1 acorde/compasso) ou [null, null] (2 acordes/compasso)
         let sequence = [];      
         let audioCache = new Map();     
         let consolidatedBuffer = null;   
@@ -245,7 +252,10 @@
         let isPlaying = false; 
         let selectedRoot = CONFIG.ROOT_GROUPS[0][0]; 
         let needsConsolidation = true; 
-        let editingChordIndex = null; 
+        
+        let editMeasureIdx = null; 
+        let editSubIdx = null; 
+        
         let currentMusicXmlStr = null; 
         let totalMeasuresLoaded = 0; 
         let osmdInstances = [];
@@ -290,18 +300,25 @@
 
             measuresRaw.forEach(m => {
                 const chordsInMeasure = m.split(/\s+/).filter(c => c.length > 0);
-                const chordStr = chordsInMeasure[0];
-
-                if (chordStr === "%") {
-                    newSequence.push(lastChordData ? { ...lastChordData, id: Date.now() + Math.random() } : null);
-                } else {
-                    const parsed = parseChordString(chordStr);
-                    if (parsed) {
-                        lastChordData = parsed;
-                        newSequence.push({ ...parsed, id: Date.now() + Math.random() });
+                
+                if (chordsInMeasure.length === 1) {
+                    if (chordsInMeasure[0] === "%") {
+                        newSequence.push([lastChordData ? { ...lastChordData, id: Date.now() + Math.random() } : null]);
                     } else {
-                        newSequence.push(null);
+                        const parsed = parseChordString(chordsInMeasure[0]);
+                        lastChordData = parsed;
+                        newSequence.push([parsed ? { ...parsed, id: Date.now() + Math.random() } : null]);
                     }
+                } else if (chordsInMeasure.length >= 2) {
+                    // Split Measure
+                    const p1 = parseChordString(chordsInMeasure[0]);
+                    const p2 = parseChordString(chordsInMeasure[1]);
+                    if(p2) lastChordData = p2; else if (p1) lastChordData = p1;
+                    
+                    newSequence.push([
+                        p1 ? { ...p1, id: Date.now() + Math.random() } : null,
+                        p2 ? { ...p2, id: Date.now() + Math.random() } : null
+                    ]);
                 }
             });
 
@@ -316,41 +333,32 @@
 
         function parseChordString(str) {
             let s = str.replace(/Maj7/g, "maj7").replace(/m7/g, "m7").replace(/dim/g, "dim7");
-            
-            let root = null;
-            let quality = null;
-
+            let root = null; let quality = null;
             for (const group of CONFIG.ROOT_GROUPS) {
                 for (const r of group) {
                     if (s.startsWith(r.display)) {
-                        if (!root || r.display.length > root.display.length) {
-                            root = r;
-                        }
+                        if (!root || r.display.length > root.display.length) { root = r; }
                     }
                 }
             }
             if (!root) return null;
-
             const remaining = s.substring(root.display.length);
             quality = CONFIG.QUALITIES.find(q => q.label === remaining) || CONFIG.QUALITIES[0];
 
             return {
                 name: root.display + quality.label,
-                file: `swing130_${root.filePrefix}${quality.fileSuffix}`,
-                beats: 4
+                file: `swing130_${root.filePrefix}${quality.fileSuffix}`
             };
         }
 
         // ======= UTILITÁRIOS DE EXPORTAÇÃO =======
         function sanitizeFilename(name) { return (name || 'projeto').replace(/[^a-z0-9]/gi, '_').toLowerCase(); }
-        
         function downloadFile(content, filename, contentType) {
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = filename;
             a.click(); URL.revokeObjectURL(url);
         }
-
         function downloadTextFile(textareaId, extension) {
             const text = document.getElementById(textareaId).value;
             if(!text) return alert("Gere o conteúdo primeiro.");
@@ -360,7 +368,8 @@
         function generateBIAB() {
             let biab = `[Chords]\n|:a) `;
             for(let i=0; i<sequence.length; i++) {
-                biab += (sequence[i] ? sequence[i].name : '') + ` | `;
+                const text = sequence[i].map(c => c ? c.name : '').join(' ');
+                biab += text + ` | `;
                 if((i+1) % 4 === 0 && i !== sequence.length-1) biab += `\n| `;
             }
             biab += `\n[ChordsEnd]`;
@@ -396,12 +405,12 @@
             const qualityPalette = document.getElementById('quality-palette'); qualityPalette.innerHTML = '';
             CONFIG.QUALITIES.forEach(q => {
                 const btn = document.createElement('button');
-                btn.className = "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold";
+                btn.className = "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors";
                 btn.innerText = q.label;
                 btn.onclick = () => {
                     const chordName = selectedRoot.display + q.label;
                     const fileName = `swing130_${selectedRoot.filePrefix}${q.fileSuffix}`;
-                    addOrReplaceChord({ name: chordName, file: fileName, beats: 4 });
+                    addOrReplaceChord({ name: chordName, file: fileName });
                 };
                 qualityPalette.appendChild(btn);
             });
@@ -437,8 +446,19 @@
         function parseXMLAndRender(xmlStr) {
             const doc = new DOMParser().parseFromString(xmlStr, "application/xml");
             totalMeasuresLoaded = doc.querySelectorAll('measure').length;
-            sequence = Array(totalMeasuresLoaded).fill(null);
+            sequence = Array(totalMeasuresLoaded).fill().map(() => [null]);
             needsConsolidation = true; buildScoreGrid();
+        }
+
+        function toggleSplitMeasure(idx) {
+            if (sequence[idx].length === 1) {
+                sequence[idx] = [sequence[idx][0], null]; // Split
+            } else {
+                sequence[idx] = [sequence[idx][0]]; // Merge back (keeps only the first half)
+            }
+            needsConsolidation = true;
+            if (editMeasureIdx === idx) { editMeasureIdx = null; editSubIdx = null; }
+            buildScoreGrid();
         }
 
         async function buildScoreGrid() {
@@ -460,17 +480,43 @@
                 chunk.appendChild(osmdDiv);
 
                 const grid = document.createElement('div'); grid.className = "grid grid-cols-4 gap-2 mt-2 ml-[40px]";
+                
                 for (let j = start; j <= end; j++) {
-                    const idx = j - 1; const chord = sequence[idx]; 
-                    const slot = document.createElement('div');
-                    slot.className = chord ? "chord-block relative border-2 border-slate-300 dark:border-slate-600 rounded-lg h-14 flex items-center justify-center font-bold cursor-pointer bg-white dark:bg-slate-700" 
-                                           : "chord-block relative border-2 border-slate-200 dark:border-slate-700 rounded-lg h-14 flex items-center justify-center font-bold cursor-pointer bg-slate-50 dark:bg-slate-800/50";
-                    slot.id = `slot-${idx}`;
-                    const lbl = document.createElement('div'); lbl.className = "absolute top-1 left-1.5 text-[9px] text-slate-400 font-bold uppercase"; lbl.innerText = `C. ${j}`; slot.appendChild(lbl);
-                    const content = document.createElement('span'); content.id = `content-${idx}`;
-                    content.innerText = chord ? chord.name : ' + ';
-                    content.className = chord ? "font-black text-lg text-slate-900 dark:text-white" : "text-violet-500 opacity-30 font-black text-lg";
-                    slot.appendChild(content); slot.onclick = () => selectSlot(idx); grid.appendChild(slot);
+                    const idx = j - 1;
+                    
+                    const measureWrap = document.createElement('div');
+                    measureWrap.className = "flex w-full h-[60px] gap-1";
+                    measureWrap.ondblclick = () => toggleSplitMeasure(idx);
+
+                    sequence[idx].forEach((chord, subIdx) => {
+                        const isSplit = sequence[idx].length === 2;
+                        const slot = document.createElement('div');
+                        const baseStyles = "chord-block relative border-2 rounded-lg flex-1 flex flex-col items-center justify-center font-bold cursor-pointer transition-colors";
+                        
+                        if (chord) {
+                            slot.className = `${baseStyles} bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:border-violet-500 active-filled`;
+                        } else {
+                            slot.className = `${baseStyles} bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-violet-500`;
+                        }
+                        
+                        slot.id = `slot-${idx}-${subIdx}`;
+                        slot.onclick = (e) => { e.stopPropagation(); selectSlot(idx, subIdx); };
+                        
+                        const content = document.createElement('span'); 
+                        content.id = `content-${idx}-${subIdx}`;
+                        content.innerText = chord ? chord.name : '+';
+                        content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-500 opacity-30 font-black text-lg leading-tight group-hover:opacity-100";
+                        
+                        const lbl = document.createElement('div'); 
+                        lbl.className = "text-[9px] text-slate-400 font-bold uppercase mt-0.5 leading-none"; 
+                        lbl.innerText = isSplit ? `C. ${j}.${subIdx + 1}` : `C. ${j}`; 
+
+                        slot.appendChild(content); 
+                        slot.appendChild(lbl);
+                        measureWrap.appendChild(slot);
+                    });
+
+                    grid.appendChild(measureWrap);
                 }
                 chunk.appendChild(grid); row.appendChild(chunk); sequenceWrapper.appendChild(row);
 
@@ -482,18 +528,25 @@
             statusText.innerHTML = "Pronto! Selecione um compasso."; btnPlay.disabled = false;
         }
 
-        function selectSlot(index) {
+        function selectSlot(mIdx, sIdx) {
             document.querySelectorAll('.chord-block').forEach(el => el.classList.remove('ring-2', 'ring-violet-500', 'scale-105'));
-            if (editingChordIndex === index) { editingChordIndex = null; } 
-            else { editingChordIndex = index; document.getElementById(`slot-${index}`)?.classList.add('ring-2', 'ring-violet-500', 'scale-105'); statusText.innerHTML = `Compasso ${index + 1} selecionado.`; }
+            if (editMeasureIdx === mIdx && editSubIdx === sIdx) { 
+                editMeasureIdx = null; editSubIdx = null; statusText.innerHTML = "Pronto.";
+            } else { 
+                editMeasureIdx = mIdx; editSubIdx = sIdx; 
+                document.getElementById(`slot-${mIdx}-${sIdx}`)?.classList.add('ring-2', 'ring-violet-500', 'scale-105'); 
+                const beatInfo = sequence[mIdx].length === 2 ? (sIdx === 0 ? " (Tempos 1-2)" : " (Tempos 3-4)") : "";
+                statusText.innerHTML = `Compasso ${mIdx + 1}${beatInfo} selecionado.`; 
+            }
         }
 
         function addOrReplaceChord(chordData) {
-            if (totalMeasuresLoaded === 0 || editingChordIndex === null) return;
+            if (totalMeasuresLoaded === 0 || editMeasureIdx === null) return;
             needsConsolidation = true; mainPlayer.src = ""; btnPlay.disabled = false;
-            sequence[editingChordIndex] = { ...chordData, id: Date.now() };
+            
+            sequence[editMeasureIdx][editSubIdx] = { ...chordData, id: Date.now() };
             buildScoreGrid();
-            selectSlot(editingChordIndex);
+            selectSlot(editMeasureIdx, editSubIdx);
         }
 
         function updateRootButtonsUI() {
@@ -505,6 +558,7 @@
 
         function clearAll() {
             sequence = []; totalMeasuresLoaded = 0; currentMusicXmlStr = null; needsConsolidation = true;
+            editMeasureIdx = null; editSubIdx = null;
             mainPlayer.src = ""; sequenceWrapper.innerHTML = ''; sequenceWrapper.appendChild(emptyState); emptyState.style.display = 'block'; stopAudio();
         }
 
@@ -524,28 +578,38 @@
         }
 
         async function handleConsolidate() {
-            if (sequence.length === 0 || !sequence.some(c => c !== null)) return false;
+            const hasData = sequence.some(measure => measure.some(chord => chord !== null));
+            if (!hasData) return false;
+
             const ctx = getAudioContext(); statusText.innerHTML = "Processando áudio...";
             try {
-                const duration = 4 * (60 / CONFIG.NATIVE_BPM);
-                const offlineCtx = new OfflineAudioContext(2, ctx.sampleRate * ((sequence.length * duration) + 2.0), ctx.sampleRate);
+                const offlineCtx = new OfflineAudioContext(2, ctx.sampleRate * ((sequence.length * 4 * (60 / CONFIG.NATIVE_BPM)) + 2.0), ctx.sampleRate);
                 let currentStartTime = 0;
+
                 for (let i = 0; i < sequence.length; i++) {
-                    const chord = sequence[i];
-                    if (chord !== null) {
-                        const source = offlineCtx.createBufferSource(); source.buffer = await fetchAudioBuffer(chord);
-                        const gain = offlineCtx.createGain(); 
-                        
-                        // FADE REPARADO: Mantém o volume em 1 até 20ms antes do fim para não cortar o som,
-                        // fazendo o fade out apenas no milissegundo final para evitar pops/cliques
-                        gain.gain.setValueAtTime(1, currentStartTime); 
-                        gain.gain.setValueAtTime(1, currentStartTime + duration - 0.02);
-                        gain.gain.linearRampToValueAtTime(0, currentStartTime + duration);
-                        
-                        source.connect(gain); gain.connect(offlineCtx.destination); source.start(currentStartTime, 0, duration);
-                        chord.startTime = currentStartTime; chord.endTime = currentStartTime + duration;
+                    const measure = sequence[i];
+                    // O tempo de cada slot depende se o compasso está dividido
+                    const durationPerSlot = (4 / measure.length) * (60 / CONFIG.NATIVE_BPM);
+
+                    for (let j = 0; j < measure.length; j++) {
+                        const chord = measure[j];
+                        if (chord !== null) {
+                            const source = offlineCtx.createBufferSource(); 
+                            source.buffer = await fetchAudioBuffer(chord);
+                            const gain = offlineCtx.createGain(); 
+                            
+                            gain.gain.setValueAtTime(1, currentStartTime); 
+                            gain.gain.setValueAtTime(1, currentStartTime + durationPerSlot - 0.02);
+                            gain.gain.linearRampToValueAtTime(0, currentStartTime + durationPerSlot);
+                            
+                            source.connect(gain); gain.connect(offlineCtx.destination); 
+                            // O Web Audio corta perfeitamente o áudio para 2 tempos caso o compasso esteja dividido
+                            source.start(currentStartTime, 0, durationPerSlot);
+                            
+                            chord.startTime = currentStartTime; chord.endTime = currentStartTime + durationPerSlot;
+                        }
+                        currentStartTime += durationPerSlot; 
                     }
-                    currentStartTime += duration; 
                 }
                 consolidatedBuffer = await offlineCtx.startRendering();
                 currentWavBlob = audioBufferToWav(consolidatedBuffer);
@@ -559,7 +623,6 @@
             mediaElementSource = ctx.createMediaElementSource(mainPlayer);
             dryGainNode = ctx.createGain(); wetGainNode = ctx.createGain(); convolverNode = ctx.createConvolver();
             
-            // Reverb mais curto e natural
             const len = ctx.sampleRate * 2.0; const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
             for (let c = 0; c < 2; c++) { const d = impulse.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-5 * (i / len)); }
             convolverNode.buffer = impulse;
@@ -572,13 +635,13 @@
         function updateReverbMix() {
             if (!dryGainNode) return;
             const val = reverbSlider.value / 100;
-            // Efeito global 5x mais brando (Max 15% wet)
             wetGainNode.gain.value = val * 0.15;
             dryGainNode.gain.value = 1.0 - (val * 0.1);
         }
 
         async function playFromMeasure(index) {
-            if (sequence.length === 0 || !sequence.some(c => c !== null)) return alert("Preencha ao menos um acorde.");
+            const hasData = sequence.some(measure => measure.some(chord => chord !== null));
+            if (!hasData) return alert("Preencha ao menos um acorde.");
             
             if (needsConsolidation) {
                 btnPlay.innerHTML = '<span class="loading-spinner"></span>'; btnPlay.disabled = true;
@@ -596,15 +659,8 @@
                 if (!isPlaying) playAudio();
             };
 
-            // Aguarda o metadado carregar se acabamos de renderizar o Blob
-            if (mainPlayer.readyState >= 1) {
-                doPlay();
-            } else {
-                mainPlayer.onloadedmetadata = () => {
-                    doPlay();
-                    mainPlayer.onloadedmetadata = null;
-                };
-            }
+            if (mainPlayer.readyState >= 1) { doPlay(); } 
+            else { mainPlayer.onloadedmetadata = () => { doPlay(); mainPlayer.onloadedmetadata = null; }; }
         }
 
         async function togglePlay() {
@@ -634,9 +690,20 @@
         function syncVisuals() {
             if (!isPlaying) return;
             const t = mainPlayer.currentTime;
-            const idx = sequence.findIndex(c => c && t >= c.startTime && t < c.endTime);
+            
+            let activeM = -1; let activeS = -1;
+            for(let i=0; i<sequence.length; i++){
+                for(let j=0; j<sequence[i].length; j++){
+                    const c = sequence[i][j];
+                    if(c && t >= c.startTime && t < c.endTime) {
+                        activeM = i; activeS = j; break;
+                    }
+                }
+                if(activeM !== -1) break;
+            }
+
             document.querySelectorAll('.chord-block').forEach(b => b.classList.remove('active')); 
-            if (idx >= 0) document.getElementById(`slot-${idx}`)?.classList.add('active');
+            if (activeM >= 0) document.getElementById(`slot-${activeM}-${activeS}`)?.classList.add('active');
             animationFrameId = requestAnimationFrame(syncVisuals);
         }
 
@@ -662,29 +729,128 @@
             const data = { projectName: projNameInput.value, authorName: authorNameInput.value, bpm: bpmInput.value, sequence: sequence };
             downloadFile(JSON.stringify(data, null, 2), sanitizeFilename(projNameInput.value) + '.txt', 'application/json');
         }
+
         function importProjectFile(e) {
             const file = e.target.files[0]; if(!file) return;
             const reader = new FileReader();
             reader.onload = (evt) => {
                 const data = JSON.parse(evt.target.result);
                 projNameInput.value = data.projectName || ''; authorNameInput.value = data.authorName || '';
-                bpmInput.value = data.bpm || 130; sequence = data.sequence || [];
+                bpmInput.value = data.bpm || 130; 
+                // Compatibilidade: antigos arrays 1D vs novos arrays 2D (Split)
+                if(data.sequence) {
+                    sequence = data.sequence.map(item => Array.isArray(item) ? item : [item]);
+                } else {
+                    sequence = [];
+                }
                 totalMeasuresLoaded = sequence.length; needsConsolidation = true; stopAudio(); buildScoreGrid();
             };
             reader.readAsText(file);
         }
+
         async function generateMoodleHTML(format) {
-            if(!currentWavBlob) return alert("Toque a música primeiro.");
-            let audioBase64 = await blobToBase64(currentWavBlob);
-            let html = `<h2>${projNameInput.value}</h2><p>Por: ${authorNameInput.value}</p><audio controls src="${audioBase64}"></audio>`;
-            document.getElementById('moodle-out').value = html;
+            if(!currentWavBlob) return alert("Toque a música primeiro para gerar o áudio.");
+            const out = document.getElementById('moodle-out');
+            out.value = "Gerando HTML...";
+            let audioBase64 = format === 'wav' ? await blobToBase64(currentWavBlob) : await blobToBase64(await convertWavToMp3() || currentWavBlob);
+            
+            let html = `<h2>${projNameInput.value || 'Projeto'}</h2><p>Por: ${authorNameInput.value || 'Autor'}</p><audio controls src="${audioBase64}"></audio><hr><table border="1" width="100%" cellpadding="8" cellspacing="0" style="text-align: center;">`;
+            for(let i=0; i<sequence.length; i+=4) {
+                html += `<tr>`;
+                for(let j=0; j<4; j++) {
+                    if (sequence[i+j]) {
+                        const chordText = sequence[i+j].map(c => c ? c.name : '-').join(' / ');
+                        html += `<td>C. ${i+j+1}<br><strong>${chordText}</strong></td>`;
+                    }
+                }
+                html += `</tr>`;
+            }
+            html += `</table>`;
+            out.value = html;
         }
+
         function blobToBase64(blob) { return new Promise(r => { const rd = new FileReader(); rd.onloadend = () => r(rd.result); rd.readAsDataURL(blob); }); }
         function copyToClipboard(id) { const el = document.getElementById(id); el.select(); document.execCommand('copy'); alert("Copiado!"); }
         function exportAudioWAV() { if(currentWavBlob) downloadFile(currentWavBlob, sanitizeFilename(projNameInput.value) + '.wav', 'audio/wav'); }
-        function exportMusicXML() { /* Lógica anterior de XML */ }
-        function exportCanvasPNG() { /* Lógica anterior de PNG */ }
-        function generateMarkdown() { /* Lógica anterior de MD */ }
+
+        function exportCanvasPNG() {
+            if(sequence.length === 0) return alert("A sequência está vazia.");
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+            canvas.width = 800; const cols = 4;
+            const rows = Math.ceil(sequence.length / cols);
+            canvas.height = 120 + (rows * 80);
+
+            ctx.fillStyle = '#F8F8FF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1E293B'; ctx.font = 'bold 28px sans-serif';
+            ctx.fillText(projNameInput.value || 'Projeto Sem Título', 30, 50);
+            ctx.font = '16px sans-serif'; ctx.fillText(authorNameInput.value || 'Autor Desconhecido', 30, 80);
+
+            const xOffset = 30; const yOffset = 110;
+            const cellWidth = (canvas.width - 60) / cols; const cellHeight = 70;
+
+            for(let i=0; i<sequence.length; i++) {
+                const col = i % cols; const row = Math.floor(i / cols);
+                const x = xOffset + col * cellWidth; const y = yOffset + row * cellHeight;
+
+                ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cellWidth, cellHeight);
+                const chordText = sequence[i].map(c => c ? c.name : '-').join(' | ');
+                ctx.fillStyle = '#0F172A'; ctx.font = 'bold 20px sans-serif';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(chordText, x + cellWidth/2, y + cellHeight/2);
+                ctx.font = '12px sans-serif'; ctx.fillStyle = '#64748B'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                ctx.fillText(`C. ${i+1}`, x + 5, y + 5);
+            }
+            const a = document.createElement('a'); a.download = sanitizeFilename(projNameInput.value) + '_grade.png';
+            a.href = canvas.toDataURL('image/png'); a.click();
+        }
+
+        function generateMarkdown() {
+            let md = `| Compasso | Acorde |\n|---|---|\n`;
+            sequence.forEach((measure, i) => { md += `| ${i+1} | ${measure.map(c => c ? c.name : '-').join(' / ')} |\n`; });
+            document.getElementById('md-out').value = md;
+        }
+
+        function exportMusicXML() {
+            if(sequence.length === 0) return alert("Sequência vazia.");
+            let xml = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">\n<score-partwise version="3.1">\n  <work><work-title>${projNameInput.value || 'Projeto'}</work-title></work>\n  <part-list><score-part id="P1"><part-name>Acordes</part-name></score-part></part-list>\n  <part id="P1">\n`;
+
+            sequence.forEach((measure, i) => {
+                xml += `    <measure number="${i+1}">\n`;
+                if (i === 0) xml += `      <attributes><divisions>1</divisions><time><beats>4</beats><beat-type>4</beat-type></time></attributes>\n`;
+                
+                if (measure.length === 1) {
+                    if (measure[0]) xml += buildHarmonyXML(measure[0]);
+                    xml += `      <note><rest/><duration>4</duration><type>whole</type></note>\n`;
+                } else {
+                    if (measure[0]) xml += buildHarmonyXML(measure[0]);
+                    xml += `      <note><rest/><duration>2</duration><type>half</type></note>\n`;
+                    if (measure[1]) xml += buildHarmonyXML(measure[1]);
+                    xml += `      <note><rest/><duration>2</duration><type>half</type></note>\n`;
+                }
+                xml += `    </measure>\n`;
+            });
+            xml += `  </part>\n</score-partwise>`;
+            downloadFile(xml, sanitizeFilename(projNameInput.value) + '.musicxml', 'application/vnd.recordare.musicxml+xml');
+        }
+
+        function buildHarmonyXML(chordData) {
+            let chordName = chordData.name;
+            let rootStep = chordName.charAt(0);
+            let alter = 0; let qIdx = 1;
+            if(chordName.charAt(1)==='#' || chordName.charAt(1)==='b') { alter = chordName.charAt(1)==='#' ? 1 : -1; qIdx = 2; }
+            let quality = chordName.substring(qIdx);
+            let kind = 'major';
+            if(quality.includes('m7b5')) kind = 'half-diminished';
+            else if(quality.includes('dim')) kind = 'diminished-seventh';
+            else if(quality.includes('m7')) kind = 'minor-seventh';
+            else if(quality.includes('maj7')) kind = 'major-seventh';
+            else if(quality.includes('9') || quality.includes('7')) kind = 'dominant';
+
+            let tag = `      <harmony>\n        <root><root-step>${rootStep}</root-step>`;
+            if(alter !== 0) tag += `<root-alter>${alter}</root-alter>`;
+            tag += `</root>\n        <kind>${kind}</kind>\n      </harmony>\n`;
+            return tag;
+        }
 
         window.onload = initUI;
     </script>
