@@ -52,7 +52,11 @@
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #cbd5e1; border-radius: 9999px; }
         .dark input[type=range]::-webkit-slider-runnable-track { background: #475569; }
 
-        .osmd-container svg { width: 100% !important; height: auto !important; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Modificado para permitir o zoom funcionar corretamente */
+        .osmd-container { overflow-x: auto; overflow-y: hidden; }
         dialog::backdrop { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); }
     </style>
 </head>
@@ -113,9 +117,9 @@
                             <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
                         </div>
                         <div class="flex items-center gap-2 shrink-0 flex-wrap">
-                            <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
+                            <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm" title="Zoom da Partitura">
                                 <label for="zoom-input" class="text-xs text-violet-600 cursor-pointer"><i class="fas fa-search-plus"></i></label>
-                                <input type="number" id="zoom-input" min="0.3" max="3.0" step="0.1" value="1.0" class="w-12 bg-transparent text-slate-900 dark:text-white font-bold text-center outline-none text-sm">
+                                <input type="number" id="zoom-input" min="0.5" max="5.0" step="0.1" value="1.2" class="w-12 bg-transparent text-slate-900 dark:text-white font-bold text-center outline-none text-sm">
                             </div>
                             <label for="mxl-upload" class="cursor-pointer bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow-sm transition-colors">
                                 <i class="fas fa-file-import"></i> MXL
@@ -242,8 +246,6 @@
 
         // ======= ESTADO ======= 
         let audioContext = null;         
-        // Agora sequence armazena arrays de acordes por compasso (permitindo split)
-        // Padrão: sequence[i] = [null] (1 acorde/compasso) ou [null, null] (2 acordes/compasso)
         let sequence = [];      
         let audioCache = new Map();     
         let consolidatedBuffer = null;   
@@ -261,7 +263,6 @@
         let osmdInstances = [];
         let animationFrameId = null;
 
-        // Efeitos de áudio
         let isRoutingSetup = false; 
         let mediaElementSource = null;
         let dryGainNode = null; 
@@ -306,11 +307,10 @@
                         newSequence.push([lastChordData ? { ...lastChordData, id: Date.now() + Math.random() } : null]);
                     } else {
                         const parsed = parseChordString(chordsInMeasure[0]);
-                        lastChordData = parsed;
+                        if(parsed) lastChordData = parsed;
                         newSequence.push([parsed ? { ...parsed, id: Date.now() + Math.random() } : null]);
                     }
                 } else if (chordsInMeasure.length >= 2) {
-                    // Split Measure
                     const p1 = parseChordString(chordsInMeasure[0]);
                     const p2 = parseChordString(chordsInMeasure[1]);
                     if(p2) lastChordData = p2; else if (p1) lastChordData = p1;
@@ -333,7 +333,7 @@
 
         function parseChordString(str) {
             let s = str.replace(/Maj7/g, "maj7").replace(/m7/g, "m7").replace(/dim/g, "dim7");
-            let root = null; let quality = null;
+            let root = null;
             for (const group of CONFIG.ROOT_GROUPS) {
                 for (const r of group) {
                     if (s.startsWith(r.display)) {
@@ -342,8 +342,26 @@
                 }
             }
             if (!root) return null;
+
             const remaining = s.substring(root.display.length);
-            quality = CONFIG.QUALITIES.find(q => q.label === remaining) || CONFIG.QUALITIES[0];
+            let qualityLabel = "maj7"; 
+            const remLower = remaining.toLowerCase();
+
+            if (remaining.includes('Maj') || remaining.includes('maj') || remaining.includes('M7') || remaining.includes('^')) {
+                qualityLabel = "maj7";
+            } else if (remLower.includes('m7b5') || remaining.includes('-7b5') || remaining.includes('h')) {
+                qualityLabel = "m7b5";
+            } else if (remLower.includes('dim') || remaining.includes('o') || remaining.includes('º')) {
+                qualityLabel = "dim7";
+            } else if (remLower.includes('m7') || remaining.includes('-7') || remaining === 'm') {
+                qualityLabel = "m7";
+            } else if (remLower.includes('7b9')) {
+                qualityLabel = "7b9";
+            } else if (remLower.includes('7') || remLower.includes('9') || remLower.includes('13')) {
+                qualityLabel = "9"; 
+            }
+
+            const quality = CONFIG.QUALITIES.find(q => q.label === qualityLabel) || CONFIG.QUALITIES[0];
 
             return {
                 name: root.display + quality.label,
@@ -417,7 +435,21 @@
 
             bpmInput.oninput = () => { if (isPlaying) mainPlayer.playbackRate = bpmInput.value / CONFIG.NATIVE_BPM; };
             reverbSlider.oninput = updateReverbMix;
-            zoomInput.onchange = buildScoreGrid;
+            
+            // Lógica de Zoom Restaurada
+            zoomInput.onchange = () => {
+                const zoomVal = parseFloat(zoomInput.value);
+                if (osmdInstances.length > 0) {
+                    statusText.innerHTML = '<span class="loading-spinner"></span> Ajustando zoom...';
+                    setTimeout(() => {
+                        osmdInstances.forEach(osmd => {
+                            osmd.zoom = zoomVal;
+                            osmd.render();
+                        });
+                        statusText.innerHTML = `Zoom ajustado para ${zoomVal}x.`;
+                    }, 50);
+                }
+            };
             
             btnPlay.onclick = togglePlay;
             btnStop.onclick = stopAudio;
@@ -452,9 +484,9 @@
 
         function toggleSplitMeasure(idx) {
             if (sequence[idx].length === 1) {
-                sequence[idx] = [sequence[idx][0], null]; // Split
+                sequence[idx] = [sequence[idx][0], null]; 
             } else {
-                sequence[idx] = [sequence[idx][0]]; // Merge back (keeps only the first half)
+                sequence[idx] = [sequence[idx][0]]; 
             }
             needsConsolidation = true;
             if (editMeasureIdx === idx) { editMeasureIdx = null; editSubIdx = null; }
@@ -464,7 +496,7 @@
         async function buildScoreGrid() {
             sequenceWrapper.innerHTML = ''; emptyState.style.display = 'none'; osmdInstances = [];
             if (totalMeasuresLoaded === 0) return;
-            const currentZoom = parseFloat(zoomInput.value) || 1.0;
+            const currentZoom = parseFloat(zoomInput.value) || 1.2;
 
             for (let i = 1; i <= totalMeasuresLoaded; i += 4) {
                 const start = i; const end = Math.min(i + 3, totalMeasuresLoaded);
@@ -476,7 +508,7 @@
                 row.appendChild(pBtn);
 
                 const chunk = document.createElement('div'); chunk.className = "bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col flex-grow min-w-0";
-                const osmdDiv = document.createElement('div'); osmdDiv.className = "osmd-container bg-white rounded overflow-hidden w-full";
+                const osmdDiv = document.createElement('div'); osmdDiv.className = "osmd-container bg-white rounded hide-scrollbar w-full";
                 chunk.appendChild(osmdDiv);
 
                 const grid = document.createElement('div'); grid.className = "grid grid-cols-4 gap-2 mt-2 ml-[40px]";
@@ -588,7 +620,6 @@
 
                 for (let i = 0; i < sequence.length; i++) {
                     const measure = sequence[i];
-                    // O tempo de cada slot depende se o compasso está dividido
                     const durationPerSlot = (4 / measure.length) * (60 / CONFIG.NATIVE_BPM);
 
                     for (let j = 0; j < measure.length; j++) {
@@ -603,7 +634,6 @@
                             gain.gain.linearRampToValueAtTime(0, currentStartTime + durationPerSlot);
                             
                             source.connect(gain); gain.connect(offlineCtx.destination); 
-                            // O Web Audio corta perfeitamente o áudio para 2 tempos caso o compasso esteja dividido
                             source.start(currentStartTime, 0, durationPerSlot);
                             
                             chord.startTime = currentStartTime; chord.endTime = currentStartTime + durationPerSlot;
@@ -737,12 +767,9 @@
                 const data = JSON.parse(evt.target.result);
                 projNameInput.value = data.projectName || ''; authorNameInput.value = data.authorName || '';
                 bpmInput.value = data.bpm || 130; 
-                // Compatibilidade: antigos arrays 1D vs novos arrays 2D (Split)
                 if(data.sequence) {
                     sequence = data.sequence.map(item => Array.isArray(item) ? item : [item]);
-                } else {
-                    sequence = [];
-                }
+                } else { sequence = []; }
                 totalMeasuresLoaded = sequence.length; needsConsolidation = true; stopAudio(); buildScoreGrid();
             };
             reader.readAsText(file);
