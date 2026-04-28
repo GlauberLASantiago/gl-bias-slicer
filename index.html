@@ -16,9 +16,7 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {}
-            }
+            theme: { extend: {} }
         }
     </script>
 
@@ -45,7 +43,8 @@
         
         input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
+            -webkit-appearance: none;
+            height: 14px; width: 14px; border-radius: 50%;
             background: #8B5CF6; cursor: pointer; margin-top: -5px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.1s;
         }
         input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
@@ -55,15 +54,37 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Modificado para permitir o zoom funcionar corretamente */
         .osmd-container { overflow-x: auto; overflow-y: hidden; }
         dialog::backdrop { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(4px); }
+
+        /* Estilos das abas do Modal */
+        .tab-btn {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .dark .tab-btn { color: #94a3b8; }
+        .tab-btn:hover { background-color: #f1f5f9; color: #0f172a; }
+        .dark .tab-btn:hover { background-color: #1e293b; color: #f8fafc; }
+        .tab-btn.active {
+            background-color: #8b5cf6;
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 font-sans flex flex-col transition-colors duration-200">
 
     <div class="w-full px-2 sm:px-4 flex-grow flex flex-col gap-3 pb-4">
-        
         <header class="flex flex-col sm:flex-row items-center justify-between pt-3 pb-1">
             <div class="text-center sm:text-left flex items-center gap-3">
                 <h1 class="text-2xl sm:text-3xl font-bold flex items-center justify-center sm:justify-start gap-2 text-slate-900 dark:text-white">
@@ -75,24 +96,15 @@
                 <button id="theme-toggle" class="p-2 sm:p-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 hover:text-violet-600 dark:hover:text-violet-400 transition-all text-slate-600 dark:text-slate-300">
                     <i class="fas fa-moon text-sm" id="theme-icon"></i>
                 </button>
+                <button id="btn-open-export" class="p-2 sm:p-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-200 dark:border-slate-700 hover:text-violet-600 dark:hover:text-violet-400 transition-all text-slate-600 dark:text-slate-300">
+                    <i class="fas fa-box-open text-sm"></i> Exportar / Importar
+                </button>
             </div>
         </header>
 
         <div class="flex flex-col lg:flex-row gap-3 items-start">
             <div class="w-full lg:w-[280px] xl:w-[300px] flex-shrink-0 flex flex-col gap-3">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
-                    <div class="flex flex-col gap-2 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
-                        <div class="flex gap-2">
-                            <div class="flex-1">
-                                <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Projeto</label>
-                                <input type="text" id="project-name" placeholder="Título" class="w-full mt-0.5 px-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md text-sm outline-none focus:border-violet-500 text-slate-900 dark:text-white font-semibold">
-                            </div>
-                            <div class="flex-1">
-                                <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Autor</label>
-                                <input type="text" id="author-name" placeholder="Seu Nome" class="w-full mt-0.5 px-2 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md text-sm outline-none focus:border-violet-500 text-slate-900 dark:text-white font-semibold">
-                            </div>
-                        </div>
-                    </div>
                     <div class="mb-3">
                         <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-plus-circle mr-2 text-violet-600"></i>Acordes</h2>
                     </div>
@@ -117,7 +129,7 @@
                             <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
                         </div>
                         <div class="flex items-center gap-2 shrink-0 flex-wrap">
-                            <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm" title="Zoom da Partitura">
+                            <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
                                 <label for="zoom-input" class="text-xs text-violet-600 cursor-pointer"><i class="fas fa-search-plus"></i></label>
                                 <input type="number" id="zoom-input" min="0.5" max="5.0" step="0.1" value="1.2" class="w-12 bg-transparent text-slate-900 dark:text-white font-bold text-center outline-none text-sm">
                             </div>
@@ -125,13 +137,17 @@
                                 <i class="fas fa-file-import"></i> MXL
                             </label>
                             <input type="file" id="mxl-upload" accept=".xml,.musicxml,.mxl" class="hidden">
+                            <label for="mp3-upload" class="cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-1.5 px-4 rounded-full shadow-sm transition-colors">
+                                <i class="fas fa-music"></i> + MP3
+                            </label>
+                            <input type="file" id="mp3-upload" accept="audio/mp3" class="hidden">
                             <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200 transition-colors">
                                 <i class="fas fa-trash"></i> Limpar
                             </button>
                         </div>
                     </div>
                     <div id="sequence-wrapper" class="flex-grow bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 overflow-y-auto mt-4">
-                        <div class="text-center text-slate-500 mt-8 text-base font-medium" id="empty-state">Sua música está vazia. Importe um MXL.</div>
+                        <div class="text-center text-slate-500 mt-8 text-base font-medium" id="empty-state">Sua música está vazia. Importe um MXL ou use os acordes.</div>
                     </div>
                 </div>
             </div>
@@ -144,6 +160,14 @@
                     <label for="reverb-slider" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-water text-violet-600 mr-1"></i> Reverb</label>
                     <input type="range" id="reverb-slider" min="0" max="100" value="50" class="w-16">
                 </div>
+                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Base</label>
+                    <input type="range" id="base-volume" min="0" max="100" value="100" class="w-16">
+                </div>
+                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">MP3</label>
+                    <input type="range" id="mp3-volume" min="0" max="100" value="100" class="w-16">
+                </div>
             </div>
 
             <div class="flex gap-3 w-full lg:w-auto justify-center flex-wrap sm:flex-nowrap">
@@ -151,71 +175,103 @@
                     <label for="bpm-input" class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
                     <input type="number" id="bpm-input" value="130" min="60" max="240" class="w-12 bg-transparent text-center focus:outline-none font-bold text-slate-900 dark:text-white text-base">
                 </div>
-                <button id="btn-play" disabled class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm transition-colors">
+                <button id="btn-play" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm transition-colors">
                     <i class="fas fa-play"></i> <span>Tocar</span>
-                </button>
-                <button id="btn-stop" disabled class="bg-slate-400 hover:bg-slate-500 text-white px-5 py-2 rounded-full font-bold text-base disabled:opacity-50 flex items-center justify-center shadow-sm transition-colors">
-                    <i class="fas fa-stop"></i>
-                </button>
-                <button id="btn-open-export" class="bg-violet-600 hover:bg-violet-700 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center shadow-sm gap-2 transition-colors">
-                    <i class="fas fa-download"></i> Central de Arquivos
                 </button>
                 <audio id="main-player" class="hidden"></audio>
             </div>
         </div>
     </div>
 
-    <dialog id="export-modal" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-[95%] max-w-4xl p-0 m-auto text-slate-800 dark:text-slate-100">
-        <div class="p-5 border-b flex justify-between items-center bg-slate-50 dark:bg-slate-800/80 rounded-t-2xl">
+    <dialog id="export-modal" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-[95%] max-w-5xl p-0 m-auto text-slate-800 dark:text-slate-100 overflow-hidden">
+        <div class="p-5 border-b flex justify-between items-center bg-slate-50 dark:bg-slate-800/80">
             <h2 class="text-xl font-bold flex items-center gap-2"><i class="fas fa-box-open text-violet-600"></i> Central de Arquivos</h2>
             <button id="btn-close-modal" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-2xl"></i></button>
         </div>
-        
-        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5 max-h-[75vh] overflow-y-auto">
-            
-            <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-xl border md:col-span-2">
-                <h3 class="font-bold mb-2 text-base text-slate-900 dark:text-white"><i class="fas fa-guitar mr-1 text-violet-500"></i> Band in a Box (BIAB)</h3>
-                <p class="text-xs text-slate-500 mb-3">Cole seu texto BIAB abaixo para carregar ou copie o gerado pelo app.</p>
-                <div class="flex flex-col gap-3">
-                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-md border border-slate-300 dark:bg-slate-900 outline-none focus:border-violet-500" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
-                    <div class="flex gap-3">
-                        <button onclick="generateBIAB()" class="flex-1 bg-white dark:bg-slate-800 border text-sm font-semibold py-2 rounded hover:border-violet-500">Gerar do App</button>
-                        <button onclick="importBIAB()" class="flex-1 bg-violet-600 text-white text-sm font-semibold py-2 rounded hover:bg-violet-700">Carregar para o App</button>
-                        <button onclick="downloadTextFile('biab-out', '.txt')" class="bg-white dark:bg-slate-800 border px-4 py-2 rounded hover:border-violet-500"><i class="fas fa-download"></i></button>
+
+        <div class="flex flex-col md:flex-row h-[70vh]">
+            <div class="w-full md:w-1/4 border-r border-slate-200 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-50/50 dark:bg-slate-900/30">
+                <button class="tab-btn active" onclick="openTab('tab-projeto', this)"><i class="fas fa-save w-5"></i> Projeto (.txt)</button>
+                <button class="tab-btn" onclick="openTab('tab-moodle', this)"><i class="fas fa-graduation-cap w-5"></i> Moodle (HTML)</button>
+                <button class="tab-btn" onclick="openTab('tab-audio', this)"><i class="fas fa-volume-up w-5"></i> Áudio (.wav)</button>
+                <button class="tab-btn" onclick="openTab('tab-imagem', this)"><i class="fas fa-image w-5"></i> Imagem (.png)</button>
+                <button class="tab-btn" onclick="openTab('tab-tabela', this)"><i class="fas fa-table w-5"></i> Tabela (.md)</button>
+                <button class="tab-btn" onclick="openTab('tab-xml', this)"><i class="fas fa-file-code w-5"></i> MusicXML</button>
+                <button class="tab-btn" onclick="openTab('tab-biab', this)"><i class="fas fa-guitar w-5"></i> Band in a Box</button>
+            </div>
+
+            <div class="w-full md:w-3/4 p-6 overflow-y-auto flex flex-col">
+                <div class="flex gap-4 mb-6 pb-4 border-b border-slate-200 dark:border-slate-700">
+                    <div class="flex-1">
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Título do Trabalho</label>
+                        <input type="text" id="modal-project-name" placeholder="Título" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold">
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Nome do Autor</label>
+                        <input type="text" id="modal-author-name" placeholder="Seu Nome" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold">
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-xl border">
-                <h3 class="font-bold mb-2 text-base text-slate-900 dark:text-white"><i class="fas fa-file-code mr-1 text-violet-500"></i> Projeto (.txt)</h3>
-                <div class="flex gap-3 mt-3">
-                    <button onclick="exportProjectFile()" class="flex-1 bg-white dark:bg-slate-800 border text-sm font-semibold py-2 rounded hover:border-violet-500">Salvar</button>
-                    <label class="flex-1 bg-white dark:bg-slate-800 border text-sm font-semibold py-2 rounded text-center cursor-pointer hover:border-violet-500">
-                        Abrir <input type="file" id="project-upload" accept=".txt" class="hidden" onchange="importProjectFile(event)">
-                    </label>
-                </div>
-            </div>
-
-            <div class="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-xl border">
-                <h3 class="font-bold mb-2 text-base text-slate-900 dark:text-white"><i class="fas fa-graduation-cap mr-1 text-violet-500"></i> Moodle (HTML)</h3>
-                <div class="flex flex-col gap-2">
-                    <div class="flex gap-2">
-                        <button onclick="generateMoodleHTML('wav')" class="flex-1 bg-white dark:bg-slate-800 border text-xs py-1.5 rounded">WAV</button>
-                        <button onclick="generateMoodleHTML('mp3')" class="flex-1 bg-white dark:bg-slate-800 border text-xs py-1.5 rounded">MP3</button>
+                <div id="tab-projeto" class="tab-content active">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Salvar ou Carregar Projeto</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
+                    <div class="flex gap-4">
+                        <button onclick="exportProjectFile()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Salvar Projeto</button>
+                        <label class="flex-1 bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-violet-500 hover:text-violet-500 font-bold py-3 rounded-lg text-center cursor-pointer transition">
+                            <i class="fas fa-upload mr-2"></i> Abrir Projeto
+                            <input type="file" id="project-upload" accept=".txt" class="hidden" onchange="importProjectFile(event)">
+                        </label>
                     </div>
-                    <textarea id="moodle-out" class="w-full h-16 text-xs p-2 rounded border dark:bg-slate-900" readonly></textarea>
-                    <button onclick="copyToClipboard('moodle-out')" class="bg-violet-600 text-white text-xs font-bold py-1.5 rounded">Copiar HTML</button>
                 </div>
-            </div>
 
-            <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border flex flex-col gap-2">
-                <button onclick="exportAudioWAV()" class="w-full bg-white dark:bg-slate-800 border text-sm py-2 rounded hover:border-violet-500"><i class="fas fa-volume-up mr-2"></i>Baixar .wav</button>
-                <button onclick="exportCanvasPNG()" class="w-full bg-white dark:bg-slate-800 border text-sm py-2 rounded hover:border-violet-500"><i class="fas fa-image mr-2"></i>Baixar Imagem PNG</button>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border flex flex-col gap-2">
-                <button onclick="exportMusicXML()" class="w-full bg-white dark:bg-slate-800 border text-sm py-2 rounded hover:border-violet-500"><i class="fas fa-file-alt mr-2"></i>Baixar MusicXML</button>
-                <button onclick="generateMarkdown(); downloadTextFile('md-out', '.md')" class="w-full bg-white dark:bg-slate-800 border text-sm py-2 rounded hover:border-violet-500"><i class="fas fa-table mr-2"></i>Baixar Tabela MD</button>
-                <textarea id="md-out" class="hidden"></textarea>
+                <div id="tab-moodle" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Embed Moodle (HTML + Áudio)</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Gere um código HTML pronto com a grade de acordes e um player de áudio embutido na própria página (Base64).</p>
+                    <div class="flex gap-3 mb-4">
+                        <button onclick="generateMoodleHTML('wav')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-file-audio mr-2"></i> Gerar c/ WAV</button>
+                        <button onclick="generateMoodleHTML('mp3')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-music mr-2"></i> Gerar c/ MP3 (Comprimido)</button>
+                    </div>
+                    <textarea id="moodle-out" class="w-full h-40 text-xs font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none mb-3" readonly placeholder="O código HTML aparecerá aqui..."></textarea>
+                    <button onclick="copyToClipboard('moodle-out')" class="w-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 rounded-lg transition"><i class="fas fa-copy mr-2"></i> Copiar Código HTML</button>
+                </div>
+
+                <div id="tab-audio" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar Áudio</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Baixe a faixa mestre consolidada do seu projeto no formato WAV de alta qualidade. (Certifique-se de ter tocado a música ao menos uma vez para renderizar).</p>
+                    <button onclick="exportAudioWAV()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar Arquivo .wav</button>
+                </div>
+
+                <div id="tab-imagem" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Grade Visual (.png)</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Renderiza a sequência completa em uma grade de imagem (8 colunas), indicando acordes e métricas de tempo, incluindo Título e Autor.</p>
+                    <button onclick="exportCanvasPNG()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-image mr-2"></i> Baixar Imagem PNG</button>
+                </div>
+
+                <div id="tab-tabela" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Tabela Markdown</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Exporta a progressão harmônica como uma tabela simples formatada em Markdown.</p>
+                    <button onclick="generateMarkdown()" class="mb-4 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 px-4 rounded-lg transition">Gerar Preview</button>
+                    <textarea id="md-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none mb-3" placeholder="A tabela aparecerá aqui..."></textarea>
+                    <button onclick="downloadTextFile('md-out', '.md')" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar .md</button>
+                </div>
+
+                <div id="tab-xml" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar MusicXML</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Gera a partitura estruturada com a tag &lt;harmony&gt; (cifras) embutida na marcação MusicXML 3.1, pronta para Finale, Sibelius ou MuseScore.</p>
+                    <button onclick="exportMusicXML()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-file-code mr-2"></i> Baixar .musicxml</button>
+                </div>
+
+                <div id="tab-biab" class="tab-content">
+                    <h3 class="font-bold text-lg mb-4 text-violet-600">Band in a Box (BIAB)</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Utilize o formato de texto padrão para importar ou exportar progressões do Band in a Box.</p>
+                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none focus:border-violet-500 mb-4" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <button onclick="generateBIAB()" class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 rounded-lg transition">Gerar do App</button>
+                        <button onclick="importBIAB()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg shadow-sm transition">Carregar p/ App</button>
+                        <button onclick="downloadTextFile('biab-out', '.txt')" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Salvar .txt</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </dialog>
@@ -246,62 +302,71 @@
 
         // ======= ESTADO ======= 
         let audioContext = null;         
-        let sequence = [];      
+        let sequence = [];
         let audioCache = new Map();     
         let consolidatedBuffer = null;   
         let currentWavBlob = null;       
-        let objectUrl = null;            
+        let objectUrl = null;
         let isPlaying = false; 
         let selectedRoot = CONFIG.ROOT_GROUPS[0][0]; 
         let needsConsolidation = true; 
         
         let editMeasureIdx = null; 
-        let editSubIdx = null; 
-        
+        let editSubIdx = null;
         let currentMusicXmlStr = null; 
         let totalMeasuresLoaded = 0; 
         let osmdInstances = [];
         let animationFrameId = null;
 
-        let isRoutingSetup = false; 
+        // Nós de áudio
         let mediaElementSource = null;
-        let dryGainNode = null; 
-        let wetGainNode = null; 
+        let dryGainNode = null;
+        let wetGainNode = null;
         let convolverNode = null;
+        let baseGainNode = null;
+        let isRoutingSetup = false;
+        let mp3Player = new Audio();
+        let mp3GainNode = null;
+        let mp3SourceNode = null;
 
         // Elementos DOM
         const sequenceWrapper = document.getElementById('sequence-wrapper');
         const emptyState = document.getElementById('empty-state');
         const btnPlay = document.getElementById('btn-play'); 
-        const btnStop = document.getElementById('btn-stop');
         const btnClear = document.getElementById('btn-clear'); 
         const statusText = document.getElementById('status-text');
-        const mainPlayer = document.getElementById('main-player'); 
+        const mainPlayer = document.getElementById('main-player');
         const bpmInput = document.getElementById('bpm-input');
         const reverbSlider = document.getElementById('reverb-slider'); 
         const zoomInput = document.getElementById('zoom-input');
         const mxlUpload = document.getElementById('mxl-upload'); 
-        const projNameInput = document.getElementById('project-name');
-        const authorNameInput = document.getElementById('author-name');
+        const mp3Upload = document.getElementById('mp3-upload');
+        const baseVolumeSlider = document.getElementById('base-volume');
+        const mp3VolumeSlider = document.getElementById('mp3-volume');
+        const projNameInputModal = document.getElementById('modal-project-name');
+        const authorNameInputModal = document.getElementById('modal-author-name');
+
+        // Navegação de Abas no Modal
+        function openTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
 
         // ======= LÓGICA DE IMPORTAÇÃO BIAB =======
         function importBIAB() {
             const rawText = document.getElementById('biab-out').value;
             if (!rawText.trim()) return alert("Cole o texto do BIAB primeiro.");
-
             let clean = rawText.replace(/\[Chords\]|\[ChordsEnd\]/g, "");
-            clean = clean.replace(/\|:[ab]\)|\|[ab]\)|\|:/g, "|"); 
+            clean = clean.replace(/\|:[ab]\)|\|[ab]\)|\|:/g, "|");
             clean = clean.replace(/:3X\||:2X\||:\|/g, "|"); 
-            
             const measuresRaw = clean.split("|").map(m => m.trim()).filter(m => m.length > 0);
             if (measuresRaw.length === 0) return alert("Nenhum acorde encontrado no formato BIAB.");
-
             const newSequence = [];
             let lastChordData = null;
-
             measuresRaw.forEach(m => {
                 const chordsInMeasure = m.split(/\s+/).filter(c => c.length > 0);
-                
                 if (chordsInMeasure.length === 1) {
                     if (chordsInMeasure[0] === "%") {
                         newSequence.push([lastChordData ? { ...lastChordData, id: Date.now() + Math.random() } : null]);
@@ -314,14 +379,12 @@
                     const p1 = parseChordString(chordsInMeasure[0]);
                     const p2 = parseChordString(chordsInMeasure[1]);
                     if(p2) lastChordData = p2; else if (p1) lastChordData = p1;
-                    
                     newSequence.push([
                         p1 ? { ...p1, id: Date.now() + Math.random() } : null,
                         p2 ? { ...p2, id: Date.now() + Math.random() } : null
                     ]);
                 }
             });
-
             sequence = newSequence;
             totalMeasuresLoaded = sequence.length;
             needsConsolidation = true;
@@ -342,11 +405,9 @@
                 }
             }
             if (!root) return null;
-
             const remaining = s.substring(root.display.length);
             let qualityLabel = "maj7"; 
             const remLower = remaining.toLowerCase();
-
             if (remaining.includes('Maj') || remaining.includes('maj') || remaining.includes('M7') || remaining.includes('^')) {
                 qualityLabel = "maj7";
             } else if (remLower.includes('m7b5') || remaining.includes('-7b5') || remaining.includes('h')) {
@@ -358,11 +419,9 @@
             } else if (remLower.includes('7b9')) {
                 qualityLabel = "7b9";
             } else if (remLower.includes('7') || remLower.includes('9') || remLower.includes('13')) {
-                qualityLabel = "9"; 
+                qualityLabel = "9";
             }
-
             const quality = CONFIG.QUALITIES.find(q => q.label === qualityLabel) || CONFIG.QUALITIES[0];
-
             return {
                 name: root.display + quality.label,
                 file: `swing130_${root.filePrefix}${quality.fileSuffix}`
@@ -371,16 +430,18 @@
 
         // ======= UTILITÁRIOS DE EXPORTAÇÃO =======
         function sanitizeFilename(name) { return (name || 'projeto').replace(/[^a-z0-9]/gi, '_').toLowerCase(); }
+        
         function downloadFile(content, filename, contentType) {
-            const blob = new Blob([content], { type: contentType });
+            const blob = (content instanceof Blob) ? content : new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = filename;
             a.click(); URL.revokeObjectURL(url);
         }
+        
         function downloadTextFile(textareaId, extension) {
             const text = document.getElementById(textareaId).value;
             if(!text) return alert("Gere o conteúdo primeiro.");
-            downloadFile(text, sanitizeFilename(projNameInput.value) + extension, 'text/plain');
+            downloadFile(text, sanitizeFilename(projNameInputModal.value) + extension, 'text/plain');
         }
 
         function generateBIAB() {
@@ -397,7 +458,8 @@
         // ======= LÓGICA CORE DO APP =======
         function initUI() {
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark'); themeIcon.classList.replace('fa-moon', 'fa-sun');
+                document.documentElement.classList.add('dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
             }
             themeToggleBtn.onclick = () => {
                 document.documentElement.classList.toggle('dark');
@@ -432,40 +494,58 @@
                 };
                 qualityPalette.appendChild(btn);
             });
-
             bpmInput.oninput = () => { if (isPlaying) mainPlayer.playbackRate = bpmInput.value / CONFIG.NATIVE_BPM; };
             reverbSlider.oninput = updateReverbMix;
-            
-            // Lógica de Zoom Restaurada
             zoomInput.onchange = () => {
                 const zoomVal = parseFloat(zoomInput.value);
                 if (osmdInstances.length > 0) {
                     statusText.innerHTML = '<span class="loading-spinner"></span> Ajustando zoom...';
                     setTimeout(() => {
-                        osmdInstances.forEach(osmd => {
-                            osmd.zoom = zoomVal;
-                            osmd.render();
-                        });
+                        osmdInstances.forEach(osmd => { osmd.zoom = zoomVal; osmd.render(); });
                         statusText.innerHTML = `Zoom ajustado para ${zoomVal}x.`;
                     }, 50);
                 }
             };
             
             btnPlay.onclick = togglePlay;
-            btnStop.onclick = stopAudio;
             btnClear.onclick = clearAll;
             mxlUpload.onchange = handleFileUpload;
             document.getElementById('btn-open-export').onclick = () => exportModal.showModal();
             document.getElementById('btn-close-modal').onclick = () => exportModal.close();
+            
+            mp3Upload.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (mp3Player) {
+                    mp3Player.pause();
+                    mp3Player.removeAttribute('src');
+                    mp3Player.load();
+                }
+                mp3Player = new Audio();
+                mp3Player.src = URL.createObjectURL(file);
+                statusText.innerHTML = "MP3 carregado. Será sincronizado no play.";
+                isRoutingSetup = false;
+                mp3SourceNode = null;
+                mp3GainNode = null;
+                mp3Player.volume = mp3VolumeSlider.value / 100;
+            };
+
+            baseVolumeSlider.oninput = () => { if (baseGainNode) baseGainNode.gain.value = baseVolumeSlider.value / 100; };
+            mp3VolumeSlider.oninput = () => {
+                const vol = mp3VolumeSlider.value / 100;
+                if (mp3GainNode) mp3GainNode.gain.value = vol; else mp3Player.volume = vol;
+            };
         }
 
         async function handleFileUpload(e) {
-            const file = e.target.files[0]; if (!file) return;
+            const file = e.target.files[0];
+            if (!file) return;
             statusText.innerHTML = '<span class="loading-spinner"></span> Lendo...';
             try {
                 let xmlStr = null;
                 if (file.name.endsWith('.mxl')) {
-                    const zip = new JSZip(); const loadedZip = await zip.loadAsync(file);
+                    const zip = new JSZip();
+                    const loadedZip = await zip.loadAsync(file);
                     const cXml = await loadedZip.file("META-INF/container.xml").async("string");
                     const rootfile = new DOMParser().parseFromString(cXml, "application/xml").querySelector("rootfile").getAttribute("full-path");
                     xmlStr = await loadedZip.file(rootfile).async("string");
@@ -483,81 +563,81 @@
         }
 
         function toggleSplitMeasure(idx) {
-            if (sequence[idx].length === 1) {
-                sequence[idx] = [sequence[idx][0], null]; 
-            } else {
-                sequence[idx] = [sequence[idx][0]]; 
-            }
+            if (sequence[idx].length === 1) sequence[idx] = [sequence[idx][0], null];
+            else sequence[idx] = [sequence[idx][0]];
             needsConsolidation = true;
             if (editMeasureIdx === idx) { editMeasureIdx = null; editSubIdx = null; }
             buildScoreGrid();
         }
 
         async function buildScoreGrid() {
-            sequenceWrapper.innerHTML = ''; emptyState.style.display = 'none'; osmdInstances = [];
+            sequenceWrapper.innerHTML = '';
+            emptyState.style.display = 'none'; osmdInstances = [];
             if (totalMeasuresLoaded === 0) return;
             const currentZoom = parseFloat(zoomInput.value) || 1.2;
-
             for (let i = 1; i <= totalMeasuresLoaded; i += 4) {
-                const start = i; const end = Math.min(i + 3, totalMeasuresLoaded);
+                const start = i;
+                const end = Math.min(i + 3, totalMeasuresLoaded);
                 const row = document.createElement('div'); row.className = "flex flex-col sm:flex-row gap-3 items-center w-full";
-                
                 const pBtn = document.createElement('button');
                 pBtn.className = "w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-emerald-500 hover:text-white text-violet-600 flex items-center justify-center transition-all shadow-sm text-xs shrink-0";
-                pBtn.innerHTML = '<i class="fas fa-play"></i>'; pBtn.onclick = () => playFromMeasure(start - 1);
+                pBtn.innerHTML = '<i class="fas fa-play"></i>';
+                let localPlaying = false;
+                pBtn.onclick = async () => {
+                    if (!localPlaying) {
+                        await playFromMeasure(start - 1);
+                        pBtn.innerHTML = '<i class="fas fa-stop"></i>';
+                        localPlaying = true;
+                        const checkStop = setInterval(() => {
+                            if (!isPlaying) { pBtn.innerHTML = '<i class="fas fa-play"></i>'; localPlaying = false; clearInterval(checkStop); }
+                        }, 200);
+                    } else { stopAudio(); pBtn.innerHTML = '<i class="fas fa-play"></i>'; localPlaying = false; }
+                };
                 row.appendChild(pBtn);
 
                 const chunk = document.createElement('div'); chunk.className = "bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col flex-grow min-w-0";
                 const osmdDiv = document.createElement('div'); osmdDiv.className = "osmd-container bg-white rounded hide-scrollbar w-full";
                 chunk.appendChild(osmdDiv);
 
-                const grid = document.createElement('div'); grid.className = "grid grid-cols-4 gap-2 mt-2 ml-[40px]";
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-4 gap-2 mt-2 ml-[40px]";
                 
                 for (let j = start; j <= end; j++) {
                     const idx = j - 1;
-                    
                     const measureWrap = document.createElement('div');
                     measureWrap.className = "flex w-full h-[60px] gap-1";
                     measureWrap.ondblclick = () => toggleSplitMeasure(idx);
-
                     sequence[idx].forEach((chord, subIdx) => {
                         const isSplit = sequence[idx].length === 2;
                         const slot = document.createElement('div');
                         const baseStyles = "chord-block relative border-2 rounded-lg flex-1 flex flex-col items-center justify-center font-bold cursor-pointer transition-colors";
-                        
-                        if (chord) {
-                            slot.className = `${baseStyles} bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:border-violet-500 active-filled`;
-                        } else {
-                            slot.className = `${baseStyles} bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-violet-500`;
-                        }
-                        
+                        if (chord) slot.className = `${baseStyles} bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:border-violet-500 active-filled`;
+                        else slot.className = `${baseStyles} bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-violet-500`;
                         slot.id = `slot-${idx}-${subIdx}`;
                         slot.onclick = (e) => { e.stopPropagation(); selectSlot(idx, subIdx); };
-                        
-                        const content = document.createElement('span'); 
+                        const content = document.createElement('span');
                         content.id = `content-${idx}-${subIdx}`;
                         content.innerText = chord ? chord.name : '+';
                         content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-500 opacity-30 font-black text-lg leading-tight group-hover:opacity-100";
-                        
-                        const lbl = document.createElement('div'); 
+                        const lbl = document.createElement('div');
                         lbl.className = "text-[9px] text-slate-400 font-bold uppercase mt-0.5 leading-none"; 
                         lbl.innerText = isSplit ? `C. ${j}.${subIdx + 1}` : `C. ${j}`; 
-
-                        slot.appendChild(content); 
+                        slot.appendChild(content);
                         slot.appendChild(lbl);
                         measureWrap.appendChild(slot);
                     });
-
                     grid.appendChild(measureWrap);
                 }
-                chunk.appendChild(grid); row.appendChild(chunk); sequenceWrapper.appendChild(row);
+                chunk.appendChild(grid);
+                row.appendChild(chunk); sequenceWrapper.appendChild(row);
 
                 try {
                     const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(osmdDiv, { drawFromMeasureNumber: start, drawUpToMeasureNumber: end, drawTitle: false, drawComposer: false, drawPartNames: false, autoResize: true, backend: "svg" });
                     osmd.zoom = currentZoom; osmdInstances.push(osmd); await osmd.load(currentMusicXmlStr); osmd.render();
                 } catch (e) { }
             }
-            statusText.innerHTML = "Pronto! Selecione um compasso."; btnPlay.disabled = false;
+            statusText.innerHTML = "Pronto! Selecione um compasso.";
+            btnPlay.disabled = false;
         }
 
         function selectSlot(mIdx, sIdx) {
@@ -568,7 +648,7 @@
                 editMeasureIdx = mIdx; editSubIdx = sIdx; 
                 document.getElementById(`slot-${mIdx}-${sIdx}`)?.classList.add('ring-2', 'ring-violet-500', 'scale-105'); 
                 const beatInfo = sequence[mIdx].length === 2 ? (sIdx === 0 ? " (Tempos 1-2)" : " (Tempos 3-4)") : "";
-                statusText.innerHTML = `Compasso ${mIdx + 1}${beatInfo} selecionado.`; 
+                statusText.innerHTML = `Compasso ${mIdx + 1}${beatInfo} selecionado.`;
             }
         }
 
@@ -578,7 +658,14 @@
             
             sequence[editMeasureIdx][editSubIdx] = { ...chordData, id: Date.now() };
             buildScoreGrid();
-            selectSlot(editMeasureIdx, editSubIdx);
+            
+            let nextMeasure = editMeasureIdx; let nextSub = editSubIdx + 1;
+            if (sequence[nextMeasure].length === 2 && nextSub === 1) selectSlot(nextMeasure, nextSub);
+            else {
+                nextMeasure++;
+                if (nextMeasure < totalMeasuresLoaded) selectSlot(nextMeasure, 0);
+                else { editMeasureIdx = null; editSubIdx = null; }
+            }
         }
 
         function updateRootButtonsUI() {
@@ -590,8 +677,8 @@
 
         function clearAll() {
             sequence = []; totalMeasuresLoaded = 0; currentMusicXmlStr = null; needsConsolidation = true;
-            editMeasureIdx = null; editSubIdx = null;
-            mainPlayer.src = ""; sequenceWrapper.innerHTML = ''; sequenceWrapper.appendChild(emptyState); emptyState.style.display = 'block'; stopAudio();
+            editMeasureIdx = null; editSubIdx = null; mainPlayer.src = "";
+            sequenceWrapper.innerHTML = ''; sequenceWrapper.appendChild(emptyState); emptyState.style.display = 'block'; stopAudio();
         }
 
         // --- ÁUDIO ---
@@ -602,7 +689,7 @@
         }
 
         async function fetchAudioBuffer(chord) {
-            const ctx = getAudioContext(); 
+            const ctx = getAudioContext();
             if (audioCache.has(chord.name)) return audioCache.get(chord.name);
             const res = await fetch(`${CONFIG.REPO_BASE_URL}${chord.file}${CONFIG.FILE_EXTENSION}`);
             const buffer = await ctx.decodeAudioData(await res.arrayBuffer());
@@ -621,52 +708,71 @@
                 for (let i = 0; i < sequence.length; i++) {
                     const measure = sequence[i];
                     const durationPerSlot = (4 / measure.length) * (60 / CONFIG.NATIVE_BPM);
-
                     for (let j = 0; j < measure.length; j++) {
                         const chord = measure[j];
                         if (chord !== null) {
-                            const source = offlineCtx.createBufferSource(); 
+                            const source = offlineCtx.createBufferSource();
                             source.buffer = await fetchAudioBuffer(chord);
                             const gain = offlineCtx.createGain(); 
-                            
                             gain.gain.setValueAtTime(1, currentStartTime); 
                             gain.gain.setValueAtTime(1, currentStartTime + durationPerSlot - 0.02);
                             gain.gain.linearRampToValueAtTime(0, currentStartTime + durationPerSlot);
-                            
                             source.connect(gain); gain.connect(offlineCtx.destination); 
                             source.start(currentStartTime, 0, durationPerSlot);
-                            
                             chord.startTime = currentStartTime; chord.endTime = currentStartTime + durationPerSlot;
                         }
-                        currentStartTime += durationPerSlot; 
+                        currentStartTime += durationPerSlot;
                     }
                 }
                 consolidatedBuffer = await offlineCtx.startRendering();
                 currentWavBlob = audioBufferToWav(consolidatedBuffer);
-                objectUrl = URL.createObjectURL(currentWavBlob); mainPlayer.src = objectUrl;
+                if (objectUrl) URL.revokeObjectURL(objectUrl);
+                objectUrl = URL.createObjectURL(currentWavBlob);
+                mainPlayer.src = objectUrl;
+                statusText.innerHTML = "Pronto.";
                 return true;
             } catch (e) { return false; }
         }
 
         function setupLiveEffects() {
-            if (isRoutingSetup) return; const ctx = getAudioContext();
+            if (isRoutingSetup) return;
+            const ctx = getAudioContext();
+
+            if (mediaElementSource) mediaElementSource.disconnect();
             mediaElementSource = ctx.createMediaElementSource(mainPlayer);
-            dryGainNode = ctx.createGain(); wetGainNode = ctx.createGain(); convolverNode = ctx.createConvolver();
+            baseGainNode = ctx.createGain();
+            dryGainNode = ctx.createGain();
+            wetGainNode = ctx.createGain();
+            convolverNode = ctx.createConvolver();
             
-            const len = ctx.sampleRate * 2.0; const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
-            for (let c = 0; c < 2; c++) { const d = impulse.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-5 * (i / len)); }
+            const len = ctx.sampleRate * 1.8;
+            const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
+            for (let c = 0; c < 2; c++) {
+                const d = impulse.getChannelData(c);
+                for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-5 * (i / len));
+            }
             convolverNode.buffer = impulse;
-            
-            mediaElementSource.connect(dryGainNode); mediaElementSource.connect(convolverNode); convolverNode.connect(wetGainNode);
+            mediaElementSource.connect(baseGainNode); baseGainNode.connect(dryGainNode); baseGainNode.connect(convolverNode); convolverNode.connect(wetGainNode);
             dryGainNode.connect(ctx.destination); wetGainNode.connect(ctx.destination);
-            isRoutingSetup = true; updateReverbMix(); 
+
+            if (mp3Player.src) {
+                if (mp3SourceNode) mp3SourceNode.disconnect();
+                mp3SourceNode = ctx.createMediaElementSource(mp3Player);
+                mp3GainNode = ctx.createGain();
+                mp3SourceNode.connect(mp3GainNode); mp3GainNode.connect(ctx.destination);
+                mp3GainNode.gain.value = mp3VolumeSlider.value / 100;
+            }
+
+            isRoutingSetup = true;
+            baseGainNode.gain.value = baseVolumeSlider.value / 100;
+            updateReverbMix();
         }
 
         function updateReverbMix() {
             if (!dryGainNode) return;
             const val = reverbSlider.value / 100;
-            wetGainNode.gain.value = val * 0.15;
-            dryGainNode.gain.value = 1.0 - (val * 0.1);
+            wetGainNode.gain.value = val * 0.7;
+            dryGainNode.gain.value = 1.0 - (val * 0.4);
         }
 
         async function playFromMeasure(index) {
@@ -675,44 +781,72 @@
             
             if (needsConsolidation) {
                 btnPlay.innerHTML = '<span class="loading-spinner"></span>'; btnPlay.disabled = true;
-                if (!(await handleConsolidate())) {
-                    btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; btnPlay.disabled = false;
-                    return;
-                }
+                if (!(await handleConsolidate())) { btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; btnPlay.disabled = false; return; }
                 needsConsolidation = false;
             }
 
             const targetTime = index * 4 * (60 / CONFIG.NATIVE_BPM);
-            
-            const doPlay = () => {
-                mainPlayer.currentTime = targetTime;
-                if (!isPlaying) playAudio();
-            };
-
-            if (mainPlayer.readyState >= 1) { doPlay(); } 
-            else { mainPlayer.onloadedmetadata = () => { doPlay(); mainPlayer.onloadedmetadata = null; }; }
+            mainPlayer.currentTime = targetTime;
+            playAudio(); 
         }
 
         async function togglePlay() {
-            if (isPlaying) stopAudio(); 
-            else { 
-                if (needsConsolidation) { if (!(await handleConsolidate())) return; needsConsolidation = false; }
-                setupLiveEffects();
-                mainPlayer.playbackRate = bpmInput.value / CONFIG.NATIVE_BPM; mainPlayer.play();
-                isPlaying = true; btnPlay.innerHTML = '<i class="fas fa-pause"></i> Pausar'; btnPlay.className = "bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm"; btnStop.disabled = false;
-                syncVisuals();
+            if (isPlaying) return stopAudio();
+
+            const mp3PlayPromise = mp3Player.src ? mp3Player.play() : Promise.resolve();
+
+            if (needsConsolidation) {
+                btnPlay.innerHTML = '<span class="loading-spinner"></span>'; btnPlay.disabled = true;
+                if (!(await handleConsolidate())) { btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; btnPlay.disabled = false; return; }
+                needsConsolidation = false;
             }
+
+            setupLiveEffects();
+            const rate = bpmInput.value / CONFIG.NATIVE_BPM; mainPlayer.playbackRate = rate;
+
+            if (mainPlayer.readyState < 2) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const onCanPlay = () => { mainPlayer.removeEventListener('canplay', onCanPlay); mainPlayer.removeEventListener('error', onError); resolve(); };
+                        const onError = () => { mainPlayer.removeEventListener('canplay', onCanPlay); reject(new Error('mainPlayer error')); };
+                        mainPlayer.addEventListener('canplay', onCanPlay); mainPlayer.addEventListener('error', onError);
+                    });
+                } catch (err) { statusText.innerHTML = "Erro ao carregar áudio."; btnPlay.disabled = false; btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; return; }
+            }
+
+            mainPlayer.play().catch(e => console.warn("mainPlayer play error:", e));
+            mp3PlayPromise.then(() => {
+                if (mp3Player.src && !mp3Player.paused) { mp3Player.currentTime = mainPlayer.currentTime; mp3Player.playbackRate = rate; }
+            }).catch(e => { statusText.innerHTML = "MP3 não pode tocar (requer interação)."; });
+            isPlaying = true;
+            btnPlay.innerHTML = '<i class="fas fa-stop"></i> <span>Parar</span>';
+            btnPlay.className = "bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
+            syncVisuals();
         }
 
         function playAudio() {
-            if (!objectUrl) return; setupLiveEffects();
-            mainPlayer.playbackRate = bpmInput.value / CONFIG.NATIVE_BPM; mainPlayer.preservesPitch = true; mainPlayer.onended = () => { if(isPlaying) stopAudio(); }; mainPlayer.play();
-            isPlaying = true; btnPlay.disabled = false; btnPlay.innerHTML = '<i class="fas fa-pause"></i> Pausar'; btnPlay.className = "bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm"; btnStop.disabled = false; requestAnimationFrame(syncVisuals);
+            if (!objectUrl) return;
+            setupLiveEffects();
+            const rate = bpmInput.value / CONFIG.NATIVE_BPM; mainPlayer.playbackRate = rate; mainPlayer.preservesPitch = true;
+            mainPlayer.onended = () => { if(isPlaying) stopAudio(); };
+            mainPlayer.play();
+
+            if (mp3Player.src && mp3GainNode) {
+                mp3Player.currentTime = mainPlayer.currentTime; mp3Player.playbackRate = rate;
+                mp3Player.play().catch(e => console.warn("MP3 play error:", e));
+            }
+            isPlaying = true;
+            btnPlay.innerHTML = '<i class="fas fa-stop"></i> Parar';
+            btnPlay.className = "bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
+            requestAnimationFrame(syncVisuals);
         }
 
         function stopAudio() {
-            mainPlayer.pause(); mainPlayer.currentTime = 0; isPlaying = false;
-            btnPlay.innerHTML = '<i class="fas fa-play"></i> Tocar'; btnPlay.className = "bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm"; 
+            mainPlayer.pause(); mainPlayer.currentTime = 0;
+            if (mp3Player) { mp3Player.pause(); mp3Player.currentTime = 0; }
+            isPlaying = false;
+            btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>';
+            btnPlay.className = "bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
             document.querySelectorAll('.chord-block').forEach(b => b.classList.remove('active'));
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
         }
@@ -720,18 +854,14 @@
         function syncVisuals() {
             if (!isPlaying) return;
             const t = mainPlayer.currentTime;
-            
             let activeM = -1; let activeS = -1;
             for(let i=0; i<sequence.length; i++){
                 for(let j=0; j<sequence[i].length; j++){
                     const c = sequence[i][j];
-                    if(c && t >= c.startTime && t < c.endTime) {
-                        activeM = i; activeS = j; break;
-                    }
+                    if(c && t >= c.startTime && t < c.endTime) { activeM = i; activeS = j; break; }
                 }
                 if(activeM !== -1) break;
             }
-
             document.querySelectorAll('.chord-block').forEach(b => b.classList.remove('active')); 
             if (activeM >= 0) document.getElementById(`slot-${activeM}-${activeS}`)?.classList.add('active');
             animationFrameId = requestAnimationFrame(syncVisuals);
@@ -739,112 +869,204 @@
 
         function audioBufferToWav(buffer) {
             const numChannels = buffer.numberOfChannels; const sampleRate = buffer.sampleRate;
-            const blockAlign = numChannels * 2; const byteRate = sampleRate * blockAlign; const dataSize = buffer.length * blockAlign;
-            const arrayBuffer = new ArrayBuffer(44 + dataSize); const view = new DataView(arrayBuffer); let offset = 0;
+            const blockAlign = numChannels * 2; const byteRate = sampleRate * blockAlign;
+            const dataSize = buffer.length * blockAlign;
+            const arrayBuffer = new ArrayBuffer(44 + dataSize); const view = new DataView(arrayBuffer);
+            let offset = 0;
             const writeString = (str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); offset += str.length; };
             writeString('RIFF'); view.setUint32(offset, 36 + dataSize, true); offset += 4; writeString('WAVE'); writeString('fmt '); view.setUint32(offset, 16, true); offset += 4;
             view.setUint16(offset, 1, true); offset += 2; view.setUint16(offset, numChannels, true); offset += 2; view.setUint32(offset, sampleRate, true); offset += 4;
             view.setUint32(offset, byteRate, true); offset += 4; view.setUint16(offset, blockAlign, true); offset += 2; view.setUint16(offset, 16, true); offset += 2;
             writeString('data'); view.setUint32(offset, dataSize, true); offset += 4;
-            const channelData = []; for (let i = 0; i < numChannels; i++) channelData.push(buffer.getChannelData(i));
+            const channelData = [];
+            for (let i = 0; i < numChannels; i++) channelData.push(buffer.getChannelData(i));
             for (let i = 0; i < buffer.length; i++) {
                 for (let channel = 0; channel < numChannels; channel++) {
-                    let sample = Math.max(-1, Math.min(1, channelData[channel][i])); view.setInt16(offset, sample < 0 ? sample * 32768 : sample * 32767, true); offset += 2;
+                    let sample = Math.max(-1, Math.min(1, channelData[channel][i]));
+                    view.setInt16(offset, sample < 0 ? sample * 32768 : sample * 32767, true); offset += 2;
                 }
             }
             return new Blob([arrayBuffer], { type: 'audio/wav' });
         }
 
+        // ======= TABS LOGIC DE EXPORTAÇÃO ========
+
         function exportProjectFile() {
-            const data = { projectName: projNameInput.value, authorName: authorNameInput.value, bpm: bpmInput.value, sequence: sequence };
-            downloadFile(JSON.stringify(data, null, 2), sanitizeFilename(projNameInput.value) + '.txt', 'application/json');
+            const data = { projectName: projNameInputModal.value, authorName: authorNameInputModal.value, bpm: bpmInput.value, sequence: sequence };
+            downloadFile(JSON.stringify(data, null, 2), sanitizeFilename(projNameInputModal.value) + '.txt', 'application/json');
         }
 
         function importProjectFile(e) {
-            const file = e.target.files[0]; if(!file) return;
+            const file = e.target.files[0];
+            if(!file) return;
             const reader = new FileReader();
             reader.onload = (evt) => {
                 const data = JSON.parse(evt.target.result);
-                projNameInput.value = data.projectName || ''; authorNameInput.value = data.authorName || '';
-                bpmInput.value = data.bpm || 130; 
-                if(data.sequence) {
-                    sequence = data.sequence.map(item => Array.isArray(item) ? item : [item]);
-                } else { sequence = []; }
-                totalMeasuresLoaded = sequence.length; needsConsolidation = true; stopAudio(); buildScoreGrid();
+                projNameInputModal.value = data.projectName || ''; authorNameInputModal.value = data.authorName || '';
+                bpmInput.value = data.bpm || 130;
+                if(data.sequence) sequence = data.sequence.map(item => Array.isArray(item) ? item : [item]);
+                else sequence = [];
+                totalMeasuresLoaded = sequence.length;
+                needsConsolidation = true; stopAudio(); buildScoreGrid();
             };
             reader.readAsText(file);
+        }
+
+        async function encodeWavToMp3(wavBlob) {
+            const arrayBuffer = await wavBlob.arrayBuffer();
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+            
+            const channels = audioBuffer.numberOfChannels;
+            const sampleRate = audioBuffer.sampleRate;
+            const encoder = new lamejs.Mp3Encoder(channels, sampleRate, 128);
+            
+            const mp3Data = [];
+            const left = audioBuffer.getChannelData(0);
+            const right = channels > 1 ? audioBuffer.getChannelData(1) : left;
+            const sampleBlockSize = 1152;
+            
+            const floatToInt16 = (f32) => {
+                const arr = new Int16Array(f32.length);
+                for(let i=0; i<f32.length; i++) {
+                    let s = Math.max(-1, Math.min(1, f32[i]));
+                    arr[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+                }
+                return arr;
+            };
+            
+            const left16 = floatToInt16(left);
+            const right16 = floatToInt16(right);
+            
+            for (let i = 0; i < left16.length; i += sampleBlockSize) {
+                const leftChunk = left16.subarray(i, i + sampleBlockSize);
+                const rightChunk = right16.subarray(i, i + sampleBlockSize);
+                let mp3buf = (channels === 2) ? encoder.encodeBuffer(leftChunk, rightChunk) : encoder.encodeBuffer(leftChunk);
+                if (mp3buf.length > 0) mp3Data.push(new Int8Array(mp3buf));
+            }
+            const mp3buf = encoder.flush();
+            if (mp3buf.length > 0) mp3Data.push(new Int8Array(mp3buf));
+            
+            return new Blob(mp3Data, { type: 'audio/mp3' });
         }
 
         async function generateMoodleHTML(format) {
             if(!currentWavBlob) return alert("Toque a música primeiro para gerar o áudio.");
             const out = document.getElementById('moodle-out');
-            out.value = "Gerando HTML...";
-            let audioBase64 = format === 'wav' ? await blobToBase64(currentWavBlob) : await blobToBase64(await convertWavToMp3() || currentWavBlob);
+            out.value = "Processando áudio e gerando HTML...";
             
-            let html = `<h2>${projNameInput.value || 'Projeto'}</h2><p>Por: ${authorNameInput.value || 'Autor'}</p><audio controls src="${audioBase64}"></audio><hr><table border="1" width="100%" cellpadding="8" cellspacing="0" style="text-align: center;">`;
+            let targetBlob = currentWavBlob;
+            let mime = "audio/wav";
+            if (format === 'mp3') {
+                targetBlob = await encodeWavToMp3(currentWavBlob);
+                mime = "audio/mp3";
+            }
+            
+            const audioBase64 = await blobToBase64(targetBlob);
+            
+            let html = `<div style="font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">\n`;
+            html += `  <h2 style="color: #4c1d95;">${projNameInputModal.value || 'Projeto'}</h2>\n`;
+            html += `  <p style="color: #64748b;">Por: ${authorNameInputModal.value || 'Autor'}</p>\n`;
+            html += `  <audio controls src="${audioBase64}" style="width: 100%; margin-bottom: 20px;"></audio>\n`;
+            html += `  <table border="1" width="100%" cellpadding="10" cellspacing="0" style="text-align: center; border-collapse: collapse; border-color: #cbd5e1;">\n`;
+            
             for(let i=0; i<sequence.length; i+=4) {
-                html += `<tr>`;
+                html += `    <tr style="background-color: #f8fafc;">\n`;
                 for(let j=0; j<4; j++) {
                     if (sequence[i+j]) {
                         const chordText = sequence[i+j].map(c => c ? c.name : '-').join(' / ');
-                        html += `<td>C. ${i+j+1}<br><strong>${chordText}</strong></td>`;
+                        html += `      <td><span style="font-size: 0.8em; color: #94a3b8;">C. ${i+j+1}</span><br><strong style="font-size: 1.2em; color: #0f172a;">${chordText}</strong></td>\n`;
+                    } else {
+                        html += `      <td></td>\n`;
                     }
                 }
-                html += `</tr>`;
+                html += `    </tr>\n`;
             }
-            html += `</table>`;
+            html += `  </table>\n</div>`;
             out.value = html;
         }
 
         function blobToBase64(blob) { return new Promise(r => { const rd = new FileReader(); rd.onloadend = () => r(rd.result); rd.readAsDataURL(blob); }); }
-        function copyToClipboard(id) { const el = document.getElementById(id); el.select(); document.execCommand('copy'); alert("Copiado!"); }
-        function exportAudioWAV() { if(currentWavBlob) downloadFile(currentWavBlob, sanitizeFilename(projNameInput.value) + '.wav', 'audio/wav'); }
+        
+        function copyToClipboard(id) { 
+            const el = document.getElementById(id); 
+            el.select(); document.execCommand('copy'); 
+        }
+
+        function exportAudioWAV() { 
+            if(currentWavBlob) downloadFile(currentWavBlob, sanitizeFilename(projNameInputModal.value) + '.wav', 'audio/wav');
+            else alert("Toque a música para renderizar o áudio antes de baixar.");
+        }
 
         function exportCanvasPNG() {
             if(sequence.length === 0) return alert("A sequência está vazia.");
+            const title = projNameInputModal.value || 'Projeto Sem Título';
+            const author = authorNameInputModal.value || 'Autor Desconhecido';
+            
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-            canvas.width = 800; const cols = 4;
+            const cols = 8;
             const rows = Math.ceil(sequence.length / cols);
-            canvas.height = 120 + (rows * 80);
-
+            canvas.width = 1200; 
+            const cellWidth = (canvas.width - 60) / cols; 
+            const cellHeight = 80;
+            canvas.height = 140 + (rows * (cellHeight + 10));
+            
             ctx.fillStyle = '#F8F8FF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#1E293B'; ctx.font = 'bold 28px sans-serif';
-            ctx.fillText(projNameInput.value || 'Projeto Sem Título', 30, 50);
-            ctx.font = '16px sans-serif'; ctx.fillText(authorNameInput.value || 'Autor Desconhecido', 30, 80);
-
-            const xOffset = 30; const yOffset = 110;
-            const cellWidth = (canvas.width - 60) / cols; const cellHeight = 70;
-
+            ctx.fillStyle = '#1E293B'; ctx.font = 'bold 36px sans-serif';
+            ctx.fillText(title, 30, 60);
+            ctx.font = '20px sans-serif';
+            ctx.fillText(author, 30, 90);
+            
+            const xOffset = 30; const yOffset = 130;
+            
             for(let i=0; i<sequence.length; i++) {
-                const col = i % cols; const row = Math.floor(i / cols);
-                const x = xOffset + col * cellWidth; const y = yOffset + row * cellHeight;
-
-                ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cellWidth, cellHeight);
-                const chordText = sequence[i].map(c => c ? c.name : '-').join(' | ');
-                ctx.fillStyle = '#0F172A'; ctx.font = 'bold 20px sans-serif';
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+                const x = xOffset + col * cellWidth;
+                const y = yOffset + row * (cellHeight + 10);
+                
+                ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cellWidth - 5, cellHeight);
+                
+                const measure = sequence[i];
+                let chordText = ''; let beatsText = '';
+                
+                if(measure.length === 1) {
+                    chordText = measure[0] ? measure[0].name : '-';
+                    beatsText = '(4 tempos)';
+                } else if(measure.length === 2) {
+                    chordText = (measure[0] ? measure[0].name : '-') + ' / ' + (measure[1] ? measure[1].name : '-');
+                    beatsText = '(2 tempos cada)';
+                }
+                
+                ctx.fillStyle = '#0F172A'; ctx.font = 'bold 18px sans-serif';
                 ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(chordText, x + cellWidth/2, y + cellHeight/2);
-                ctx.font = '12px sans-serif'; ctx.fillStyle = '#64748B'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+                ctx.fillText(chordText, x + (cellWidth-5)/2, y + cellHeight/2 - 10);
+                
+                ctx.font = '12px sans-serif'; ctx.fillStyle = '#64748B';
+                ctx.fillText(beatsText, x + (cellWidth-5)/2, y + cellHeight/2 + 10);
+                
+                ctx.textAlign = 'left'; ctx.textBaseline = 'top';
                 ctx.fillText(`C. ${i+1}`, x + 5, y + 5);
             }
-            const a = document.createElement('a'); a.download = sanitizeFilename(projNameInput.value) + '_grade.png';
+            
+            const a = document.createElement('a');
+            a.download = sanitizeFilename(title) + '_grade.png';
             a.href = canvas.toDataURL('image/png'); a.click();
         }
 
         function generateMarkdown() {
-            let md = `| Compasso | Acorde |\n|---|---|\n`;
+            let md = `### ${projNameInputModal.value || 'Projeto'} - ${authorNameInputModal.value || 'Autor'}\n\n`;
+            md += `| Compasso | Acorde |\n|---|---|\n`;
             sequence.forEach((measure, i) => { md += `| ${i+1} | ${measure.map(c => c ? c.name : '-').join(' / ')} |\n`; });
             document.getElementById('md-out').value = md;
         }
 
         function exportMusicXML() {
             if(sequence.length === 0) return alert("Sequência vazia.");
-            let xml = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">\n<score-partwise version="3.1">\n  <work><work-title>${projNameInput.value || 'Projeto'}</work-title></work>\n  <part-list><score-part id="P1"><part-name>Acordes</part-name></score-part></part-list>\n  <part id="P1">\n`;
-
+            let xml = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">\n<score-partwise version="3.1">\n  <work><work-title>${projNameInputModal.value || 'Projeto'}</work-title></work>\n  <identification><creator type="composer">${authorNameInputModal.value || 'Autor'}</creator></identification>\n  <part-list><score-part id="P1"><part-name>Acordes</part-name></score-part></part-list>\n  <part id="P1">\n`;
             sequence.forEach((measure, i) => {
                 xml += `    <measure number="${i+1}">\n`;
                 if (i === 0) xml += `      <attributes><divisions>1</divisions><time><beats>4</beats><beat-type>4</beat-type></time></attributes>\n`;
-                
                 if (measure.length === 1) {
                     if (measure[0]) xml += buildHarmonyXML(measure[0]);
                     xml += `      <note><rest/><duration>4</duration><type>whole</type></note>\n`;
@@ -857,7 +1079,7 @@
                 xml += `    </measure>\n`;
             });
             xml += `  </part>\n</score-partwise>`;
-            downloadFile(xml, sanitizeFilename(projNameInput.value) + '.musicxml', 'application/vnd.recordare.musicxml+xml');
+            downloadFile(xml, sanitizeFilename(projNameInputModal.value) + '.musicxml', 'application/vnd.recordare.musicxml+xml');
         }
 
         function buildHarmonyXML(chordData) {
@@ -872,7 +1094,7 @@
             else if(quality.includes('m7')) kind = 'minor-seventh';
             else if(quality.includes('maj7')) kind = 'major-seventh';
             else if(quality.includes('9') || quality.includes('7')) kind = 'dominant';
-
+            
             let tag = `      <harmony>\n        <root><root-step>${rootStep}</root-step>`;
             if(alter !== 0) tag += `<root-alter>${alter}</root-alter>`;
             tag += `</root>\n        <kind>${kind}</kind>\n      </harmony>\n`;
