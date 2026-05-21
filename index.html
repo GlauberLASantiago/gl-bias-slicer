@@ -118,7 +118,7 @@
 
         <div class="flex flex-col lg:flex-row gap-3 items-start">
             <div class="w-full lg:w-[280px] xl:w-[300px] flex-shrink-0 flex flex-col gap-3">
-                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
                     <div class="mb-3">
                         <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-plus-circle mr-2 text-violet-600"></i>Acordes</h2>
                     </div>
@@ -135,7 +135,7 @@
                 </div>
                 
                 <!-- Guia de Uso / Tutorial -->
-                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
                     <h3 class="text-sm font-bold flex items-center text-slate-900 dark:text-white mb-2"><i class="fas fa-info-circle mr-2 text-violet-600"></i>Guia de Uso</h3>
                     <div class="flex flex-col gap-3">
                         <div>
@@ -180,14 +180,14 @@
             </div>
 
             <div class="flex-1 min-w-0 flex flex-col gap-3 w-full">
-                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px]">
+                <div class="bg-slate-100 dark:bg-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px]">
                     <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-3 border-b pb-3">
                         <div class="flex items-center gap-2">
                             <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-music mr-2 text-violet-600"></i>Sequência</h2>
                             <span class="text-[10px] text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
                         </div>
                         <div class="flex items-center gap-2 shrink-0 flex-wrap">
-                            <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
+                            <div class="flex items-center gap-1 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
                                 <label for="zoom-input" class="text-xs text-violet-600 cursor-pointer"><i class="fas fa-search-plus"></i></label>
                                 <input type="number" id="zoom-input" min="0.5" max="5.0" step="0.1" value="1.2" class="w-12 bg-transparent text-slate-900 dark:text-white font-bold text-center outline-none text-sm">
                             </div>
@@ -199,10 +199,10 @@
                                 <i class="fas fa-music"></i> + MP3
                             </label>
                             <input type="file" id="mp3-upload" accept="audio/mp3" class="hidden">
-                            <button id="btn-copy" disabled class="bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
+                            <button id="btn-copy" disabled class="bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
                                 <i class="fas fa-copy"></i> Copiar
                             </button>
-                            <button id="btn-paste" disabled class="bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
+                            <button id="btn-paste" disabled class="bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
                                 <i class="fas fa-paste"></i> Colar
                             </button>
                             <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200 dark:border-red-900/50 transition-colors">
@@ -210,32 +210,32 @@
                             </button>
                         </div>
                     </div>
-                    <div id="sequence-wrapper" class="flex-grow bg-slate-100 dark:bg-slate-900/50 rounded-xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 overflow-y-auto mt-4">
+                    <div id="sequence-wrapper" class="flex-grow bg-slate-200/60 dark:bg-slate-900/50 rounded-xl p-3 sm:p-4 border border-slate-300 dark:border-slate-700 flex flex-col gap-3 overflow-y-auto mt-4">
                         <div class="text-center text-slate-700 dark:text-slate-300 mt-8 text-base font-medium" id="empty-state">Sua música está vazia. Importe um MXL ou use os acordes.</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-slate-50/95 dark:bg-slate-800/95 p-4 rounded-2xl flex flex-col lg:flex-row items-center justify-between gap-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="bg-slate-100/95 dark:bg-slate-800/95 p-4 rounded-2xl flex flex-col lg:flex-row items-center justify-between gap-4 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
                 <div id="status-text" class="text-sm font-semibold text-violet-700 dark:text-violet-300 min-w-[150px] text-center sm:text-left">Pronto para montar.</div>
-                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
+                <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
                     <label for="reverb-slider" class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-water text-violet-600 mr-1"></i> Reverb</label>
                     <input type="range" id="reverb-slider" min="0" max="100" value="50" class="w-16">
                 </div>
-                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
+                <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
                     <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">Base</label>
                     <input type="range" id="base-volume" min="0" max="100" value="100" class="w-16">
                 </div>
-                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
+                <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
                     <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">MP3</label>
                     <input type="range" id="mp3-volume" min="0" max="100" value="100" class="w-16">
                 </div>
             </div>
 
             <div class="flex gap-3 w-full lg:w-auto justify-center flex-wrap sm:flex-nowrap">
-                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-600 focus-within:border-violet-500">
+                <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-600 focus-within:border-violet-500">
                     <label for="bpm-input" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
                     <input type="number" id="bpm-input" value="130" min="60" max="240" class="w-12 bg-transparent text-center focus:outline-none font-bold text-slate-900 dark:text-white text-base">
                 </div>
@@ -247,14 +247,14 @@
         </div>
     </div>
 
-    <dialog id="export-modal" class="bg-slate-50 dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-[95%] max-w-5xl p-0 m-auto text-slate-800 dark:text-slate-100 overflow-hidden">
-        <div class="p-5 border-b flex justify-between items-center bg-slate-100 dark:bg-slate-900/40">
-            <h2 class="text-xl font-bold flex items-center gap-2"><i class="fas fa-box-open text-violet-600"></i> Central de Arquivos</h2>
-            <button id="btn-close-modal" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-2xl"></i></button>
+    <dialog id="export-modal" class="bg-slate-100 dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-300 dark:border-slate-700 w-[95%] max-w-5xl p-0 m-auto text-slate-800 dark:text-slate-100 overflow-hidden">
+        <div class="p-5 border-b flex justify-between items-center bg-slate-200/60 dark:bg-slate-900/40 border-slate-300 dark:border-slate-700">
+            <h2 class="text-xl font-bold flex items-center gap-2"><i class="fas fa-box-open text-violet-700 dark:text-violet-400"></i> Central de Arquivos</h2>
+            <button id="btn-close-modal" class="text-slate-500 dark:text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-2xl"></i></button>
         </div>
 
         <div class="flex flex-col md:flex-row h-[70vh]">
-            <div class="w-full md:w-1/4 border-r border-slate-200 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-100/80 dark:bg-slate-900/30">
+            <div class="w-full md:w-1/4 border-r border-slate-300 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-200/50 dark:bg-slate-900/30">
                 <button class="tab-btn active" onclick="openTab('tab-projeto', this)"><i class="fas fa-save w-5"></i> Projeto (.txt)</button>
                 <button class="tab-btn" onclick="openTab('tab-moodle', this)"><i class="fas fa-graduation-cap w-5"></i> Moodle (HTML)</button>
                 <button class="tab-btn" onclick="openTab('tab-audio', this)"><i class="fas fa-volume-up w-5"></i> Áudio (.wav)</button>
@@ -265,23 +265,23 @@
             </div>
 
             <div class="w-full md:w-3/4 p-6 overflow-y-auto flex flex-col">
-                <div class="flex gap-4 mb-6 pb-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="flex gap-4 mb-6 pb-4 border-b border-slate-300 dark:border-slate-700">
                     <div class="flex-1">
                         <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">Título do Trabalho</label>
-                        <input type="text" id="modal-project-name" placeholder="Título" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold placeholder-slate-500 dark:placeholder-slate-400">
+                        <input type="text" id="modal-project-name" placeholder="Título" class="w-full mt-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 shadow-sm">
                     </div>
                     <div class="flex-1">
                         <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">Nome do Autor</label>
-                        <input type="text" id="modal-author-name" placeholder="Seu Nome" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold">
+                        <input type="text" id="modal-author-name" placeholder="Seu Nome" class="w-full mt-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 shadow-sm">
                     </div>
                 </div>
 
                 <div id="tab-projeto" class="tab-content active">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Salvar ou Carregar Projeto</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Salvar ou Carregar Projeto</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
                     <div class="flex gap-4">
                         <button onclick="exportProjectFile()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Salvar Projeto</button>
-                        <label class="flex-1 bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-violet-500 hover:text-violet-500 font-bold py-3 rounded-lg text-center cursor-pointer transition">
+                        <label class="flex-1 bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-500 hover:text-violet-500 font-bold py-3 rounded-lg text-center cursor-pointer transition">
                             <i class="fas fa-upload mr-2"></i> Abrir Projeto
                             <input type="file" id="project-upload" accept=".txt" class="hidden" onchange="importProjectFile(event)">
                         </label>
@@ -289,46 +289,46 @@
                 </div>
 
                 <div id="tab-moodle" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Embed Moodle (HTML + Áudio)</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Gere um código HTML pronto com a grade de acordes e um player de áudio embutido na própria página (Base64).</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Embed Moodle (HTML + Áudio)</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Gere um código HTML pronto com a grade de acordes e um player de áudio embutido na própria página (Base64).</p>
                     <div class="flex gap-3 mb-4">
                         <button onclick="generateMoodleHTML('wav')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-file-audio mr-2"></i> Gerar c/ WAV</button>
                         <button onclick="generateMoodleHTML('mp3')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-music mr-2"></i> Gerar c/ MP3 (Comprimido)</button>
                     </div>
-                    <textarea id="moodle-out" class="w-full h-40 text-xs font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none mb-3" readonly placeholder="O código HTML aparecerá aqui..."></textarea>
+                    <textarea id="moodle-out" class="w-full h-40 text-xs font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 outline-none mb-3 shadow-inner" readonly placeholder="O código HTML aparecerá aqui..."></textarea>
                     <button onclick="copyToClipboard('moodle-out')" class="w-full bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 rounded-lg transition"><i class="fas fa-copy mr-2"></i> Copiar Código HTML</button>
                 </div>
 
                 <div id="tab-audio" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar Áudio</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Baixe a faixa mestre consolidada do seu projeto no formato WAV de alta qualidade. (Certifique-se de ter tocado a música ao menos uma vez para renderizar).</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Exportar Áudio</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Baixe a faixa mestre consolidada do seu projeto no formato WAV de alta qualidade. (Certifique-se de ter tocado a música ao menos uma vez para renderizar).</p>
                     <button onclick="exportAudioWAV()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar Arquivo .wav</button>
                 </div>
 
                 <div id="tab-imagem" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Grade Visual (.png)</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Renderiza a sequência completa em uma grade de imagem (8 colunas), indicando acordes e métricas de tempo, incluindo Título e Autor.</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Grade Visual (.png)</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Renderiza a sequência completa em uma grade de imagem (8 colunas), indicando acordes e métricas de tempo, incluindo Título e Autor.</p>
                     <button onclick="exportCanvasPNG()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-image mr-2"></i> Baixar Imagem PNG</button>
                 </div>
 
                 <div id="tab-tabela" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Tabela Markdown</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Exporta a progressão harmônica como uma tabela simples formatada em Markdown.</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Tabela Markdown</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Exporta a progressão harmônica como uma tabela simples formatada em Markdown.</p>
                     <button onclick="generateMarkdown()" class="mb-4 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 px-4 rounded-lg transition">Gerar Preview</button>
-                    <textarea id="md-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none mb-3" placeholder="A tabela aparecerá aqui..."></textarea>
+                    <textarea id="md-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 outline-none mb-3 shadow-inner" placeholder="A tabela aparecerá aqui..."></textarea>
                     <button onclick="downloadTextFile('md-out', '.md')" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar .md</button>
                 </div>
 
                 <div id="tab-xml" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar MusicXML</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Gera a partitura estruturada com a tag &lt;harmony&gt; (cifras) embutida na marcação MusicXML 3.1, pronta para Finale, Sibelius ou MuseScore.</p>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Exportar MusicXML</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Gera a partitura estruturada com a tag &lt;harmony&gt; (cifras) embutida na marcação MusicXML 3.1, pronta para Finale, Sibelius ou MuseScore.</p>
                     <button onclick="exportMusicXML()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-file-code mr-2"></i> Baixar .musicxml</button>
                 </div>
 
                 <div id="tab-biab" class="tab-content">
-                    <h3 class="font-bold text-lg mb-4 text-violet-600">Band in a Box (BIAB)</h3>
-                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Utilize o formato de texto padrão para importar ou exportar progressões do Band in a Box.</p>
-                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none focus:border-violet-500 mb-4" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
+                    <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Band in a Box (BIAB)</h3>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">Utilize o formato de texto padrão para importar ou exportar progressões do Band in a Box.</p>
+                    <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 outline-none focus:border-violet-500 mb-4 shadow-inner" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <button onclick="generateBIAB()" class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 rounded-lg transition">Gerar do App</button>
                         <button onclick="importBIAB()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg shadow-sm transition">Carregar p/ App</button>
@@ -740,7 +740,7 @@
                 
                 const row = document.createElement('div'); row.className = "flex flex-col sm:flex-row gap-3 items-center w-full";
                 const pBtn = document.createElement('button');
-                pBtn.className = "w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-emerald-500 hover:text-white text-violet-600 flex items-center justify-center transition-all shadow-sm text-xs shrink-0";
+                pBtn.className = "w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-emerald-500 hover:text-white text-violet-700 dark:text-violet-400 flex items-center justify-center transition-all shadow-sm text-xs shrink-0";
                 pBtn.innerHTML = '<i class="fas fa-play"></i>';
                 let localPlaying = false;
                 pBtn.onclick = async () => {
@@ -786,7 +786,7 @@
                         const slot = document.createElement('div');
                         const baseStyles = "chord-block relative border-2 rounded-lg flex-1 flex flex-col items-center justify-center font-bold cursor-pointer transition-colors";
                         if (chord) slot.className = `${baseStyles} bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:border-violet-500 active-filled`;
-                        else slot.className = `${baseStyles} bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-violet-500`;
+                        else slot.className = `${baseStyles} bg-slate-100/70 dark:bg-slate-800/50 border-slate-300 dark:border-slate-700 hover:border-violet-500`;
                         slot.id = `slot-${idx}-${subIdx}`;
                         slot.onclick = (e) => {
                             if (e.shiftKey || e.ctrlKey || e.metaKey) return;
@@ -796,9 +796,9 @@
                         const content = document.createElement('span');
                         content.id = `content-${idx}-${subIdx}`;
                         content.innerText = chord ? chord.name : '+';
-                        content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-500 dark:text-violet-400 opacity-60 font-black text-lg leading-tight group-hover:opacity-100";
+                        content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-700 dark:text-violet-300 opacity-85 font-black text-lg leading-tight group-hover:opacity-100";
                         const lbl = document.createElement('div');
-                        lbl.className = "text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase mt-0.5 leading-none"; 
+                        lbl.className = "text-[9px] text-slate-700 dark:text-slate-300 font-bold uppercase mt-0.5 leading-none"; 
                         lbl.innerText = isSplit ? `C. ${j}.${subIdx + 1}` : `C. ${j}`; 
                         slot.appendChild(content);
                         slot.appendChild(lbl);
@@ -929,20 +929,20 @@
             if (btnCopy) {
                 if (selectedMeasures.length > 0) {
                     btnCopy.disabled = false;
-                    btnCopy.className = "bg-violet-50 hover:bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-violet-200 dark:border-violet-700/50 transition-colors cursor-pointer";
+                    btnCopy.className = "bg-violet-100 hover:bg-violet-200 dark:bg-violet-900/40 text-violet-800 dark:text-violet-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-violet-300 dark:border-violet-700/50 transition-colors cursor-pointer shadow-sm";
                 } else {
                     btnCopy.disabled = true;
-                    btnCopy.className = "bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
+                    btnCopy.className = "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
                 }
             }
             
             if (btnPaste) {
                 if (copiedMeasures.length > 0 && selectedMeasures.length === 1) {
                     btnPaste.disabled = false;
-                    btnPaste.className = "bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-amber-200 dark:border-amber-700/50 transition-colors cursor-pointer";
+                    btnPaste.className = "bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-amber-300 dark:border-amber-700/50 transition-colors cursor-pointer shadow-sm";
                 } else {
                     btnPaste.disabled = true;
-                    btnPaste.className = "bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
+                    btnPaste.className = "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
                 }
             }
         }
