@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" class="dark">
 <head>
@@ -64,14 +65,14 @@
             border-radius: 0.5rem;
             font-size: 0.875rem;
             font-weight: 600;
-            color: #64748b;
+            color: #334155;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .dark .tab-btn { color: #94a3b8; }
-        .tab-btn:hover { background-color: #f1f5f9; color: #0f172a; }
+        .dark .tab-btn { color: #cbd5e1; }
+        .tab-btn:hover { background-color: #e2e8f0; color: #0f172a; }
         .dark .tab-btn:hover { background-color: #1e293b; color: #f8fafc; }
         .tab-btn.active {
             background-color: #8b5cf6;
@@ -80,9 +81,23 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Estilo para compassos selecionados */
+        .measure-cell {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .measure-cell.selected {
+            border-color: #8b5cf6 !important;
+            background-color: rgba(139, 92, 246, 0.05) !important;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
+        }
+        .dark .measure-cell.selected {
+            background-color: rgba(139, 92, 246, 0.15) !important;
+        }
     </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 font-sans flex flex-col transition-colors duration-200">
+<body class="bg-[#e2e8f0] dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 font-sans flex flex-col transition-colors duration-200">
 
     <div class="w-full px-2 sm:px-4 flex-grow flex flex-col gap-3 pb-4">
         <header class="flex flex-col sm:flex-row items-center justify-between pt-3 pb-1">
@@ -104,29 +119,73 @@
 
         <div class="flex flex-col lg:flex-row gap-3 items-start">
             <div class="w-full lg:w-[280px] xl:w-[300px] flex-shrink-0 flex flex-col gap-3">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
                     <div class="mb-3">
                         <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-plus-circle mr-2 text-violet-600"></i>Acordes</h2>
                     </div>
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-col gap-1">
-                            <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500 border-b pb-1">1. Tipo</label>
+                            <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300 border-b border-slate-100 dark:border-slate-700/50 pb-1">1. Tipo</label>
                             <div id="quality-palette" class="grid grid-cols-3 gap-2 mt-2"></div>
                         </div>
                         <div class="flex flex-col gap-1 mt-2">
-                            <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500 border-b pb-1">2. Fundamental</label>
+                            <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300 border-b border-slate-100 dark:border-slate-700/50 pb-1">2. Fundamental</label>
                             <div id="root-palette" class="flex flex-col-reverse gap-2 mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Guia de Uso / Tutorial -->
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
+                    <h3 class="text-sm font-bold flex items-center text-slate-900 dark:text-white mb-2"><i class="fas fa-info-circle mr-2 text-violet-600"></i>Guia de Uso</h3>
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            <span class="font-bold block mb-1 text-slate-900 dark:text-slate-100"><i class="fas fa-exclamation-triangle mr-1 text-amber-500"></i> 1. Necessidade de Abrir XML e MP3</span>
+                            <p class="leading-relaxed mb-1.5 text-slate-700 dark:text-slate-300">Para utilizar a ferramenta de forma completa, é **necessário** carregar a partitura e o áudio correspondente utilizando os botões no topo:</p>
+                            <ul class="list-disc pl-4 space-y-1 mb-2 text-slate-700 dark:text-slate-300">
+                                <li>Clique em <span class="font-bold text-violet-600 dark:text-violet-400"><i class="fas fa-file-import"></i> MXL</span> para abrir o arquivo MusicXML da partitura.</li>
+                                <li>Clique em <span class="font-bold text-emerald-600 dark:text-emerald-400"><i class="fas fa-music"></i> + MP3</span> para abrir o áudio de acompanhamento.</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700/50 pt-2">
+                            <span class="font-bold block mb-1 text-slate-900 dark:text-slate-100"><i class="fas fa-mouse-pointer mr-1 text-violet-500"></i> 2. Seleção de Acordes pelos Botões</span>
+                            <p class="leading-relaxed mb-1.5 text-slate-700 dark:text-slate-300">Você pode definir os acordes clicando nos botões das paletas laterais:</p>
+                            <ul class="list-disc pl-4 space-y-1 mb-2 text-slate-700 dark:text-slate-300">
+                                <li>Selecione um compasso ou espaço de acorde na grade.</li>
+                                <li>Clique em uma <strong>Fundamental</strong> (ex: <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-slate-800 dark:text-slate-200">C</code>) na paleta de baixo.</li>
+                                <li>Clique em um <strong>Tipo</strong> (ex: <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-slate-800 dark:text-slate-200">maj7</code>) na paleta de cima para associá-lo.</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700/50 pt-2">
+                            <span class="font-bold block mb-1 text-slate-900 dark:text-slate-100"><i class="fas fa-keyboard mr-1 text-emerald-500"></i> 3. Digitação de Acordes (Sem Caixa de Texto)</span>
+                            <p class="leading-relaxed mb-1.5 text-slate-700 dark:text-slate-300">Ao selecionar um espaço de acorde (borda roxa), você pode simplesmente digitar diretamente no teclado:</p>
+                            <ul class="list-disc pl-4 space-y-1 mb-2 text-slate-700 dark:text-slate-300">
+                                <li><strong>Fundamental:</strong> Letras de <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">A</code> a <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">G</code></li>
+                                <li><strong>Acidentes:</strong> <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">b</code> (bemol), <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">#</code> ou <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">s</code> (sustenido)</li>
+                                <li><strong>Tipo:</strong> <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">m</code> (m7), <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">ma</code> (maj7), <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">d</code> (dim7), <code class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded font-mono font-bold text-violet-700 dark:text-violet-400">7</code> (9)</li>
+                                <li>O acorde é inserido assim que a combinação for única. Ou use <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Espaço</kbd> ou <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Enter</kbd> para confirmar o melhor palpite.</li>
+                                <li>Corrija com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Backspace</kbd> ou cancele com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Esc</kbd>.</li>
+                            </ul>
+                        </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700/50 pt-2">
+                            <span class="font-bold block mb-1 text-slate-900 dark:text-slate-100"><i class="fas fa-copy mr-1 text-blue-500"></i> 4. Copiar e Colar Compassos</span>
+                            <p class="leading-relaxed mb-1.5 text-slate-700 dark:text-slate-300">Gerencie múltiplos compassos na grade de forma simplificada:</p>
+                            <ul class="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300">
+                                <li>Clique em um compasso para selecioná-lo.</li>
+                                <li>Use <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Shift + Clique</kbd> para selecionar um intervalo contínuo de compassos.</li>
+                                <li>Copie com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Ctrl + C</kbd> e cole com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Ctrl + V</kbd> no destino.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="flex-1 min-w-0 flex flex-col gap-3 w-full">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px]">
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px]">
                     <div class="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-3 border-b pb-3">
                         <div class="flex items-center gap-2">
                             <h2 class="text-lg font-bold flex items-center text-slate-900 dark:text-white"><i class="fas fa-music mr-2 text-violet-600"></i>Sequência</h2>
-                            <span class="text-[10px] text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
+                            <span class="text-[10px] text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700 hidden sm:inline-block"><i class="fas fa-mouse-pointer mr-1"></i>Clique duplo p/ dividir</span>
                         </div>
                         <div class="flex items-center gap-2 shrink-0 flex-wrap">
                             <div class="flex items-center gap-1 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 shadow-sm">
@@ -141,38 +200,44 @@
                                 <i class="fas fa-music"></i> + MP3
                             </label>
                             <input type="file" id="mp3-upload" accept="audio/mp3" class="hidden">
-                            <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-900/30 text-red-600 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200 transition-colors">
+                            <button id="btn-copy" disabled class="bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                            <button id="btn-paste" disabled class="bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed">
+                                <i class="fas fa-paste"></i> Colar
+                            </button>
+                            <button id="btn-clear" class="bg-red-50 hover:bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-red-200 dark:border-red-900/50 transition-colors">
                                 <i class="fas fa-trash"></i> Limpar
                             </button>
                         </div>
                     </div>
-                    <div id="sequence-wrapper" class="flex-grow bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 overflow-y-auto mt-4">
-                        <div class="text-center text-slate-500 mt-8 text-base font-medium" id="empty-state">Sua música está vazia. Importe um MXL ou use os acordes.</div>
+                    <div id="sequence-wrapper" class="flex-grow bg-slate-100 dark:bg-slate-900/50 rounded-xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700 flex flex-col gap-3 overflow-y-auto mt-4">
+                        <div class="text-center text-slate-700 dark:text-slate-300 mt-8 text-base font-medium" id="empty-state">Sua música está vazia. Importe um MXL ou use os acordes.</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white/95 dark:bg-slate-800/95 p-4 rounded-2xl flex flex-col lg:flex-row items-center justify-between gap-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="bg-slate-50/95 dark:bg-slate-800/95 p-4 rounded-2xl flex flex-col lg:flex-row items-center justify-between gap-4 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-                <div id="status-text" class="text-sm font-semibold text-violet-600 min-w-[150px] text-center sm:text-left">Pronto para montar.</div>
+                <div id="status-text" class="text-sm font-semibold text-violet-700 dark:text-violet-300 min-w-[150px] text-center sm:text-left">Pronto para montar.</div>
                 <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
-                    <label for="reverb-slider" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-water text-violet-600 mr-1"></i> Reverb</label>
+                    <label for="reverb-slider" class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-water text-violet-600 mr-1"></i> Reverb</label>
                     <input type="range" id="reverb-slider" min="0" max="100" value="50" class="w-16">
                 </div>
                 <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
-                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Base</label>
+                    <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">Base</label>
                     <input type="range" id="base-volume" min="0" max="100" value="100" class="w-16">
                 </div>
                 <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600">
-                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">MP3</label>
+                    <label class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">MP3</label>
                     <input type="range" id="mp3-volume" min="0" max="100" value="100" class="w-16">
                 </div>
             </div>
 
             <div class="flex gap-3 w-full lg:w-auto justify-center flex-wrap sm:flex-nowrap">
                 <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-600 focus-within:border-violet-500">
-                    <label for="bpm-input" class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
+                    <label for="bpm-input" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
                     <input type="number" id="bpm-input" value="130" min="60" max="240" class="w-12 bg-transparent text-center focus:outline-none font-bold text-slate-900 dark:text-white text-base">
                 </div>
                 <button id="btn-play" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm transition-colors">
@@ -183,14 +248,14 @@
         </div>
     </div>
 
-    <dialog id="export-modal" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-[95%] max-w-5xl p-0 m-auto text-slate-800 dark:text-slate-100 overflow-hidden">
-        <div class="p-5 border-b flex justify-between items-center bg-slate-50 dark:bg-slate-800/80">
+    <dialog id="export-modal" class="bg-slate-50 dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 w-[95%] max-w-5xl p-0 m-auto text-slate-800 dark:text-slate-100 overflow-hidden">
+        <div class="p-5 border-b flex justify-between items-center bg-slate-100 dark:bg-slate-900/40">
             <h2 class="text-xl font-bold flex items-center gap-2"><i class="fas fa-box-open text-violet-600"></i> Central de Arquivos</h2>
             <button id="btn-close-modal" class="text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-times text-2xl"></i></button>
         </div>
 
         <div class="flex flex-col md:flex-row h-[70vh]">
-            <div class="w-full md:w-1/4 border-r border-slate-200 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-50/50 dark:bg-slate-900/30">
+            <div class="w-full md:w-1/4 border-r border-slate-200 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-100/80 dark:bg-slate-900/30">
                 <button class="tab-btn active" onclick="openTab('tab-projeto', this)"><i class="fas fa-save w-5"></i> Projeto (.txt)</button>
                 <button class="tab-btn" onclick="openTab('tab-moodle', this)"><i class="fas fa-graduation-cap w-5"></i> Moodle (HTML)</button>
                 <button class="tab-btn" onclick="openTab('tab-audio', this)"><i class="fas fa-volume-up w-5"></i> Áudio (.wav)</button>
@@ -203,18 +268,18 @@
             <div class="w-full md:w-3/4 p-6 overflow-y-auto flex flex-col">
                 <div class="flex gap-4 mb-6 pb-4 border-b border-slate-200 dark:border-slate-700">
                     <div class="flex-1">
-                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Título do Trabalho</label>
-                        <input type="text" id="modal-project-name" placeholder="Título" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold">
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">Título do Trabalho</label>
+                        <input type="text" id="modal-project-name" placeholder="Título" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold placeholder-slate-500 dark:placeholder-slate-400">
                     </div>
                     <div class="flex-1">
-                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-500">Nome do Autor</label>
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300">Nome do Autor</label>
                         <input type="text" id="modal-author-name" placeholder="Seu Nome" class="w-full mt-1 px-3 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm outline-none focus:border-violet-500 font-semibold">
                     </div>
                 </div>
 
                 <div id="tab-projeto" class="tab-content active">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Salvar ou Carregar Projeto</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
                     <div class="flex gap-4">
                         <button onclick="exportProjectFile()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Salvar Projeto</button>
                         <label class="flex-1 bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-violet-500 hover:text-violet-500 font-bold py-3 rounded-lg text-center cursor-pointer transition">
@@ -226,7 +291,7 @@
 
                 <div id="tab-moodle" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Embed Moodle (HTML + Áudio)</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Gere um código HTML pronto com a grade de acordes e um player de áudio embutido na própria página (Base64).</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Gere um código HTML pronto com a grade de acordes e um player de áudio embutido na própria página (Base64).</p>
                     <div class="flex gap-3 mb-4">
                         <button onclick="generateMoodleHTML('wav')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-file-audio mr-2"></i> Gerar c/ WAV</button>
                         <button onclick="generateMoodleHTML('mp3')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg shadow-sm transition"><i class="fas fa-music mr-2"></i> Gerar c/ MP3 (Comprimido)</button>
@@ -237,19 +302,19 @@
 
                 <div id="tab-audio" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar Áudio</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Baixe a faixa mestre consolidada do seu projeto no formato WAV de alta qualidade. (Certifique-se de ter tocado a música ao menos uma vez para renderizar).</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Baixe a faixa mestre consolidada do seu projeto no formato WAV de alta qualidade. (Certifique-se de ter tocado a música ao menos uma vez para renderizar).</p>
                     <button onclick="exportAudioWAV()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar Arquivo .wav</button>
                 </div>
 
                 <div id="tab-imagem" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Grade Visual (.png)</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Renderiza a sequência completa em uma grade de imagem (8 colunas), indicando acordes e métricas de tempo, incluindo Título e Autor.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Renderiza a sequência completa em uma grade de imagem (8 colunas), indicando acordes e métricas de tempo, incluindo Título e Autor.</p>
                     <button onclick="exportCanvasPNG()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-image mr-2"></i> Baixar Imagem PNG</button>
                 </div>
 
                 <div id="tab-tabela" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Tabela Markdown</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Exporta a progressão harmônica como uma tabela simples formatada em Markdown.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Exporta a progressão harmônica como uma tabela simples formatada em Markdown.</p>
                     <button onclick="generateMarkdown()" class="mb-4 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 px-4 rounded-lg transition">Gerar Preview</button>
                     <textarea id="md-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none mb-3" placeholder="A tabela aparecerá aqui..."></textarea>
                     <button onclick="downloadTextFile('md-out', '.md')" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Baixar .md</button>
@@ -257,13 +322,13 @@
 
                 <div id="tab-xml" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Exportar MusicXML</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Gera a partitura estruturada com a tag &lt;harmony&gt; (cifras) embutida na marcação MusicXML 3.1, pronta para Finale, Sibelius ou MuseScore.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">Gera a partitura estruturada com a tag &lt;harmony&gt; (cifras) embutida na marcação MusicXML 3.1, pronta para Finale, Sibelius ou MuseScore.</p>
                     <button onclick="exportMusicXML()" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-file-code mr-2"></i> Baixar .musicxml</button>
                 </div>
 
                 <div id="tab-biab" class="tab-content">
                     <h3 class="font-bold text-lg mb-4 text-violet-600">Band in a Box (BIAB)</h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Utilize o formato de texto padrão para importar ou exportar progressões do Band in a Box.</p>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Utilize o formato de texto padrão para importar ou exportar progressões do Band in a Box.</p>
                     <textarea id="biab-out" class="w-full h-32 text-sm font-mono p-3 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-900 outline-none focus:border-violet-500 mb-4" placeholder="Cole aqui o formato BIAB (ex: | EbMaj7 | Fm7 Bb7 | ...)"></textarea>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <button onclick="generateBIAB()" class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold py-2 rounded-lg transition">Gerar do App</button>
@@ -317,6 +382,14 @@
         let totalMeasuresLoaded = 0; 
         let osmdInstances = [];
         let animationFrameId = null;
+
+        // Copiar e Colar Compassos
+        let selectedMeasures = [];
+        let lastSelectedMeasureIdx = null;
+        let copiedMeasures = [];
+
+        // Keyboard chord typing buffer
+        let chordInputBuffer = "";
 
         // Nós de áudio
         let mediaElementSource = null;
@@ -387,6 +460,9 @@
             });
             sequence = newSequence;
             totalMeasuresLoaded = sequence.length;
+            selectedMeasures = [];
+            lastSelectedMeasureIdx = null;
+            updateClipboardButtonsUI();
             needsConsolidation = true;
             stopAudio();
             buildScoreGrid();
@@ -485,8 +561,9 @@
             const qualityPalette = document.getElementById('quality-palette'); qualityPalette.innerHTML = '';
             CONFIG.QUALITIES.forEach(q => {
                 const btn = document.createElement('button');
-                btn.className = "bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors";
+                btn.className = "quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors";
                 btn.innerText = q.label;
+                btn.dataset.quality = q.label;
                 btn.onclick = () => {
                     const chordName = selectedRoot.display + q.label;
                     const fileName = `swing130_${selectedRoot.filePrefix}${q.fileSuffix}`;
@@ -512,6 +589,78 @@
             mxlUpload.onchange = handleFileUpload;
             document.getElementById('btn-open-export').onclick = () => exportModal.showModal();
             document.getElementById('btn-close-modal').onclick = () => exportModal.close();
+            
+            document.getElementById('btn-copy').onclick = copySelectedMeasures;
+            document.getElementById('btn-paste').onclick = pasteMeasures;
+
+            // Keyboard shortcuts for copy/paste/escape/typing chords
+            document.addEventListener('keydown', (e) => {
+                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                    return;
+                }
+
+                const isEditingSlot = (editMeasureIdx !== null && editSubIdx !== null);
+
+                if (isEditingSlot) {
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        chordInputBuffer = "";
+                        editMeasureIdx = null;
+                        editSubIdx = null;
+                        document.querySelectorAll('.chord-block').forEach(el => el.classList.remove('ring-2', 'ring-violet-500', 'scale-105'));
+                        updateQualityButtonsUI(CONFIG.QUALITIES);
+                        statusText.innerHTML = "Edição cancelada.";
+                        return;
+                    }
+
+                    if (e.key === 'Backspace') {
+                        e.preventDefault();
+                        if (chordInputBuffer.length > 0) {
+                            chordInputBuffer = chordInputBuffer.slice(0, -1);
+                            processChordInput();
+                        }
+                        return;
+                    }
+
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (chordInputBuffer.length > 0) {
+                            submitBestChordMatch();
+                        }
+                        return;
+                    }
+
+                    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                        const allowedChars = /^[a-zA-Z0-9#\+\-b^ºo]$/;
+                        if (allowedChars.test(e.key)) {
+                            e.preventDefault();
+                            chordInputBuffer += e.key;
+                            processChordInput();
+                        }
+                        return;
+                    }
+                } else {
+                    if (e.key === 'Escape') {
+                        selectedMeasures = [];
+                        lastSelectedMeasureIdx = null;
+                        updateMeasureSelectionUI();
+                    }
+                    
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+                        if (selectedMeasures.length > 0) {
+                            e.preventDefault();
+                            copySelectedMeasures();
+                        }
+                    }
+
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'v') {
+                        if (copiedMeasures.length > 0 && selectedMeasures.length === 1) {
+                            e.preventDefault();
+                            pasteMeasures();
+                        }
+                    }
+                }
+            });
             
             mp3Upload.onchange = (e) => {
                 const file = e.target.files[0];
@@ -555,10 +704,21 @@
             e.target.value = '';
         }
 
-        function parseXMLAndRender(xmlStr) {
+        function parseXMLAndRender(xmlStr, defaultChords = null) {
             const doc = new DOMParser().parseFromString(xmlStr, "application/xml");
             totalMeasuresLoaded = doc.querySelectorAll('measure').length;
             sequence = Array(totalMeasuresLoaded).fill().map(() => [null]);
+            if (defaultChords) {
+                for (const [idx, chord] of Object.entries(defaultChords)) {
+                    const parsedIdx = parseInt(idx);
+                    if (parsedIdx < sequence.length) {
+                        sequence[parsedIdx] = [chord];
+                    }
+                }
+            }
+            selectedMeasures = [];
+            lastSelectedMeasureIdx = null;
+            updateClipboardButtonsUI();
             needsConsolidation = true; buildScoreGrid();
         }
 
@@ -576,8 +736,9 @@
             if (totalMeasuresLoaded === 0) return;
             const currentZoom = parseFloat(zoomInput.value) || 1.2;
             for (let i = 1; i <= totalMeasuresLoaded; i += 4) {
-                const start = i;
-                const end = Math.min(i + 3, totalMeasuresLoaded);
+                const rowStart = i;
+                const rowEnd = Math.min(i + 3, totalMeasuresLoaded);
+                
                 const row = document.createElement('div'); row.className = "flex flex-col sm:flex-row gap-3 items-center w-full";
                 const pBtn = document.createElement('button');
                 pBtn.className = "w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-emerald-500 hover:text-white text-violet-600 flex items-center justify-center transition-all shadow-sm text-xs shrink-0";
@@ -585,7 +746,7 @@
                 let localPlaying = false;
                 pBtn.onclick = async () => {
                     if (!localPlaying) {
-                        await playFromMeasure(start - 1);
+                        await playFromMeasure(rowStart - 1);
                         pBtn.innerHTML = '<i class="fas fa-stop"></i>';
                         localPlaying = true;
                         const checkStop = setInterval(() => {
@@ -595,18 +756,32 @@
                 };
                 row.appendChild(pBtn);
 
-                const chunk = document.createElement('div'); chunk.className = "bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col flex-grow min-w-0";
-                const osmdDiv = document.createElement('div'); osmdDiv.className = "osmd-container bg-white rounded hide-scrollbar w-full";
-                chunk.appendChild(osmdDiv);
-
                 const grid = document.createElement('div');
-                grid.className = "grid grid-cols-4 gap-2 mt-2 ml-[40px]";
-                
-                for (let j = start; j <= end; j++) {
+                grid.className = "grid grid-cols-1 sm:grid-cols-4 gap-3 flex-grow min-w-0 w-full";
+
+                for (let j = rowStart; j <= rowEnd; j++) {
                     const idx = j - 1;
+                    
+                    const cell = document.createElement('div');
+                    cell.className = "measure-cell bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2 min-w-0 cursor-pointer transition-all";
+                    cell.id = `cell-${idx}`;
+                    if (selectedMeasures.includes(idx)) {
+                        cell.classList.add('selected');
+                    }
+                    cell.onclick = (e) => {
+                        const isMultiSelect = e.shiftKey || e.ctrlKey || e.metaKey;
+                        if (!isMultiSelect && (e.target.closest('.chord-block') || e.target.closest('button'))) return;
+                        selectMeasure(idx, e.shiftKey, e.ctrlKey || e.metaKey);
+                    };
+                    
+                    const osmdDiv = document.createElement('div');
+                    osmdDiv.className = "osmd-container bg-white rounded hide-scrollbar w-full min-h-[90px]";
+                    cell.appendChild(osmdDiv);
+
                     const measureWrap = document.createElement('div');
-                    measureWrap.className = "flex w-full h-[60px] gap-1";
+                    measureWrap.className = "flex h-[50px] gap-1 w-full";
                     measureWrap.ondblclick = () => toggleSplitMeasure(idx);
+                    
                     sequence[idx].forEach((chord, subIdx) => {
                         const isSplit = sequence[idx].length === 2;
                         const slot = document.createElement('div');
@@ -614,33 +789,54 @@
                         if (chord) slot.className = `${baseStyles} bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:border-violet-500 active-filled`;
                         else slot.className = `${baseStyles} bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 hover:border-violet-500`;
                         slot.id = `slot-${idx}-${subIdx}`;
-                        slot.onclick = (e) => { e.stopPropagation(); selectSlot(idx, subIdx); };
+                        slot.onclick = (e) => {
+                            if (e.shiftKey || e.ctrlKey || e.metaKey) return;
+                            e.stopPropagation();
+                            selectSlot(idx, subIdx);
+                        };
                         const content = document.createElement('span');
                         content.id = `content-${idx}-${subIdx}`;
                         content.innerText = chord ? chord.name : '+';
-                        content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-500 opacity-30 font-black text-lg leading-tight group-hover:opacity-100";
+                        content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-500 dark:text-violet-400 opacity-60 font-black text-lg leading-tight group-hover:opacity-100";
                         const lbl = document.createElement('div');
-                        lbl.className = "text-[9px] text-slate-400 font-bold uppercase mt-0.5 leading-none"; 
+                        lbl.className = "text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase mt-0.5 leading-none"; 
                         lbl.innerText = isSplit ? `C. ${j}.${subIdx + 1}` : `C. ${j}`; 
                         slot.appendChild(content);
                         slot.appendChild(lbl);
                         measureWrap.appendChild(slot);
                     });
-                    grid.appendChild(measureWrap);
-                }
-                chunk.appendChild(grid);
-                row.appendChild(chunk); sequenceWrapper.appendChild(row);
+                    
+                    cell.appendChild(measureWrap);
+                    grid.appendChild(cell);
 
-                try {
-                    const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(osmdDiv, { drawFromMeasureNumber: start, drawUpToMeasureNumber: end, drawTitle: false, drawComposer: false, drawPartNames: false, autoResize: true, backend: "svg" });
-                    osmd.zoom = currentZoom; osmdInstances.push(osmd); await osmd.load(currentMusicXmlStr); osmd.render();
-                } catch (e) { }
+                    try {
+                        const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(osmdDiv, { drawTitle: false, drawComposer: false, drawPartNames: false, autoResize: true, backend: "svg" });
+                        osmd.zoom = currentZoom;
+                        osmdInstances.push(osmd);
+                        await osmd.load(currentMusicXmlStr);
+                        osmd.setOptions({ drawFromMeasureNumber: j, drawUpToMeasureNumber: j });
+                        osmd.render();
+                    } catch (e) { }
+                }
+                
+                // Add empty spacer columns on the last row if it has less than 4 columns
+                const remaining = 4 - (rowEnd - rowStart + 1);
+                for (let k = 0; k < remaining; k++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = "hidden sm:block min-w-0";
+                    grid.appendChild(emptyCell);
+                }
+
+                row.appendChild(grid);
+                sequenceWrapper.appendChild(row);
             }
             statusText.innerHTML = "Pronto! Selecione um compasso.";
             btnPlay.disabled = false;
         }
 
         function selectSlot(mIdx, sIdx) {
+            chordInputBuffer = "";
+            updateQualityButtonsUI(CONFIG.QUALITIES);
             document.querySelectorAll('.chord-block').forEach(el => el.classList.remove('ring-2', 'ring-violet-500', 'scale-105'));
             if (editMeasureIdx === mIdx && editSubIdx === sIdx) { 
                 editMeasureIdx = null; editSubIdx = null; statusText.innerHTML = "Pronto.";
@@ -678,7 +874,237 @@
         function clearAll() {
             sequence = []; totalMeasuresLoaded = 0; currentMusicXmlStr = null; needsConsolidation = true;
             editMeasureIdx = null; editSubIdx = null; mainPlayer.src = "";
+            chordInputBuffer = "";
+            updateQualityButtonsUI(CONFIG.QUALITIES);
+            selectedMeasures = []; lastSelectedMeasureIdx = null; copiedMeasures = [];
             sequenceWrapper.innerHTML = ''; sequenceWrapper.appendChild(emptyState); emptyState.style.display = 'block'; stopAudio();
+            updateClipboardButtonsUI();
+        }
+
+        // ======= LÓGICA DE COPIAR E COLAR COMPASSOS =======
+        function selectMeasure(idx, isShift, isCtrl) {
+            // Desativa a edição de acorde individual
+            editMeasureIdx = null;
+            editSubIdx = null;
+            chordInputBuffer = "";
+            updateQualityButtonsUI(CONFIG.QUALITIES);
+            document.querySelectorAll('.chord-block').forEach(el => el.classList.remove('ring-2', 'ring-violet-500', 'scale-105'));
+
+            if (isCtrl) {
+                const foundIdx = selectedMeasures.indexOf(idx);
+                if (foundIdx > -1) {
+                    selectedMeasures.splice(foundIdx, 1);
+                } else {
+                    selectedMeasures.push(idx);
+                }
+                lastSelectedMeasureIdx = idx;
+            } else if (isShift && lastSelectedMeasureIdx !== null) {
+                const start = Math.min(lastSelectedMeasureIdx, idx);
+                const end = Math.max(lastSelectedMeasureIdx, idx);
+                selectedMeasures = [];
+                for (let k = start; k <= end; k++) {
+                    selectedMeasures.push(k);
+                }
+            } else {
+                selectedMeasures = [idx];
+                lastSelectedMeasureIdx = idx;
+            }
+            updateMeasureSelectionUI();
+        }
+
+        function updateMeasureSelectionUI() {
+            document.querySelectorAll('.measure-cell').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            selectedMeasures.forEach(idx => {
+                const cell = document.getElementById(`cell-${idx}`);
+                if (cell) cell.classList.add('selected');
+            });
+            updateClipboardButtonsUI();
+        }
+
+        function updateClipboardButtonsUI() {
+            const btnCopy = document.getElementById('btn-copy');
+            const btnPaste = document.getElementById('btn-paste');
+            
+            if (btnCopy) {
+                if (selectedMeasures.length > 0) {
+                    btnCopy.disabled = false;
+                    btnCopy.className = "bg-violet-50 hover:bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-violet-200 dark:border-violet-700/50 transition-colors cursor-pointer";
+                } else {
+                    btnCopy.disabled = true;
+                    btnCopy.className = "bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
+                }
+            }
+            
+            if (btnPaste) {
+                if (copiedMeasures.length > 0 && selectedMeasures.length === 1) {
+                    btnPaste.disabled = false;
+                    btnPaste.className = "bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 border border-amber-200 dark:border-amber-700/50 transition-colors cursor-pointer";
+                } else {
+                    btnPaste.disabled = true;
+                    btnPaste.className = "bg-slate-50 dark:bg-slate-800 text-slate-400 border border-slate-200 dark:border-slate-700 text-sm font-semibold py-1.5 px-4 rounded-full flex items-center gap-1.5 transition-colors cursor-not-allowed";
+                }
+            }
+        }
+
+        function copySelectedMeasures() {
+            if (selectedMeasures.length === 0) return;
+            const sortedIndices = [...selectedMeasures].sort((a, b) => a - b);
+            copiedMeasures = sortedIndices.map(idx => {
+                return JSON.parse(JSON.stringify(sequence[idx]));
+            });
+            statusText.innerHTML = `${copiedMeasures.length} compasso(s) copiado(s). Selecione o destino e clique Colar.`;
+            updateClipboardButtonsUI();
+        }
+
+        function pasteMeasures() {
+            if (copiedMeasures.length === 0 || selectedMeasures.length !== 1) return;
+            const destIdx = selectedMeasures[0];
+            
+            for (let i = 0; i < copiedMeasures.length; i++) {
+                const targetIdx = destIdx + i;
+                if (targetIdx < sequence.length) {
+                    sequence[targetIdx] = JSON.parse(JSON.stringify(copiedMeasures[i]));
+                }
+            }
+            
+            needsConsolidation = true;
+            statusText.innerHTML = `${copiedMeasures.length} compasso(s) colado(s) a partir do compasso ${destIdx + 1}.`;
+            
+            selectedMeasures = [];
+            lastSelectedMeasureIdx = null;
+            buildScoreGrid();
+        }
+
+        // ======= LÓGICA DE DIGITAÇÃO DE ACORDES PELO TECLADO =======
+        function processChordInput() {
+            if (editMeasureIdx === null || editSubIdx === null) return;
+            
+            const match = chordInputBuffer.match(/^([a-gA-G])([#bBsS])?(.*)$/);
+            if (!match) {
+                if (chordInputBuffer.length > 0) {
+                    chordInputBuffer = "";
+                }
+                updateRootButtonsUI();
+                updateQualityButtonsUI(CONFIG.QUALITIES);
+                statusText.innerHTML = "Digite uma fundamental (A-G)...";
+                return;
+            }
+
+            const rootLetter = match[1];
+            const alteration = match[2];
+            const typedQuality = match[3] || "";
+
+            let resolvedAlteration = "";
+            if (alteration) {
+                if (alteration === 's' || alteration === 'S') {
+                    resolvedAlteration = "#";
+                } else if (alteration === 'B') {
+                    resolvedAlteration = "b";
+                } else {
+                    resolvedAlteration = alteration;
+                }
+            }
+            const resolvedRootStr = rootLetter.toUpperCase() + resolvedAlteration;
+            
+            let foundRoot = null;
+            for (const group of CONFIG.ROOT_GROUPS) {
+                for (const r of group) {
+                    if (r.display.toLowerCase() === resolvedRootStr.toLowerCase()) {
+                        foundRoot = r;
+                        break;
+                    }
+                }
+                if (foundRoot) break;
+            }
+
+            if (foundRoot) {
+                selectedRoot = foundRoot;
+                updateRootButtonsUI();
+            }
+
+            const matchedQualities = getMatchedQualities(typedQuality);
+            updateQualityButtonsUI(matchedQualities, typedQuality);
+
+            const beatInfo = sequence[editMeasureIdx].length === 2 ? (editSubIdx === 0 ? " (Tempos 1-2)" : " (Tempos 3-4)") : "";
+            statusText.innerHTML = `Digitando: <span class="bg-violet-100 dark:bg-violet-900/50 px-2 py-0.5 rounded font-mono text-violet-700 dark:text-violet-300 font-bold">${chordInputBuffer}</span> no Compasso ${editMeasureIdx + 1}${beatInfo}`;
+
+            if (typedQuality.length > 0 && matchedQualities.length === 1) {
+                const q = matchedQualities[0];
+                const chordName = selectedRoot.display + q.label;
+                const fileName = `swing130_${selectedRoot.filePrefix}${q.fileSuffix}`;
+                addOrReplaceChord({ name: chordName, file: fileName });
+            }
+        }
+
+        function getMatchedQualities(typedQuality) {
+            const typedLower = typedQuality.toLowerCase();
+            if (!typedLower) return CONFIG.QUALITIES;
+            
+            return CONFIG.QUALITIES.filter(q => {
+                const labelLower = q.label.toLowerCase();
+                if (labelLower.startsWith(typedLower)) return true;
+                if (typedLower === '7' && (labelLower === '9' || labelLower === '7b9')) return true;
+                return false;
+            });
+        }
+
+        function updateQualityButtonsUI(matchedQualities, typedQuality = "") {
+            const hasQualityFilter = typedQuality.length > 0;
+            document.querySelectorAll('.quality-btn').forEach(btn => {
+                const qLabel = btn.dataset.quality;
+                const isMatched = matchedQualities.some(q => q.label === qLabel);
+                
+                if (hasQualityFilter) {
+                    if (isMatched) {
+                        btn.className = "quality-btn bg-violet-600 text-white border-violet-600 py-1.5 rounded-md shadow-sm text-xs w-full font-semibold transition-colors";
+                    } else {
+                        btn.className = "quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full font-semibold transition-colors opacity-30 pointer-events-none";
+                    }
+                } else {
+                    btn.className = "quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors";
+                }
+            });
+        }
+
+        function submitBestChordMatch() {
+            if (editMeasureIdx === null || editSubIdx === null || !chordInputBuffer) return;
+
+            const match = chordInputBuffer.match(/^([a-gA-G])([#bBsS])?(.*)$/);
+            if (!match) return;
+
+            const typedQuality = match[3] || "";
+            const matchedQualities = getMatchedQualities(typedQuality);
+            
+            if (matchedQualities.length === 0) return;
+
+            const bestQuality = getBestQualityMatch(typedQuality, matchedQualities);
+            if (bestQuality) {
+                const chordName = selectedRoot.display + bestQuality.label;
+                const fileName = `swing130_${selectedRoot.filePrefix}${bestQuality.fileSuffix}`;
+                addOrReplaceChord({ name: chordName, file: fileName });
+            }
+        }
+
+        function getBestQualityMatch(typedQuality, matchedQualities) {
+            if (matchedQualities.length === 0) return null;
+            const typedLower = typedQuality.toLowerCase();
+            
+            const exact = matchedQualities.find(q => q.label.toLowerCase() === typedLower);
+            if (exact) return exact;
+            
+            if (typedLower === 'm' || typedLower === 'm7') {
+                const m7 = matchedQualities.find(q => q.label === 'm7');
+                if (m7) return m7;
+            }
+            
+            if (typedLower === '7') {
+                const dom9 = matchedQualities.find(q => q.label === '9');
+                if (dom9) return dom9;
+            }
+            
+            return matchedQualities[0];
         }
 
         // --- ÁUDIO ---
@@ -907,6 +1333,9 @@
                 if(data.sequence) sequence = data.sequence.map(item => Array.isArray(item) ? item : [item]);
                 else sequence = [];
                 totalMeasuresLoaded = sequence.length;
+                selectedMeasures = [];
+                lastSelectedMeasureIdx = null;
+                updateClipboardButtonsUI();
                 needsConsolidation = true; stopAudio(); buildScoreGrid();
             };
             reader.readAsText(file);
@@ -1101,7 +1530,94 @@
             return tag;
         }
 
-        window.onload = initUI;
+        // ======= LÓGICA DE CARREGAMENTO DE ARQUIVOS PADRÃO ========
+        const DEFAULT_XML_URL = "Melodia para II V.mxl";
+        const DEFAULT_XML_FALLBACK_URL = "https://raw.githubusercontent.com/GlauberLASantiago/gl-bias-slicer/main/Melodia%20para%20II%20V.mxl";
+
+        const DEFAULT_MP3_URL = "Melodia para II V Sax soprano.mp3";
+        const DEFAULT_MP3_FALLBACK_URL = "https://raw.githubusercontent.com/GlauberLASantiago/gl-bias-slicer/main/Melodia%20para%20II%20V%20Sax%20soprano.mp3";
+
+        async function loadMusicXmlFromUrl(url, defaultChords = null) {
+            statusText.innerHTML = '<span class="loading-spinner"></span> Carregando partitura padrão...';
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Falha ao buscar arquivo: " + response.statusText);
+                let xmlStr = null;
+                if (url.endsWith('.mxl')) {
+                    const arrayBuffer = await response.arrayBuffer();
+                    const zip = new JSZip();
+                    const loadedZip = await zip.loadAsync(arrayBuffer);
+                    const cXml = await loadedZip.file("META-INF/container.xml").async("string");
+                    const rootfile = new DOMParser().parseFromString(cXml, "application/xml").querySelector("rootfile").getAttribute("full-path");
+                    xmlStr = await loadedZip.file(rootfile).async("string");
+                } else {
+                    xmlStr = await response.text();
+                }
+                currentMusicXmlStr = xmlStr;
+                parseXMLAndRender(xmlStr, defaultChords);
+                statusText.innerHTML = "Partitura padrão carregada.";
+                return true;
+            } catch (err) {
+                console.warn("Erro ao carregar XML de " + url + ":", err);
+                statusText.innerHTML = "Erro ao carregar partitura padrão.";
+                return false;
+            }
+        }
+
+        function loadMp3FromUrl(url) {
+            if (mp3Player) {
+                mp3Player.pause();
+                mp3Player.removeAttribute('src');
+                mp3Player.load();
+            }
+            mp3Player = new Audio();
+            mp3Player.crossOrigin = "anonymous";
+            mp3Player.src = url;
+            mp3Player.volume = mp3VolumeSlider.value / 100;
+            isRoutingSetup = false;
+            mp3SourceNode = null;
+            mp3GainNode = null;
+            console.log("MP3 carregado de: " + url);
+        }
+
+        async function loadDefaultFiles() {
+            const defaultChords = {
+                0: {
+                    name: "Cmaj7",
+                    file: "swing130_cmaj7",
+                    id: Date.now()
+                }
+            };
+
+            // Tenta carregar o MusicXML relativo primeiro, se falhar tenta a URL do GitHub
+            let xmlLoaded = await loadMusicXmlFromUrl(DEFAULT_XML_URL, defaultChords);
+            if (!xmlLoaded) {
+                xmlLoaded = await loadMusicXmlFromUrl(DEFAULT_XML_FALLBACK_URL, defaultChords);
+            }
+
+            if (xmlLoaded) {
+                // Define título padrão no modal
+                if (projNameInputModal) projNameInputModal.value = "Melodia para II V";
+                if (authorNameInputModal) authorNameInputModal.value = "Glauber Santiago";
+
+                // Tenta verificar se o MP3 relativo existe, senão usa o fallback
+                try {
+                    const response = await fetch(DEFAULT_MP3_URL, { method: 'HEAD' });
+                    if (response.ok) {
+                        loadMp3FromUrl(DEFAULT_MP3_URL);
+                    } else {
+                        loadMp3FromUrl(DEFAULT_MP3_FALLBACK_URL);
+                    }
+                } catch (e) {
+                    loadMp3FromUrl(DEFAULT_MP3_FALLBACK_URL);
+                }
+            }
+        }
+
+        window.onload = () => {
+            initUI();
+            loadDefaultFiles();
+        };
     </script>
 </body>
 </html>
