@@ -1,50 +1,124 @@
-# GL Bias Slicer
-**GL Bias Slicer** é uma aplicação web interativa e responsiva projetada para o ensino e prática de progressões harmônicas (cifras) integradas a partituras (MusicXML) e faixas de áudio (MP3). O projeto oferece uma interface moderna em camadas com suporte a temas claro e escuro, facilitando a edição rápida de acordes, manipulação de compassos e exportação em múltiplos formatos para plataformas como Moodle, editores de partitura (Finale, Sibelius, MuseScore) e reprodutores de mídia.
+# 🎹 GL Bias Slicer
+
+**GL Bias Slicer** é uma aplicação web interativa para o **ensino e prática de progressões harmônicas** integradas a partituras (MusicXML) e faixas de áudio (MP3). Roda inteiramente no navegador, sem instalação de servidor ou dependências locais.
+
+Desenvolvido pelo **Professor Glauber Santiago — DAC/UFSCar**
+🔗 [servidores.ufscar.br/glauber/](https://servidores.ufscar.br/glauber/) • [sites.google.com/view/glauberia](https://sites.google.com/view/glauberia)
+
 ---
-<img width="1889" height="931" alt="image" src="https://github.com/user-attachments/assets/be3476ea-cbcc-48bb-9f26-6c5f76654e41" />
 
+## 🚀 Funcionalidades Principais
 
-## 🚀 Principais Funcionalidades
-### 🎼 Visualização e Edição de Grade Harmônica
-* **Suporte a MusicXML**: Carregue arquivos `.mxml`, `.musicxml` ou `.xml` para visualizar a melodia em tempo real através da biblioteca **OpenSheetMusicDisplay (OSMD)**.
-* **Divisão de Compassos**: Dê dois cliques em qualquer compasso na grade para dividi-lo ao meio (permitindo dois acordes por compasso de 4 tempos) ou reverter para um acorde único.
-* **Paleta de Acordes**: Interface rápida com botões clicáveis para selecionar a **Fundamental** (C, D, E, etc.) e o **Tipo de Acorde** (`maj7`, `9`, `7b9`, `m7`, `m7b5`, `dim7`).
-### ⌨️ Reconhecimento de Acordes via Teclado (Sem Caixa de Texto)
-Basta clicar em um slot de acorde (borda roxa) e digitar diretamente no teclado físico:
-* **Notas Fundamentais**: Digite de `A` a `G`.
-* **Acidentes**: Digite `b` para bemol, `#` ou `s` para sustenido.
-* **Tipos**: Digite `m` para `m7`, `ma` para `maj7`, `d` para `dim7`, `7` para `9` / `7b9`.
-* **Confirmação Inteligente**: Pressione `Espaço` ou `Enter` para preencher automaticamente com o melhor palpite, ou use o recurso de auto-inserção caso a digitação resolva para uma única opção exclusiva. Use `Backspace` para corrigir e `Esc` para cancelar.
-### 📋 Copiar e Colar Compassos (Clipboard Inteligente)
-* **Seleção por Faixa**: Clique em um compasso e use `Shift + Clique` em outro para selecionar um intervalo contínuo de compassos.
-* **Seleção Não-Contígua**: Use `Ctrl + Clique` (ou `Cmd + Clique`) para selecionar múltiplos compassos específicos.
-* **Atalhos de Teclado**: Copie o trecho com `Ctrl + C` e cole-o com `Ctrl + V` a partir do compasso de destino selecionado.
-* **Visual Dinâmico**: Botões na interface atualizam seus estados ativados/desativados dinamicamente para orientar o fluxo de cópia.
+### 🎼 Grade Harmônica com Partitura
+- **Carregamento de MusicXML** (`.mxml`, `.musicxml`, `.xml`, `.mxl`): visualize a melodia em tempo real via **OpenSheetMusicDisplay (OSMD)**, com a partitura fatiada acima de cada compasso da grade.
+- **Divisão de Compassos**: dê duplo clique em qualquer compasso para dividi-lo ao meio (dois acordes por compasso) ou reverter para um acorde único.
+- **Paleta de Acordes**: selecione rapidamente a **Fundamental** (C, D, E…) e o **Tipo de Acorde** (`maj7`, `9`, `7b9`, `m7`, `m7b5`, `dim7`) pelos botões laterais.
+
+### ⌨️ Digitação Direta de Acordes (sem caixa de texto)
+Com um slot de acorde selecionado (borda roxa), basta digitar no teclado físico:
+
+| Tecla(s) | Ação |
+|---|---|
+| `A`–`G` | Seleciona a fundamental |
+| `b` | Adiciona bemol |
+| `#` ou `s` | Adiciona sustenido |
+| `m` | Tipo `m7` |
+| `ma` | Tipo `maj7` |
+| `d` | Tipo `dim7` |
+| `7` | Tipo `9` / `7b9` |
+| `Espaço` / `Enter` | Confirma com o melhor palpite |
+| `Backspace` | Corrige o último caractere |
+| `Esc` | Cancela a entrada |
+
+O acorde é inserido automaticamente quando a combinação digitada resolve para uma única opção.
+
+### 📋 Copiar e Colar Compassos
+- **Seleção por faixa**: `Shift + Clique` para selecionar um intervalo contínuo.
+- **Seleção múltipla**: `Ctrl + Clique` (ou `Cmd + Clique`) para compassos não-contíguos.
+- **Atalhos de teclado**: `Ctrl + C` para copiar e `Ctrl + V` para colar a partir do compasso de destino.
+
 ### 🔊 Mixer e Player de Áudio Embutido
-* **Mixagem em Tempo Real**: Ajuste volumes independentes para a **Base Harmônica** gerada eletronicamente e para o arquivo de áudio **MP3** de acompanhamento carregado pelo usuário.
-* **Efeito Reverb**: Slider dedicado com processamento de convolução de áudio (Web Audio API) para criar ambiência no som sintetizado.
-* **Controle de BPM**: Acelere ou desacelere a reprodução dinamicamente para se adequar ao tempo de estudo (entre 60 e 240 BPM).
+- **Síntese FM interna** (Web Audio API): geração de acordes em tempo real com timbre de piano elétrico via síntese FM de 2 operadoras (Carrier 1:1, Modulator 1:14) com ADSR completo.
+- **Voicing inteligente**: fundamental uma oitava abaixo, extensões distribuídas na faixa G3–B4 para evitar colisões de voz.
+- **Volume escalado dinamicamente** para prevenir clipping em acordes com muitas notas.
+- **Estilo de acompanhamento**: Bossa 1, Bossa 2, Samba, Jazz Swing e Balada.
+- **Controles independentes de volume**: Base Harmônica (síntese) e MP3 de acompanhamento.
+- **Reverb**: convolução de áudio (Web Audio API) com slider dedicado.
+- **BPM**: controle de andamento de 60 a 240 BPM.
+
 ---
-## 📂 Formatos de Exportação e Importação (Central de Arquivos)
-O botão **Exportar / Importar** abre o painel centralizado de arquivos, oferecendo suporte a:
-1. **Projeto (.txt)**: Salve o progresso completo em um arquivo JSON local para continuar editando depois.
-2. **Embed Moodle (HTML)**: Gera um bloco de código HTML independente contendo a tabela de acordes e o arquivo de áudio embutido diretamente como dados Base64 (WAV ou MP3 comprimido), pronto para colar no editor de páginas do Moodle.
-3. **Áudio (.wav)**: Renderiza e baixa a faixa completa de acompanhamento consolidada em áudio WAV de alta qualidade.
-4. **Grade Visual (.png)**: Exporta a sequência completa em uma grade de imagem de 8 colunas, incluindo título e autor, ideal para compartilhamento rápido e impressão.
-5. **Tabela Markdown (.md)**: Gera a progressão harmônica formatada em tabelas simples do GitHub Markdown.
-6. **MusicXML (.musicxml)**: Exporta a partitura de volta com a marcação de cifras nativa (`<harmony>`), facilitando a importação em softwares como MuseScore, Sibelius e Finale.
-7. **Band in a Box (BIAB)**: Importa e exporta sequências textuais no formato padrão de cifras do software BIAB (ex: `| Ebmaj7 | Fm7 Bb7 |`).
+
+## 📂 Exportação e Importação (Central de Arquivos)
+
+Clique em **Exportar / Importar** para acessar todos os formatos disponíveis:
+
+| Formato | Descrição |
+|---|---|
+| **Projeto (.txt)** | Salva o estado completo em JSON para continuar editando depois |
+| **Embed Moodle (HTML)** | Bloco HTML independente com áudio Base64 embutido (WAV ou MP3), pronto para colar no Moodle |
+| **Áudio (.wav)** | Renderiza e baixa a faixa completa de acompanhamento em WAV de alta qualidade |
+| **Grade Visual (.png)** | Exporta a grade em imagem com título, autor, partitura fatiada acima de cada acorde e 8 colunas por linha |
+| **Tabela Markdown (.md)** | Progressão harmônica formatada em tabelas GitHub Markdown |
+| **MusicXML (.musicxml)** | Exporta a partitura com cifras nativas `<harmony>`, importável em MuseScore, Sibelius e Finale |
+| **Band in a Box (BIAB)** | Importa e exporta no formato padrão de cifras do BIAB (ex: `\| Ebmaj7 \| Fm7 Bb7 \|`) |
+
 ---
-## 🛠️ Como Executar o Projeto
-O **GL Bias Slicer** é um aplicativo inteiramente *client-side* (roda direto no navegador). Não é necessário instalar servidores backend ou bancos de dados adicionais.
-1. Baixe os arquivos do repositório.
-2. Certifique-se de manter os arquivos de mídia padrão (`Melodia para II V.mxl` e `Melodia para II V Sax soprano.mp3`) no mesmo diretório do arquivo `index.html` para que sejam carregados de forma automatizada ao inicializar.
-3. Dê um duplo clique no arquivo `index.html` para abrir diretamente no navegador ou utilize um servidor local estático para desenvolvimento (por exemplo: VS Code Live Server ou `python -m http.server`).
+
+## 🛠️ Como Executar
+
+O **GL Bias Slicer** é um app totalmente *client-side*. Não requer servidor backend.
+
+**Opção 1 — Abrir direto no navegador:**
+```
+Dê duplo clique em index.html
+```
+
+**Opção 2 — Servidor estático local (recomendado para evitar restrições CORS):**
+```bash
+# Python 3
+python -m http.server 8080
+
+# Node.js (npx)
+npx serve .
+
+# VS Code: extensão "Live Server"
+```
+
+Depois acesse `http://localhost:8080` no navegador.
+
+> **Nota:** para carregar os arquivos padrão de demonstração (`Melodia para II V.mxl` e `Melodia para II V Sax soprano.mp3`) automaticamente, mantenha-os no mesmo diretório do `index.html`.
+
 ---
-## ⚙️ Tecnologias Utilizadas
-* **Estrutura e Lógica**: HTML5 & Vanilla JavaScript
-* **Estilização**: Tailwind CSS (via CDN) & Font Awesome Icons
-* **Renderização de Partituras**: [OpenSheetMusicDisplay (OSMD)](https://opensheetmusicdisplay.org/)
-* **Geração de Arquivos Comprimidos**: [JSZip](https://stuk.github.io/jszip/)
-* **Codificação de MP3**: [Lame.js](https://github.com/zhuker/lamejs)
-* **Processamento de Áudio**: Web Audio API (OfflineAudioContext, ConvolverNode, GainNode)
+
+## ⚙️ Tecnologias
+
+| Tecnologia | Uso |
+|---|---|
+| HTML5 + Vanilla JavaScript | Estrutura e lógica da aplicação |
+| Tailwind CSS (CDN) | Estilização responsiva com suporte a dark mode |
+| Font Awesome | Ícones da interface |
+| [OpenSheetMusicDisplay (OSMD)](https://opensheetmusicdisplay.org/) | Renderização de partituras MusicXML |
+| [JSZip](https://stuk.github.io/jszip/) | Geração de arquivos comprimidos |
+| [Lame.js](https://github.com/zhuker/lamejs) | Codificação de áudio MP3 no navegador |
+| Web Audio API | Síntese FM de acordes, reverb por convolução, mixagem e renderização offline |
+
+---
+
+## 📸 Interface
+
+A interface conta com:
+- **Modo Escuro/Claro** com alternância pelo botão no cabeçalho
+- **Partitura sincronizada**: cada compasso da grade exibe o trecho correspondente da partitura acima do acorde
+- **Feedback visual**: o tipo de acorde selecionado fica destacado em roxo na paleta lateral
+- **Layout responsivo** para desktop e telas médias
+
+---
+
+## 📄 Licença
+
+Uso educacional livre. Desenvolvido no contexto do **Departamento de Artes e Comunicação (DAC)** da **Universidade Federal de São Carlos (UFSCar)**.
+
+---
+
+*Desenvolvido pelo Professor Glauber Santiago — DAC/UFSCar*
+*[servidores.ufscar.br/glauber/](https://servidores.ufscar.br/glauber/) • [sites.google.com/view/glauberia](https://sites.google.com/view/glauberia)*
