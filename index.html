@@ -175,6 +175,14 @@
                                 <li>Copie com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Ctrl + C</kbd> e cole com <kbd class="bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-[10px] text-slate-800 dark:text-slate-300">Ctrl + V</kbd> no destino.</li>
                             </ul>
                         </div>
+                        <div class="border-t border-slate-100 dark:border-slate-700/50 pt-3 text-center text-[10px] text-slate-500 dark:text-slate-400">
+                            <p class="font-semibold text-slate-700 dark:text-slate-300">Desenvolvido pelo professor Glauber Santiago — DAC/UFSCar</p>
+                            <p class="mt-1">
+                                <a href="https://servidores.ufscar.br/glauber/" target="_blank" class="text-violet-600 dark:text-violet-400 hover:underline">servidores.ufscar.br/glauber/</a>
+                                &bull;
+                                <a href="https://sites.google.com/view/glauberia" target="_blank" class="text-violet-600 dark:text-violet-400 hover:underline">sites.google.com/view/glauberia</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -236,6 +244,17 @@
 
             <div class="flex gap-3 w-full lg:w-auto justify-center flex-wrap sm:flex-nowrap">
                 <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-600 focus-within:border-violet-500">
+                    <label for="style-select" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-drum text-violet-600 mr-1"></i> Estilo</label>
+                    <select id="style-select" class="bg-transparent font-bold text-slate-900 dark:text-white text-sm focus:outline-none cursor-pointer pr-1">
+                        <option value="bossa1" class="bg-white dark:bg-slate-800">Bossa 1</option>
+                        <option value="bossa2" class="bg-white dark:bg-slate-800">Bossa 2</option>
+                        <option value="swing1" class="bg-white dark:bg-slate-800" selected>Swing 1</option>
+                        <option value="swing2" class="bg-white dark:bg-slate-800">Swing 2</option>
+                        <option value="soul" class="bg-white dark:bg-slate-800">Soul</option>
+                        <option value="guajira" class="bg-white dark:bg-slate-800">Guajira</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-4 py-2 rounded-full border border-slate-300 dark:border-slate-600 focus-within:border-violet-500">
                     <label for="bpm-input" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest"><i class="fas fa-tachometer-alt text-violet-600 mr-1"></i> BPM</label>
                     <input type="number" id="bpm-input" value="130" min="60" max="240" class="w-12 bg-transparent text-center focus:outline-none font-bold text-slate-900 dark:text-white text-base">
                 </div>
@@ -255,7 +274,7 @@
 
         <div class="flex flex-col md:flex-row h-[70vh]">
             <div class="w-full md:w-1/4 border-r border-slate-300 dark:border-slate-700 p-4 flex flex-col gap-2 overflow-y-auto bg-slate-200/50 dark:bg-slate-900/30">
-                <button class="tab-btn active" onclick="openTab('tab-projeto', this)"><i class="fas fa-save w-5"></i> Projeto (.txt)</button>
+                <button class="tab-btn active" onclick="openTab('tab-projeto', this)"><i class="fas fa-save w-5"></i> Projeto (.slacer)</button>
                 <button class="tab-btn" onclick="openTab('tab-moodle', this)"><i class="fas fa-graduation-cap w-5"></i> Moodle (HTML)</button>
                 <button class="tab-btn" onclick="openTab('tab-audio', this)"><i class="fas fa-volume-up w-5"></i> Áudio (.wav)</button>
                 <button class="tab-btn" onclick="openTab('tab-imagem', this)"><i class="fas fa-image w-5"></i> Imagem (.png)</button>
@@ -278,12 +297,12 @@
 
                 <div id="tab-projeto" class="tab-content active">
                     <h3 class="font-bold text-lg mb-4 text-violet-700 dark:text-violet-400">Salvar ou Carregar Projeto</h3>
-                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Exporte o estado atual para um arquivo JSON (.txt) ou carregue um existente para continuar trabalhando.</p>
+                    <p class="text-sm text-slate-700 dark:text-slate-300 mb-6">Exporte o estado atual para um arquivo JSON (.slacer) ou carregue um existente para continuar trabalhando.</p>
                     <div class="flex gap-4">
                         <button onclick="exportProjectFile()" class="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 rounded-lg shadow-sm transition"><i class="fas fa-download mr-2"></i> Salvar Projeto</button>
                         <label class="flex-1 bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-violet-500 hover:text-violet-500 font-bold py-3 rounded-lg text-center cursor-pointer transition">
                             <i class="fas fa-upload mr-2"></i> Abrir Projeto
-                            <input type="file" id="project-upload" accept=".txt" class="hidden" onchange="importProjectFile(event)">
+                            <input type="file" id="project-upload" accept=".slacer" class="hidden" onchange="importProjectFile(event)">
                         </label>
                     </div>
                 </div>
@@ -347,7 +366,7 @@
         const exportModal = document.getElementById('export-modal');
 
         const CONFIG = {
-            REPO_BASE_URL: "https://glauberlasantiago.github.io/TocaSwing130/",
+            REPO_BASE_URL: "https://raw.githubusercontent.com/GlauberLASantiago/BIAS-band-in-a-site/main/",
             FILE_EXTENSION: ".mp3", 
             NATIVE_BPM: 130, BEATS_PER_MEASURE: 4,
             ROOT_GROUPS: [
@@ -359,8 +378,13 @@
                 [{ display: "A#", filePrefix: "as" }, { display: "Bb", filePrefix: "as" }], [{ display: "B", filePrefix: "b" }]
             ],
             QUALITIES: [
-                { label: "maj7", fileSuffix: "maj7" }, { label: "9", fileSuffix: "9" }, { label: "7b9", fileSuffix: "7b9" },
-                { label: "m7", fileSuffix: "m7" }, { label: "m7b5", fileSuffix: "m7b5" }, { label: "dim7", fileSuffix: "dim7" }
+                { label: "maj7", fileSuffix: "maj7" }, 
+                { label: "9", fileSuffix: "9" }, 
+                { label: "7b9", fileSuffix: "7b9" },
+                { label: "m(maj7)", fileSuffix: "mmaj7" }, 
+                { label: "m7", fileSuffix: "m7" }, 
+                { label: "m7b5", fileSuffix: "m7b5" }, 
+                { label: "dim7", fileSuffix: "dim7" }
             ]
         };
 
@@ -381,6 +405,13 @@
         let totalMeasuresLoaded = 0; 
         let osmdInstances = [];
         let animationFrameId = null;
+
+        // Buffers de Áudio Consolidado por Estilo
+        let currentChordsBuffer = null;
+        let currentDrumsBuffer = null;
+        let loadedStyle = "";
+        let activeSynthNodes = []; // Armazena referências para cortar o som do sintetizador anterior
+        let advanceTimeoutId = null; // Timeout para avanço de compasso após clique/cifragem
 
         // Copiar e Colar Compassos
         let selectedMeasures = [];
@@ -483,7 +514,9 @@
             const remaining = s.substring(root.display.length);
             let qualityLabel = "maj7"; 
             const remLower = remaining.toLowerCase();
-            if (remaining.includes('Maj') || remaining.includes('maj') || remaining.includes('M7') || remaining.includes('^')) {
+            if (remLower.includes('mmaj7') || remLower.includes('m(maj7)') || remLower.includes('mmin7') || remLower.includes('m^7')) {
+                qualityLabel = "m(maj7)";
+            } else if (remaining.includes('Maj') || remaining.includes('maj') || remaining.includes('M7') || remaining.includes('^')) {
                 qualityLabel = "maj7";
             } else if (remLower.includes('m7b5') || remaining.includes('-7b5') || remaining.includes('h')) {
                 qualityLabel = "m7b5";
@@ -522,7 +555,11 @@
         function generateBIAB() {
             let biab = `[Chords]\n|:a) `;
             for(let i=0; i<sequence.length; i++) {
-                const text = sequence[i].map(c => c ? c.name : '').join(' ');
+                const text = sequence[i].map(c => {
+                    if (!c) return '';
+                    // Remover os parênteses para o formato BIAB (ex: Cm(maj7) -> CmMaj7)
+                    return c.name.replace('m(maj7)', 'mMaj7');
+                }).join(' ');
                 biab += text + ` | `;
                 if((i+1) % 4 === 0 && i !== sequence.length-1) biab += `\n| `;
             }
@@ -550,7 +587,11 @@
                     const btn = document.createElement('button');
                     btn.className = "root-btn flex-1 py-1 rounded font-bold border text-[11px] transition-colors";
                     btn.innerText = r.display; btn.dataset.display = r.display; 
-                    btn.onclick = () => { selectedRoot = r; updateRootButtonsUI(); };
+                    btn.onclick = () => {
+                        selectedRoot = r;
+                        updateRootButtonsUI();
+                        playToneForRoot(r.display);
+                    };
                     div.appendChild(btn);
                 });
                 rootPalette.appendChild(div);
@@ -594,7 +635,9 @@
 
             // Keyboard shortcuts for copy/paste/escape/typing chords
             document.addEventListener('keydown', (e) => {
-                if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                if (document.activeElement.tagName === 'INPUT' || 
+                    document.activeElement.tagName === 'TEXTAREA' || 
+                    (exportModal && exportModal.open)) {
                     return;
                 }
 
@@ -630,10 +673,16 @@
                     }
 
                     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                        const allowedChars = /^[a-zA-Z0-9#\+\-b^ºo]$/;
-                        if (allowedChars.test(e.key)) {
+                        let key = e.key;
+                        if (key === 's' || key === 'S') {
+                            key = '#';
+                        } else if (key === 'B') {
+                            key = 'b';
+                        }
+                        const allowedChars = /^[a-zA-Z0-9#\+\-\^º]$/;
+                        if (allowedChars.test(key)) {
                             e.preventDefault();
-                            chordInputBuffer += e.key;
+                            chordInputBuffer += key;
                             processChordInput();
                         }
                         return;
@@ -683,6 +732,16 @@
                 const vol = mp3VolumeSlider.value / 100;
                 if (mp3GainNode) mp3GainNode.gain.value = vol; else mp3Player.volume = vol;
             };
+
+            const styleSelect = document.getElementById('style-select');
+            if (styleSelect) {
+                styleSelect.onchange = () => {
+                    needsConsolidation = true;
+                    mainPlayer.src = "";
+                    stopAudio();
+                    statusText.innerHTML = `Estilo alterado para ${styleSelect.value}. Pronto para tocar.`;
+                };
+            }
         }
 
         async function handleFileUpload(e) {
@@ -762,7 +821,7 @@
                     const idx = j - 1;
                     
                     const cell = document.createElement('div');
-                    cell.className = "measure-cell bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2 min-w-0 cursor-pointer transition-all";
+                    cell.className = "measure-cell select-none bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col gap-2 min-w-0 cursor-pointer transition-all";
                     cell.id = `cell-${idx}`;
                     if (selectedMeasures.includes(idx)) {
                         cell.classList.add('selected');
@@ -799,7 +858,7 @@
                         content.className = chord ? "font-black text-lg text-slate-900 dark:text-white leading-tight" : "text-violet-700 dark:text-violet-300 opacity-85 font-black text-lg leading-tight group-hover:opacity-100";
                         const lbl = document.createElement('div');
                         lbl.className = "text-[9px] text-slate-700 dark:text-slate-300 font-bold uppercase mt-0.5 leading-none"; 
-                        lbl.innerText = isSplit ? `C. ${j}.${subIdx + 1}` : `C. ${j}`; 
+                        lbl.innerText = isSplit ? `${j}.${subIdx + 1}` : `${j}`; 
                         slot.appendChild(content);
                         slot.appendChild(lbl);
                         measureWrap.appendChild(slot);
@@ -835,16 +894,25 @@
 
         function selectSlot(mIdx, sIdx) {
             chordInputBuffer = "";
-            updateQualityButtonsUI(CONFIG.QUALITIES);
             document.querySelectorAll('.chord-block').forEach(el => el.classList.remove('ring-2', 'ring-violet-500', 'scale-105'));
+            
+            const chord = sequence[mIdx][sIdx];
+            if (chord) {
+                playChordForData(chord);
+            }
+            
             if (editMeasureIdx === mIdx && editSubIdx === sIdx) { 
                 editMeasureIdx = null; editSubIdx = null; statusText.innerHTML = "Pronto.";
             } else { 
+                selectedMeasures = [];
+                lastSelectedMeasureIdx = null;
+                updateMeasureSelectionUI();
                 editMeasureIdx = mIdx; editSubIdx = sIdx; 
                 document.getElementById(`slot-${mIdx}-${sIdx}`)?.classList.add('ring-2', 'ring-violet-500', 'scale-105'); 
                 const beatInfo = sequence[mIdx].length === 2 ? (sIdx === 0 ? " (Tempos 1-2)" : " (Tempos 3-4)") : "";
                 statusText.innerHTML = `Compasso ${mIdx + 1}${beatInfo} selecionado.`;
             }
+            updateQualityButtonsUI(CONFIG.QUALITIES);
         }
 
         function addOrReplaceChord(chordData) {
@@ -852,15 +920,85 @@
             needsConsolidation = true; mainPlayer.src = ""; btnPlay.disabled = false;
             
             sequence[editMeasureIdx][editSubIdx] = { ...chordData, id: Date.now() };
+            // Pintar o botão de roxo imediatamente antes de processar o áudio e a grade
+            updateQualityButtonsUI(CONFIG.QUALITIES);
+            
+            playChordForData(chordData);
             buildScoreGrid();
             
-            let nextMeasure = editMeasureIdx; let nextSub = editSubIdx + 1;
-            if (sequence[nextMeasure].length === 2 && nextSub === 1) selectSlot(nextMeasure, nextSub);
-            else {
+            // Sugestão Inteligente de Cadência
+            const nameLower = chordData.name ? chordData.name.toLowerCase() : "";
+            const isDominant = nameLower.endsWith("9") || nameLower.endsWith("7b9");
+            
+            let nextMeasure = editMeasureIdx; 
+            let nextSub = editSubIdx + 1;
+            let targetMeasure = -1;
+            let targetSub = -1;
+            
+            if (sequence[nextMeasure] && sequence[nextMeasure].length === 2 && nextSub === 1) {
+                targetMeasure = nextMeasure;
+                targetSub = nextSub;
+            } else {
                 nextMeasure++;
-                if (nextMeasure < totalMeasuresLoaded) selectSlot(nextMeasure, 0);
-                else { editMeasureIdx = null; editSubIdx = null; }
+                if (nextMeasure < totalMeasuresLoaded) {
+                    targetMeasure = nextMeasure;
+                    targetSub = 0;
+                }
             }
+            
+            if (isDominant && targetMeasure !== -1 && sequence[targetMeasure][targetSub] === null) {
+                const name = chordData.name;
+                let currentRoot = "";
+                if (name.length >= 2 && (name.charAt(1) === '#' || name.charAt(1) === 'b')) {
+                    currentRoot = name.substring(0, 2);
+                } else if (name.length >= 1) {
+                    currentRoot = name.substring(0, 1);
+                }
+                
+                const NORM_ROOTS = {
+                    "C": "C", "C#": "Db", "Db": "Db",
+                    "D": "D", "D#": "Eb", "Eb": "Eb",
+                    "E": "E", "F": "F", "F#": "F#", "Gb": "F#",
+                    "G": "G", "G#": "Ab", "Ab": "Ab",
+                    "A": "A", "A#": "Bb", "Bb": "Bb", "B": "B"
+                };
+                const normRoot = NORM_ROOTS[currentRoot];
+                
+                if (normRoot) {
+                    const ROOTS_ORDER = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+                    const rootIndex = ROOTS_ORDER.indexOf(normRoot);
+                    if (rootIndex !== -1) {
+                        const targetRootIndex = (rootIndex + 5) % 12;
+                        const rootGroup = CONFIG.ROOT_GROUPS[targetRootIndex];
+                        let chosenRoot = rootGroup[0];
+                        if (rootGroup.length > 1) {
+                            const flatPref = rootGroup.find(r => r.display.includes('b'));
+                            if (flatPref) chosenRoot = flatPref;
+                        }
+                        selectedRoot = chosenRoot;
+                        updateRootButtonsUI();
+                    }
+                }
+            }
+            
+            if (advanceTimeoutId) {
+                clearTimeout(advanceTimeoutId);
+            }
+
+            // Atualiza os botões imediatamente para pintar de roxo a qualidade escolhida
+            updateQualityButtonsUI(CONFIG.QUALITIES);
+
+            // Avança seleção com delay de 400ms para permitir o feedback visual do roxo
+            advanceTimeoutId = setTimeout(() => {
+                advanceTimeoutId = null;
+                if (targetMeasure !== -1) {
+                    selectSlot(targetMeasure, targetSub);
+                } else {
+                    editMeasureIdx = null; 
+                    editSubIdx = null;
+                    updateQualityButtonsUI(CONFIG.QUALITIES);
+                }
+            }, 400);
         }
 
         function updateRootButtonsUI() {
@@ -871,6 +1009,7 @@
         }
 
         function clearAll() {
+            if (!confirm("Deseja realmente limpar toda a sequência e partitura atuais?")) return;
             sequence = []; totalMeasuresLoaded = 0; currentMusicXmlStr = null; needsConsolidation = true;
             editMeasureIdx = null; editSubIdx = null; mainPlayer.src = "";
             chordInputBuffer = "";
@@ -969,11 +1108,13 @@
             }
             
             needsConsolidation = true;
+            mainPlayer.src = "";
             statusText.innerHTML = `${copiedMeasures.length} compasso(s) colado(s) a partir do compasso ${destIdx + 1}.`;
             
             selectedMeasures = [];
             lastSelectedMeasureIdx = null;
             buildScoreGrid();
+            updateClipboardButtonsUI();
         }
 
         // ======= LÓGICA DE DIGITAÇÃO DE ACORDES PELO TECLADO =======
@@ -1021,6 +1162,9 @@
             if (foundRoot) {
                 selectedRoot = foundRoot;
                 updateRootButtonsUI();
+                if (typedQuality.length === 0) {
+                    playToneForRoot(foundRoot.display);
+                }
             }
 
             const matchedQualities = getMatchedQualities(typedQuality);
@@ -1045,24 +1189,48 @@
                 const labelLower = q.label.toLowerCase();
                 if (labelLower.startsWith(typedLower)) return true;
                 if (typedLower === '7' && (labelLower === '9' || labelLower === '7b9')) return true;
+                if (labelLower === 'm(maj7)' && (typedLower.startsWith('mm') || 'mmaj7'.startsWith(typedLower))) return true;
                 return false;
             });
         }
 
         function updateQualityButtonsUI(matchedQualities, typedQuality = "") {
             const hasQualityFilter = typedQuality.length > 0;
+            
+            // Determinar o tipo de acorde ativo no compasso selecionado
+            let activeQualityLabel = "";
+            if (editMeasureIdx !== null && editSubIdx !== null) {
+                const chord = sequence[editMeasureIdx][editSubIdx];
+                if (chord) {
+                    const parsed = parseChordParts(chord.name);
+                    activeQualityLabel = parsed.quality;
+                }
+            }
+
             document.querySelectorAll('.quality-btn').forEach(btn => {
                 const qLabel = btn.dataset.quality;
                 const isMatched = matchedQualities.some(q => q.label === qLabel);
                 
+                // Tratar filtros de digitação
                 if (hasQualityFilter) {
                     if (isMatched) {
-                        btn.className = "quality-btn bg-violet-600 text-white border-violet-600 py-1.5 rounded-md shadow-sm text-xs w-full font-semibold transition-colors";
+                        btn.classList.remove('opacity-30', 'pointer-events-none');
+                        btn.classList.add('hover:border-violet-500');
                     } else {
-                        btn.className = "quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full font-semibold transition-colors opacity-30 pointer-events-none";
+                        btn.classList.add('opacity-30', 'pointer-events-none');
+                        btn.classList.remove('hover:border-violet-500');
                     }
                 } else {
-                    btn.className = "quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors";
+                    btn.classList.remove('opacity-30', 'pointer-events-none');
+                    btn.classList.add('hover:border-violet-500');
+                }
+                
+                // Cor roxa se selecionado, senão cor padrão
+                const isActive = (qLabel === activeQualityLabel);
+                if (isActive) {
+                    btn.className = "quality-btn bg-violet-600 text-white border-violet-600 py-1.5 rounded-md shadow-sm text-xs w-full font-semibold transition-colors";
+                } else {
+                    btn.className = `quality-btn bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-600 py-1.5 rounded-md shadow-sm text-xs w-full hover:border-violet-500 font-semibold transition-colors ${hasQualityFilter && !isMatched ? 'opacity-30 pointer-events-none' : ''}`;
                 }
             });
         }
@@ -1078,32 +1246,21 @@
             
             if (matchedQualities.length === 0) return;
 
-            const bestQuality = getBestQualityMatch(typedQuality, matchedQualities);
+            let bestQuality = null;
+            const bufferLower = chordInputBuffer.toLowerCase();
+            if (bufferLower.endsWith('m')) {
+                bestQuality = matchedQualities.find(q => q.label === 'm7') || matchedQualities[0];
+            } else if (bufferLower.endsWith('7')) {
+                bestQuality = matchedQualities.find(q => q.label === '9') || matchedQualities[0];
+            } else {
+                bestQuality = matchedQualities[0];
+            }
+
             if (bestQuality) {
                 const chordName = selectedRoot.display + bestQuality.label;
                 const fileName = `swing130_${selectedRoot.filePrefix}${bestQuality.fileSuffix}`;
                 addOrReplaceChord({ name: chordName, file: fileName });
             }
-        }
-
-        function getBestQualityMatch(typedQuality, matchedQualities) {
-            if (matchedQualities.length === 0) return null;
-            const typedLower = typedQuality.toLowerCase();
-            
-            const exact = matchedQualities.find(q => q.label.toLowerCase() === typedLower);
-            if (exact) return exact;
-            
-            if (typedLower === 'm' || typedLower === 'm7') {
-                const m7 = matchedQualities.find(q => q.label === 'm7');
-                if (m7) return m7;
-            }
-            
-            if (typedLower === '7') {
-                const dom9 = matchedQualities.find(q => q.label === '9');
-                if (dom9) return dom9;
-            }
-            
-            return matchedQualities[0];
         }
 
         // --- ÁUDIO ---
@@ -1113,42 +1270,311 @@
             return audioContext;
         }
 
-        async function fetchAudioBuffer(chord) {
+        function stopAllSynthVoices() {
             const ctx = getAudioContext();
-            if (audioCache.has(chord.name)) return audioCache.get(chord.name);
-            const res = await fetch(`${CONFIG.REPO_BASE_URL}${chord.file}${CONFIG.FILE_EXTENSION}`);
-            const buffer = await ctx.decodeAudioData(await res.arrayBuffer());
-            audioCache.set(chord.name, buffer); return buffer;
+            const now = ctx.currentTime;
+            activeSynthNodes.forEach(voice => {
+                try {
+                    // Ramp down final gain quickly (in 30ms) to avoid click artifacts
+                    voice.finalGain.gain.cancelScheduledValues(now);
+                    voice.finalGain.gain.setValueAtTime(voice.finalGain.gain.value, now);
+                    voice.finalGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+                    
+                    // Stop oscillators
+                    voice.carrier.stop(now + 0.04);
+                    voice.modulator.stop(now + 0.04);
+                } catch (e) {}
+            });
+            activeSynthNodes = [];
+        }
+
+        // --- SINTETIZADOR INTERNO (PREVIEW DE ACORDES COM SÍNTESE FM) ---
+        function playTone(frequenciaBase, ctx, volumeScale = 1.0) {
+            if (!ctx) return;
+            if (ctx.state === 'suspended') ctx.resume();
+
+            const now = ctx.currentTime;
+
+            // 1. Crie dois osciladores 'sine' (Carrier e Modulator).
+            const carrier = ctx.createOscillator();
+            const modulator = ctx.createOscillator();
+            carrier.type = 'sine';
+            modulator.type = 'sine';
+
+            // 2. A frequência do Carrier é frequenciaBase * 1.
+            carrier.frequency.setValueAtTime(frequenciaBase, now);
+
+            // 3. A frequência do Modulator é frequenciaBase * 14.
+            modulator.frequency.setValueAtTime(frequenciaBase * 14, now);
+
+            // 4. Conecte o Modulator em um GainNode (ModGain), e este GainNode no .frequency do Carrier.
+            const modGain = ctx.createGain();
+            modulator.connect(modGain);
+            modGain.connect(carrier.frequency);
+
+            // 5. Envelope no ModGain: atinge rapidamente 1200 (ataque) e decai exponencialmente ao longo de 1 segundo.
+            modGain.gain.setValueAtTime(0, now);
+            modGain.gain.linearRampToValueAtTime(1200, now + 0.02); // 20ms de ataque rápido
+            modGain.gain.exponentialRampToValueAtTime(0.01, now + 1.0); // decaimento exponencial ao longo de 1 segundo
+
+            // 6. Aplique um envelope ADSR simples no ganho final de saída (Volume máximo: 0.22) antes de ir para o destino.
+            const finalGain = ctx.createGain();
+            finalGain.gain.setValueAtTime(0, now);
+            finalGain.gain.linearRampToValueAtTime(0.22 * volumeScale, now + 0.05); // Attack: 50ms
+            finalGain.gain.exponentialRampToValueAtTime(0.12 * volumeScale, now + 0.2); // Decay: 150ms
+            finalGain.gain.setValueAtTime(0.12 * volumeScale, now + 0.7); // Sustain: mantém até 0.7s
+            finalGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0); // Release: 300ms até silenciar
+
+            carrier.connect(finalGain);
+            finalGain.connect(ctx.destination);
+
+            // Start & Stop
+            modulator.start(now);
+            carrier.start(now);
+            modulator.stop(now + 1.05);
+            carrier.stop(now + 1.05);
+
+            // Guardar referências para interrupção de voz
+            activeSynthNodes.push({
+                carrier: carrier,
+                modulator: modulator,
+                finalGain: finalGain
+            });
+        }
+
+        const QUALITY_INTERVALS = {
+            "maj7": [0, 4, 7, 11],
+            "9": [0, 4, 7, 10, 14],
+            "7b9": [0, 4, 7, 10, 13],
+            "m(maj7)": [0, 3, 7, 11],
+            "m7": [0, 3, 7, 10],
+            "m7b5": [0, 3, 6, 10],
+            "dim7": [0, 3, 6, 9]
+        };
+
+        function parseChordParts(chordName) {
+            let root = "";
+            let quality = "";
+            if (chordName.length >= 2 && (chordName.charAt(1) === '#' || chordName.charAt(1) === 'b')) {
+                root = chordName.substring(0, 2);
+                quality = chordName.substring(2);
+            } else {
+                root = chordName.substring(0, 1);
+                quality = chordName.substring(1);
+            }
+            return { root, quality };
+        }
+
+        function getMidiNoteFromRoot(rootDisplay) {
+            const semitones = {
+                "C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3,
+                "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8,
+                "Ab": 8, "A": 9, "A#": 10, "Bb": 10, "B": 11
+            };
+            const offset = semitones[rootDisplay];
+            if (offset === undefined) return 48; // Padrão C3 (oitava abaixo)
+            return 48 + offset; // Oitava 3 (48-59)
+        }
+
+        // Conversão MIDI para Frequência (A4 = 440Hz)
+        function getFrequencyFromMidi(midiNote) {
+            return 440 * Math.pow(2, (midiNote - 69) / 12);
+        }
+
+        function playToneForRoot(rootDisplay) {
+            stopAllSynthVoices();
+            const ctx = getAudioContext();
+            const midiNote = getMidiNoteFromRoot(rootDisplay);
+            const freq = getFrequencyFromMidi(midiNote);
+            playTone(freq, ctx, 1.0);
+        }
+
+        function clampToRange(midiNote) {
+            let note = midiNote;
+            while (note < 55) note += 12; // G3
+            while (note > 71) note -= 12; // B4
+            return note;
+        }
+
+        function playChordForData(chord) {
+            if (!chord || !chord.name) return;
+            stopAllSynthVoices();
+            const ctx = getAudioContext();
+            const { root, quality } = parseChordParts(chord.name);
+            const rootMidi = getMidiNoteFromRoot(root); // Oitava 3 (48-59)
+            const intervals = QUALITY_INTERVALS[quality] || [0];
+            
+            // Escala o volume para evitar clipping
+            const volumeScale = 1.0 / Math.sqrt(intervals.length);
+            
+            intervals.forEach((interval, index) => {
+                let noteMidi = rootMidi + interval;
+                if (index > 0) {
+                    noteMidi = clampToRange(noteMidi); // Manter as extensões entre G3 e B4
+                }
+                const freq = getFrequencyFromMidi(noteMidi);
+                playTone(freq, ctx, volumeScale);
+            });
+        }
+
+        function getChordMapIndex(chord) {
+            if (!chord || !chord.name) return -1;
+            
+            let root = "";
+            let quality = "";
+            
+            const name = chord.name;
+            if (name.length >= 2 && (name.charAt(1) === '#' || name.charAt(1) === 'b')) {
+                root = name.substring(0, 2);
+                quality = name.substring(2);
+            } else if (name.length >= 1) {
+                root = name.substring(0, 1);
+                quality = name.substring(1);
+            } else {
+                return -1;
+            }
+            
+            const NORM_ROOTS = {
+                "C": "C", "C#": "Db", "Db": "Db",
+                "D": "D", "D#": "Eb", "Eb": "Eb",
+                "E": "E", "F": "F", "F#": "F#", "Gb": "F#",
+                "G": "G", "G#": "Ab", "Ab": "Ab",
+                "A": "A", "A#": "Bb", "Bb": "Bb", "B": "B"
+            };
+            
+            const normRoot = NORM_ROOTS[root];
+            if (!normRoot) return -1;
+            
+            let normQuality = "";
+            const qLower = quality.toLowerCase();
+            if (qLower === "maj7" || qLower === "maj") normQuality = "Maj7";
+            else if (qLower === "9") normQuality = "9";
+            else if (qLower === "7b9") normQuality = "7b9";
+            else if (qLower === "mmaj7" || qLower === "m(maj7)" || qLower === "mmaj") normQuality = "mMaj7";
+            else if (qLower === "m7" || qLower === "m") normQuality = "m7";
+            else if (qLower === "m7b5" || qLower === "h7" || qLower === "half-dim") normQuality = "m7b5";
+            else if (qLower === "dim" || qLower === "dim7" || qLower === "o" || qLower === "º") normQuality = "dim";
+            else return -1;
+            
+            const ROOTS_ORDER = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+            const QUALITIES_ORDER = ["Maj7", "9", "7b9", "mMaj7", "m7", "m7b5", "dim"];
+            
+            const rootIndex = ROOTS_ORDER.indexOf(normRoot);
+            const qualityIndex = QUALITIES_ORDER.indexOf(normQuality);
+            
+            if (rootIndex === -1 || qualityIndex === -1) return -1;
+            
+            return rootIndex * 7 + qualityIndex;
+        }
+
+        async function loadMasterBuffers(style) {
+            if (loadedStyle === style && currentChordsBuffer && currentDrumsBuffer) {
+                return;
+            }
+            statusText.innerHTML = `<span class="loading-spinner"></span> Carregando áudio do estilo ${style}...`;
+            const ctx = getAudioContext();
+            const chordsUrl = `${CONFIG.REPO_BASE_URL}130-${style}-acordes.mp3`;
+            const drumsUrl = `${CONFIG.REPO_BASE_URL}130-${style}-bat.mp3`;
+
+            try {
+                const [chordsRes, drumsRes] = await Promise.all([
+                    fetch(chordsUrl),
+                    fetch(drumsUrl)
+                ]);
+
+                if (!chordsRes.ok) throw new Error("Erro ao carregar acordes: " + chordsRes.status);
+                if (!drumsRes.ok) throw new Error("Erro ao carregar bateria: " + drumsRes.status);
+
+                const [chordsAb, drumsAb] = await Promise.all([
+                    chordsRes.arrayBuffer(),
+                    drumsRes.arrayBuffer()
+                ]);
+
+                const [chordsBuf, drumsBuf] = await Promise.all([
+                    ctx.decodeAudioData(chordsAb),
+                    ctx.decodeAudioData(drumsAb)
+                ]);
+
+                currentChordsBuffer = chordsBuf;
+                currentDrumsBuffer = drumsBuf;
+                loadedStyle = style;
+                statusText.innerHTML = `Áudio do estilo ${style} carregado.`;
+            } catch (e) {
+                console.error(e);
+                statusText.innerHTML = `Erro ao carregar áudios do estilo ${style}.`;
+                throw e;
+            }
         }
 
         async function handleConsolidate() {
             const hasData = sequence.some(measure => measure.some(chord => chord !== null));
             if (!hasData) return false;
 
-            const ctx = getAudioContext(); statusText.innerHTML = "Processando áudio...";
+            const styleSelect = document.getElementById('style-select');
+            const style = styleSelect ? styleSelect.value : 'swing1';
+
+            statusText.innerHTML = `<span class="loading-spinner"></span> Carregando e processando estilo ${style}...`;
             try {
-                const offlineCtx = new OfflineAudioContext(2, ctx.sampleRate * ((sequence.length * 4 * (60 / CONFIG.NATIVE_BPM)) + 2.0), ctx.sampleRate);
+                await loadMasterBuffers(style);
+            } catch (err) {
+                statusText.innerHTML = "Erro ao carregar arquivos do estilo.";
+                return false;
+            }
+
+            const ctx = getAudioContext();
+            statusText.innerHTML = "Processando áudio...";
+            try {
+                const totalDuration = sequence.length * 4 * (60 / CONFIG.NATIVE_BPM);
+                const offlineCtx = new OfflineAudioContext(2, ctx.sampleRate * (totalDuration + 2.0), ctx.sampleRate);
+                
+                // 1. Adicionar trilha de bateria em loop
+                if (currentDrumsBuffer) {
+                    const drumsSource = offlineCtx.createBufferSource();
+                    drumsSource.buffer = currentDrumsBuffer;
+                    drumsSource.loop = true;
+                    drumsSource.connect(offlineCtx.destination);
+                    drumsSource.start(0);
+                    drumsSource.stop(totalDuration);
+                }
+
+                // 2. Adicionar acordes fatiados
                 let currentStartTime = 0;
+                const segmentDuration = 1.846153846153846; // exato tempo de 1 compasso a 130 BPM
 
                 for (let i = 0; i < sequence.length; i++) {
                     const measure = sequence[i];
-                    const durationPerSlot = (4 / measure.length) * (60 / CONFIG.NATIVE_BPM);
-                    for (let j = 0; j < measure.length; j++) {
+                    const slotsCount = measure.length;
+                    const durationPerSlot = (4 / slotsCount) * (60 / CONFIG.NATIVE_BPM);
+
+                    for (let j = 0; j < slotsCount; j++) {
                         const chord = measure[j];
                         if (chord !== null) {
-                            const source = offlineCtx.createBufferSource();
-                            source.buffer = await fetchAudioBuffer(chord);
-                            const gain = offlineCtx.createGain(); 
-                            gain.gain.setValueAtTime(1, currentStartTime); 
-                            gain.gain.setValueAtTime(1, currentStartTime + durationPerSlot - 0.02);
-                            gain.gain.linearRampToValueAtTime(0, currentStartTime + durationPerSlot);
-                            source.connect(gain); gain.connect(offlineCtx.destination); 
-                            source.start(currentStartTime, 0, durationPerSlot);
-                            chord.startTime = currentStartTime; chord.endTime = currentStartTime + durationPerSlot;
+                            const chordIdx = getChordMapIndex(chord);
+                            if (chordIdx !== -1) {
+                                const source = offlineCtx.createBufferSource();
+                                source.buffer = currentChordsBuffer;
+                                
+                                const gain = offlineCtx.createGain();
+                                const fadeTime = 0.02; // 20ms
+                                
+                                gain.gain.setValueAtTime(0, currentStartTime);
+                                gain.gain.linearRampToValueAtTime(1, currentStartTime + fadeTime);
+                                gain.gain.setValueAtTime(1, currentStartTime + durationPerSlot - fadeTime);
+                                gain.gain.linearRampToValueAtTime(0, currentStartTime + durationPerSlot);
+                                
+                                source.connect(gain);
+                                gain.connect(offlineCtx.destination);
+                                
+                                const offset = chordIdx * segmentDuration;
+                                source.start(currentStartTime, offset, durationPerSlot);
+                            }
+                            chord.startTime = currentStartTime;
+                            chord.endTime = currentStartTime + durationPerSlot;
                         }
                         currentStartTime += durationPerSlot;
                     }
                 }
+
                 consolidatedBuffer = await offlineCtx.startRendering();
                 currentWavBlob = audioBufferToWav(consolidatedBuffer);
                 if (objectUrl) URL.revokeObjectURL(objectUrl);
@@ -1156,33 +1582,49 @@
                 mainPlayer.src = objectUrl;
                 statusText.innerHTML = "Pronto.";
                 return true;
-            } catch (e) { return false; }
+            } catch (e) {
+                console.error("Consolidation error:", e);
+                statusText.innerHTML = "Erro ao consolidar áudio.";
+                return false;
+            }
+        }
+
+        function createReverbImpulse(ctx, duration = 1.2) {
+            const len = ctx.sampleRate * duration;
+            const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
+            for (let c = 0; c < 2; c++) {
+                const d = impulse.getChannelData(c);
+                for (let i = 0; i < len; i++) {
+                    d[i] = (Math.random() * 2 - 1) * Math.exp(-5 * (i / len));
+                }
+            }
+            return impulse;
         }
 
         function setupLiveEffects() {
             if (isRoutingSetup) return;
             const ctx = getAudioContext();
 
-            if (mediaElementSource) mediaElementSource.disconnect();
-            mediaElementSource = ctx.createMediaElementSource(mainPlayer);
+            if (!mediaElementSource) {
+                mediaElementSource = ctx.createMediaElementSource(mainPlayer);
+            } else {
+                mediaElementSource.disconnect();
+            }
             baseGainNode = ctx.createGain();
             dryGainNode = ctx.createGain();
             wetGainNode = ctx.createGain();
             convolverNode = ctx.createConvolver();
             
-            const len = ctx.sampleRate * 1.8;
-            const impulse = ctx.createBuffer(2, len, ctx.sampleRate);
-            for (let c = 0; c < 2; c++) {
-                const d = impulse.getChannelData(c);
-                for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-5 * (i / len));
-            }
-            convolverNode.buffer = impulse;
+            convolverNode.buffer = createReverbImpulse(ctx, 1.2);
             mediaElementSource.connect(baseGainNode); baseGainNode.connect(dryGainNode); baseGainNode.connect(convolverNode); convolverNode.connect(wetGainNode);
             dryGainNode.connect(ctx.destination); wetGainNode.connect(ctx.destination);
 
             if (mp3Player.src) {
-                if (mp3SourceNode) mp3SourceNode.disconnect();
-                mp3SourceNode = ctx.createMediaElementSource(mp3Player);
+                if (!mp3SourceNode) {
+                    mp3SourceNode = ctx.createMediaElementSource(mp3Player);
+                } else {
+                    mp3SourceNode.disconnect();
+                }
                 mp3GainNode = ctx.createGain();
                 mp3SourceNode.connect(mp3GainNode); mp3GainNode.connect(ctx.destination);
                 mp3GainNode.gain.value = mp3VolumeSlider.value / 100;
@@ -1216,37 +1658,11 @@
         }
 
         async function togglePlay() {
-            if (isPlaying) return stopAudio();
-
-            const mp3PlayPromise = mp3Player.src ? mp3Player.play() : Promise.resolve();
-
-            if (needsConsolidation) {
-                btnPlay.innerHTML = '<span class="loading-spinner"></span>'; btnPlay.disabled = true;
-                if (!(await handleConsolidate())) { btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; btnPlay.disabled = false; return; }
-                needsConsolidation = false;
+            if (isPlaying) {
+                stopAudio();
+            } else {
+                await playFromMeasure(0);
             }
-
-            setupLiveEffects();
-            const rate = bpmInput.value / CONFIG.NATIVE_BPM; mainPlayer.playbackRate = rate;
-
-            if (mainPlayer.readyState < 2) {
-                try {
-                    await new Promise((resolve, reject) => {
-                        const onCanPlay = () => { mainPlayer.removeEventListener('canplay', onCanPlay); mainPlayer.removeEventListener('error', onError); resolve(); };
-                        const onError = () => { mainPlayer.removeEventListener('canplay', onCanPlay); reject(new Error('mainPlayer error')); };
-                        mainPlayer.addEventListener('canplay', onCanPlay); mainPlayer.addEventListener('error', onError);
-                    });
-                } catch (err) { statusText.innerHTML = "Erro ao carregar áudio."; btnPlay.disabled = false; btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>'; return; }
-            }
-
-            mainPlayer.play().catch(e => console.warn("mainPlayer play error:", e));
-            mp3PlayPromise.then(() => {
-                if (mp3Player.src && !mp3Player.paused) { mp3Player.currentTime = mainPlayer.currentTime; mp3Player.playbackRate = rate; }
-            }).catch(e => { statusText.innerHTML = "MP3 não pode tocar (requer interação)."; });
-            isPlaying = true;
-            btnPlay.innerHTML = '<i class="fas fa-stop"></i> <span>Parar</span>';
-            btnPlay.className = "bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
-            syncVisuals();
         }
 
         function playAudio() {
@@ -1261,19 +1677,23 @@
                 mp3Player.play().catch(e => console.warn("MP3 play error:", e));
             }
             isPlaying = true;
-            btnPlay.innerHTML = '<i class="fas fa-stop"></i> Parar';
+            btnPlay.disabled = false;
+            btnPlay.innerHTML = '<i class="fas fa-stop"></i> <span>Parar</span>';
             btnPlay.className = "bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
             requestAnimationFrame(syncVisuals);
         }
 
         function stopAudio() {
+            mainPlayer.onended = null;
             mainPlayer.pause(); mainPlayer.currentTime = 0;
             if (mp3Player) { mp3Player.pause(); mp3Player.currentTime = 0; }
             isPlaying = false;
+            btnPlay.disabled = false;
             btnPlay.innerHTML = '<i class="fas fa-play"></i> <span>Tocar</span>';
-            btnPlay.className = "bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm";
+            btnPlay.className = "bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-sm transition-colors";
             document.querySelectorAll('.chord-block').forEach(b => b.classList.remove('active'));
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            stopAllSynthVoices();
         }
 
         function syncVisuals() {
@@ -1318,7 +1738,7 @@
 
         function exportProjectFile() {
             const data = { projectName: projNameInputModal.value, authorName: authorNameInputModal.value, bpm: bpmInput.value, sequence: sequence };
-            downloadFile(JSON.stringify(data, null, 2), sanitizeFilename(projNameInputModal.value) + '.txt', 'application/json');
+            downloadFile(JSON.stringify(data, null, 2), sanitizeFilename(projNameInputModal.value) + '.slacer', 'application/json');
         }
 
         function importProjectFile(e) {
@@ -1426,17 +1846,19 @@
             else alert("Toque a música para renderizar o áudio antes de baixar.");
         }
 
-        function exportCanvasPNG() {
+        async function exportCanvasPNG() {
             if(sequence.length === 0) return alert("A sequência está vazia.");
             const title = projNameInputModal.value || 'Projeto Sem Título';
             const author = authorNameInputModal.value || 'Autor Desconhecido';
+            
+            statusText.innerHTML = '<span class="loading-spinner"></span> Exportando imagem...';
             
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
             const cols = 8;
             const rows = Math.ceil(sequence.length / cols);
             canvas.width = 1200; 
             const cellWidth = (canvas.width - 60) / cols; 
-            const cellHeight = 80;
+            const cellHeight = 160; // Aumentado para acomodar a partitura fatiada
             canvas.height = 140 + (rows * (cellHeight + 10));
             
             ctx.fillStyle = '#F8F8FF'; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1453,33 +1875,61 @@
                 const x = xOffset + col * cellWidth;
                 const y = yOffset + row * (cellHeight + 10);
                 
+                // Desenhar borda do compasso
                 ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cellWidth - 5, cellHeight);
                 
+                // Tentar renderizar a partitura fatiada (SVG) no topo do compasso
+                const cellEl = document.getElementById(`cell-${i}`);
+                const svgEl = cellEl ? cellEl.querySelector('svg') : null;
+                if (svgEl) {
+                    try {
+                        const xml = new XMLSerializer().serializeToString(svgEl);
+                        const svg64 = btoa(unescape(encodeURIComponent(xml)));
+                        const imageSrc = 'data:image/svg+xml;base64,' + svg64;
+                        
+                        const img = new Image();
+                        await new Promise((resolve) => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                            img.src = imageSrc;
+                        });
+                        
+                        ctx.drawImage(img, x + 5, y + 5, cellWidth - 15, 95);
+                    } catch (e) {
+                        console.warn("Erro ao desenhar SVG no compasso " + i, e);
+                    }
+                }
+                
                 const measure = sequence[i];
-                let chordText = ''; let beatsText = '';
+                let chordText = '';
                 
                 if(measure.length === 1) {
                     chordText = measure[0] ? measure[0].name : '-';
-                    beatsText = '(4 tempos)';
                 } else if(measure.length === 2) {
                     chordText = (measure[0] ? measure[0].name : '-') + ' / ' + (measure[1] ? measure[1].name : '-');
-                    beatsText = '(2 tempos cada)';
                 }
                 
+                // Desenhar cifra centralizada abaixo da partitura
                 ctx.fillStyle = '#0F172A'; ctx.font = 'bold 18px sans-serif';
                 ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(chordText, x + (cellWidth-5)/2, y + cellHeight/2 - 10);
+                ctx.fillText(chordText, x + (cellWidth-5)/2, y + 130);
                 
-                ctx.font = '12px sans-serif'; ctx.fillStyle = '#64748B';
-                ctx.fillText(beatsText, x + (cellWidth-5)/2, y + cellHeight/2 + 10);
-                
-                ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-                ctx.fillText(`C. ${i+1}`, x + 5, y + 5);
+                // Número do compasso (apenas o número, canto inferior esquerdo)
+                ctx.font = '11px sans-serif'; ctx.fillStyle = '#64748B';
+                ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+                ctx.fillText(`${i+1}`, x + 8, y + cellHeight - 8);
             }
             
-            const a = document.createElement('a');
-            a.download = sanitizeFilename(title) + '_grade.png';
-            a.href = canvas.toDataURL('image/png'); a.click();
+            try {
+                const a = document.createElement('a');
+                a.download = sanitizeFilename(title) + '_grade.png';
+                a.href = canvas.toDataURL('image/png'); a.click();
+                statusText.innerHTML = "Imagem exportada com sucesso!";
+            } catch (e) {
+                console.error("Erro ao gerar PNG do canvas:", e);
+                statusText.innerHTML = "Erro ao exportar imagem.";
+                alert("Erro ao gerar a imagem PNG. A partitura pode conter elementos que impedem a exportação direta.");
+            }
         }
 
         function generateMarkdown() {
@@ -1516,8 +1966,15 @@
             let alter = 0; let qIdx = 1;
             if(chordName.charAt(1)==='#' || chordName.charAt(1)==='b') { alter = chordName.charAt(1)==='#' ? 1 : -1; qIdx = 2; }
             let quality = chordName.substring(qIdx);
+            
             let kind = 'major';
-            if(quality.includes('m7b5')) kind = 'half-diminished';
+            let textAttr = quality;
+            
+            if(quality.includes('m(maj7)') || quality.includes('mmaj7')) {
+                kind = 'major-minor';
+                textAttr = 'm(maj7)';
+            }
+            else if(quality.includes('m7b5')) kind = 'half-diminished';
             else if(quality.includes('dim')) kind = 'diminished-seventh';
             else if(quality.includes('m7')) kind = 'minor-seventh';
             else if(quality.includes('maj7')) kind = 'major-seventh';
@@ -1525,7 +1982,7 @@
             
             let tag = `      <harmony>\n        <root><root-step>${rootStep}</root-step>`;
             if(alter !== 0) tag += `<root-alter>${alter}</root-alter>`;
-            tag += `</root>\n        <kind>${kind}</kind>\n      </harmony>\n`;
+            tag += `</root>\n        <kind text="${textAttr}">${kind}</kind>\n      </harmony>\n`;
             return tag;
         }
 
